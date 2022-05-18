@@ -3,19 +3,16 @@ import { useState, useContext } from "react";
 import { userContext } from "../../context/userContext";
 import { ThemeProvider } from "@mui/material/styles";
 import FormInput from "../formInput/FormInput";
+import { useNavigate } from "react-router-dom";
+
 import {
   createUserAuthWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utill/firebase/firebase.auth";
 import { AuthErrorCodes } from "firebase/auth";
+import { theme } from "../UI/button/ButtonTheme.config";
 
-import {
-  SignUpContainer,
-  FormContainer,
-  theme,
-  ToggleSignUp,
-} from "./SignUp.styles";
-import { useNavigate } from "react-router-dom";
+import { SignUpContainer, FormContainer, ToggleSignUp } from "./SignUp.styles";
 
 const defaultFormField = {
   displayName: "",

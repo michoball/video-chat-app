@@ -30,7 +30,7 @@ export const FromInputLabel = styled.label`
   color: white;
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 1px0;
 `;

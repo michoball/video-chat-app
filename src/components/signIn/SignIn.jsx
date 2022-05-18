@@ -12,10 +12,10 @@ import { AuthErrorCodes } from "firebase/auth";
 import {
   SignUpContainer,
   FormContainer,
-  theme,
   ButtonContainer,
   ToggleSignUp,
 } from "./SignIn.styles";
+import { theme } from "../UI/button/ButtonTheme.config";
 import { userContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
