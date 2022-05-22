@@ -1,31 +1,30 @@
-import { AgoraVideoPlayer } from "agora-rtc-react";
+import { VideosContainer } from "./Videos.styles";
+import VideoPlayer from "./VideoPlayer";
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
 
 function Videos(props) {
   const { users, tracks } = props;
+  const { currentUser } = useContext(UserContext);
 
   return (
-    <div>
-      <div id="videos" style={{ width: "400px", height: "400px" }}>
-        <AgoraVideoPlayer
-          className="vid"
-          videoTrack={tracks[1]}
-          style={{ height: "95%", width: "95%", border: "1px solid black" }}
-        />
-        {users.length > 0 &&
-          users.map((user) => {
-            if (user.videoTrack) {
-              return (
-                <AgoraVideoPlayer
-                  className="vid"
-                  videoTrack={user.videoTrack}
-                  style={{ height: "95%", width: "95%" }}
-                  key={user.uid}
-                />
-              );
-            } else return null;
-          })}
-      </div>
-    </div>
+    <VideosContainer id="videos">
+      <VideoPlayer className="vid" user={users[0]} track={tracks[1]} />
+      {users.length > 0 &&
+        users.map((user) => {
+          if (user.videoTrack) {
+            return (
+              <VideoPlayer
+                className="vid"
+                user={user}
+                id={user.uid}
+                track={user.videoTrack}
+                key={user.uid}
+              />
+            );
+          } else return null;
+        })}
+    </VideosContainer>
   );
 }
 

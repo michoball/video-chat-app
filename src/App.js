@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Authentication from "./pages/Authentication";
 import Navigation from "./pages/nav/Navigation";
 import RoomForm from "./pages/roomForm/RoomForm";
-import VideoCall from "./components/VideoCall";
+import VideoCall from "./pages/videoCall/VideoCall";
 
 function App() {
   return (

@@ -5,9 +5,10 @@ import {
 } from "../utill/firebase/firebase.auth";
 import { createAction } from "../utill/reducer/reducer.config";
 
-export const userContext = createContext({
+export const UserContext = createContext({
   currentUser: null,
-  setCurrentUser: () => {},
+  isLoading: true,
+  setCurrentUser: () => null,
   toggleSignForm: () => {},
 });
 
@@ -42,7 +43,7 @@ const userReducer = (state, action) => {
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, INIT_STATE);
-  const { currentUser, IsSignUpForm } = state;
+  const { IsSignUpForm, currentUser } = state;
 
   const setCurrentUser = (user) => {
     dispatch(createAction(USER_ACTION_TYPE.SET_CURRENT_USER, user));
@@ -52,23 +53,28 @@ export const UserProvider = ({ children }) => {
     dispatch(createAction(USER_ACTION_TYPE.TOGGLE_SIGN_FORM, !IsSignUpForm));
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        console.log(user);
-        createUserDocumentFromAuth(user);
-      }
-      setCurrentUser(user);
-    });
-    return unsubscribe;
-  }, []);
-
   const value = {
-    setCurrentUser,
     currentUser,
     toggleSignForm,
     IsSignUpForm,
   };
 
-  return <userContext.Provider value={value}>{children}</userContext.Provider>;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener(async (user) => {
+      // if (user) {
+      //   createUserDocumentFromAuth(user);
+      // }
+      // setCurrentUser(user);
+      let userAuth = null;
+      if (user) {
+        const userSnapshot = await createUserDocumentFromAuth(user);
+        userAuth = { id: userSnapshot.id, ...userSnapshot.data() };
+      }
+      setCurrentUser(userAuth);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

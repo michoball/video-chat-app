@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
-import { ThemeProvider } from "@mui/material/styles";
+import { useContext, useState, useEffect } from "react";
+
 import FormInput from "../formInput/FormInput";
 import {
   createUserDocumentFromAuth,
@@ -15,8 +15,8 @@ import {
   ButtonContainer,
   ToggleSignUp,
 } from "./SignIn.styles";
-import { theme } from "../UI/button/ButtonTheme.config";
-import { userContext } from "../../context/userContext";
+
+import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
 const defaultFormField = {
@@ -26,8 +26,8 @@ const defaultFormField = {
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(userContext);
-  const { toggleSignForm } = useContext(userContext);
+  const { toggleSignForm } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [formField, setFormField] = useState(defaultFormField);
 
   const { password, email } = formField;
@@ -47,34 +47,31 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const { user } = await signInAuthWithEmailAndPassword(email, password);
-      await createUserDocumentFromAuth(user);
-      if (user) {
-        // navigate("/");
-        setCurrentUser(user);
-      }
+      await signInAuthWithEmailAndPassword(email, password);
+      resetFormField();
     } catch (error) {
       if (error.message === AuthErrorCodes.EMAIL_EXISTS) {
         alert("Input Email is already in used");
       }
       console.log(error);
     }
-    resetFormField();
+    navigate("/");
   };
 
   const googleLogInHandler = async () => {
-    const { user } = await GoogleSignUpWithPopUp();
-    await createUserDocumentFromAuth(user);
-    if (user) {
-      // navigate("/");
-      setCurrentUser(user);
-      alert(`Welcome ${user.displayName} `);
-    }
+    await GoogleSignUpWithPopUp();
+
+    navigate("/");
+    //alert(`Welcome ${user.displayName} `);
   };
 
   const toggleSignUpFormHandler = () => {
     toggleSignForm();
   };
+
+  if (isLoading) {
+    return <h1 style={{ color: "white", fontSize: "30px" }}>Loading....</h1>;
+  }
 
   return (
     <SignUpContainer>
@@ -101,25 +98,23 @@ const SignIn = () => {
         />
 
         <ButtonContainer>
-          <ThemeProvider theme={theme}>
-            <Button
-              variant="contained"
-              color="neutral"
-              size="large"
-              type="submit"
-            >
-              <span> submit</span>
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              type="submit"
-              onClick={googleLogInHandler}
-            >
-              <span>Google log in</span>
-            </Button>
-          </ThemeProvider>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            type="submit"
+          >
+            <span> submit</span>
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            onClick={googleLogInHandler}
+          >
+            <span>Google log in</span>
+          </Button>
         </ButtonContainer>
       </FormContainer>
       <ToggleSignUp onClick={toggleSignUpFormHandler}>

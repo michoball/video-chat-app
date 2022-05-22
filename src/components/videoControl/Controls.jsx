@@ -1,6 +1,13 @@
 import { useClient } from "../../utill/Agora.config";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ControlsContainer, ButtonBox } from "./Controls.styles";
+import MicIcon from "@mui/icons-material/Mic";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import VideocamOffIcon from "@mui/icons-material/VideocamOff";
+import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 
 const Controls = (props) => {
   const client = useClient();
@@ -32,15 +39,26 @@ const Controls = (props) => {
   };
 
   return (
-    <div className="controls">
-      <p className={trackState.audio ? "on" : ""} onClick={() => mute("audio")}>
-        {trackState.audio ? "MuteAudio" : "UnmuteAudio"}
-      </p>
-      <p className={trackState.video ? "on" : ""} onClick={() => mute("video")}>
-        {trackState.video ? "MuteVideo" : "UnmuteVideo"}
-      </p>
-      {<p onClick={() => leaveChannel()}>Leave</p>}
-    </div>
+    <ControlsContainer>
+      <ButtonBox
+        className={trackState.audio ? "on" : ""}
+        onClick={() => mute("audio")}
+      >
+        {trackState.audio ? <MicIcon /> : <MicOffIcon />}
+      </ButtonBox>
+      <ButtonBox
+        className={trackState.video ? "on" : ""}
+        onClick={() => mute("video")}
+      >
+        {trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}
+      </ButtonBox>
+      <ButtonBox onClick={() => {}}>
+        <PersonalVideoIcon />
+      </ButtonBox>
+      <ButtonBox onClick={() => leaveChannel()}>
+        <ExitToAppIcon />
+      </ButtonBox>
+    </ControlsContainer>
   );
 };
 

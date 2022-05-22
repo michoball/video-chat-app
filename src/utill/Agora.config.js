@@ -5,4 +5,14 @@ export const config = {
   token: null,
 };
 export const useClient = createClient({ mode: "rtc", codec: "vp8" });
-export const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+
+export const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks(
+  {},
+  {
+    // 카메라 설정 - 잘 보이게 만들었지만 설정 안한다고 안보이는 건 아님
+    encoderConfig: {
+      width: { min: 640, ideal: 1920, max: 1920 },
+      height: { min: 480, ideal: 1080, max: 1080 },
+    },
+  }
+);

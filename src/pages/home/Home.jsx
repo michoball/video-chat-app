@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { userContext } from "../../context/userContext";
+import { UserContext } from "../../context/userContext";
 import {
   HomeContainer,
   IconContainer,
@@ -11,15 +11,18 @@ import {
 } from "./Home.styles";
 
 function Home() {
-  const { currentUser } = useContext(userContext);
+  const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
+  if (currentUser) {
+    console.log(currentUser);
+  }
 
   return (
     <HomeContainer>
       <IconContainer>
         <CamIcon />
       </IconContainer>
-      <HomeHeader> Video Chat Place</HomeHeader>
+      <HomeHeader> Video Chat Room</HomeHeader>
       <ButtonContainer>
         {currentUser ? (
           <Button

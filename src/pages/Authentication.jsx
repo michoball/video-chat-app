@@ -1,11 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import SignUp from "../components/signUp/SignUp";
 import styled from "styled-components";
 import SignIn from "../components/signIn/SignIn";
-import { userContext } from "../context/userContext";
+import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 function Authentication() {
-  const { IsSignUpForm } = useContext(userContext);
+  const navigate = useNavigate();
+  const { IsSignUpForm } = useContext(UserContext);
+  // useEffect(() => {
+  //   if (currentUser) navigate("/");
+  // }, [navigate, currentUser]);
 
   return (
     <AuthContainer>{IsSignUpForm ? <SignUp /> : <SignIn />}</AuthContainer>

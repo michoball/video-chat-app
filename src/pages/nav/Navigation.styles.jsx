@@ -15,6 +15,17 @@ export const NavContainer = styled.div`
     margin: 0 20px;
   }
 `;
+export const LogOutContainer = styled.div`
+  color: gray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    font-size: large;
+    font-weight: bold;
+    padding-right: 10px;
+  }
+`;
 
 export const NavLink = styled(Link)`
   font-size: large;

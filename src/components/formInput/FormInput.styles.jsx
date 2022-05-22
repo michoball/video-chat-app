@@ -31,6 +31,5 @@ export const FromInputLabel = styled.label`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 1px0;
+  letter-spacing: 0.7px;
 `;

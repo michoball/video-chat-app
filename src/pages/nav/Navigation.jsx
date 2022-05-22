@@ -1,16 +1,11 @@
 import React, { Fragment, useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { NavContainer, NavLink } from "./Navigation.styles";
+import { NavContainer, NavLink, LogOutContainer } from "./Navigation.styles";
 import { signOutUser } from "../../utill/firebase/firebase.auth";
-import { userContext } from "../../context/userContext";
+import { UserContext } from "../../context/userContext";
 
 function Navigation() {
-  const { currentUser, setCurrentUser } = useContext(userContext);
-
-  const logoutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  };
+  const { currentUser } = useContext(UserContext);
 
   return (
     <Fragment>
@@ -19,11 +14,14 @@ function Navigation() {
           <h1>Chat Room</h1>
         </Link>
         {currentUser ? (
-          <NavLink as="span" onClick={logoutHandler}>
-            Log Out
-          </NavLink>
+          <LogOutContainer>
+            <span>{currentUser.displayName}</span>
+            <NavLink as="span" onClick={signOutUser}>
+              Log Out
+            </NavLink>
+          </LogOutContainer>
         ) : (
-          <NavLink to="/sign-in">Log In</NavLink>
+          <NavLink to="/sign-in">Log In First</NavLink>
         )}
       </NavContainer>
       <Outlet />

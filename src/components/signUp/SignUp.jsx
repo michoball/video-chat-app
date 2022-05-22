@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useState, useContext } from "react";
-import { userContext } from "../../context/userContext";
+import { UserContext } from "../../context/userContext";
 import { ThemeProvider } from "@mui/material/styles";
 import FormInput from "../formInput/FormInput";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import {
   createUserDocumentFromAuth,
 } from "../../utill/firebase/firebase.auth";
 import { AuthErrorCodes } from "firebase/auth";
-import { theme } from "../UI/button/ButtonTheme.config";
+import { theme } from "../../UI/MuiTheme.config";
 
 import { SignUpContainer, FormContainer, ToggleSignUp } from "./SignUp.styles";
 
@@ -23,8 +23,8 @@ const defaultFormField = {
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { toggleSignForm } = useContext(userContext);
-  const { setCurrentUser } = useContext(userContext);
+  const { toggleSignForm } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [formField, setFormField] = useState(defaultFormField);
 
   const { password, confirmPassword, email, displayName } = formField;
@@ -46,30 +46,34 @@ const SignUp = () => {
     if (password !== confirmPassword) {
       alert("Check your password");
     }
-
-    // console.log(displayName, email, password, confirmPassword);
+    setIsLoading(true);
     try {
       const { user } = await createUserAuthWithEmailAndPassword(
         email,
         password
       );
-      console.log(user);
-      const userRes = await createUserDocumentFromAuth(user, { displayName });
-      console.log(userRes);
-      setCurrentUser({ user, displayName });
-      // navigate("/");
+
+      await createUserDocumentFromAuth(user, { displayName });
+
+      setIsLoading(false);
+      resetFormField();
     } catch (error) {
       if (error.message === AuthErrorCodes.EMAIL_EXISTS) {
         alert("Input Email is already in used");
       }
       console.log(error);
+      setIsLoading(false);
     }
-    resetFormField();
+    navigate("/");
   };
 
   const toggleSignUpFormHandler = () => {
     toggleSignForm();
   };
+
+  if (isLoading) {
+    return <h1 style={{ color: "white", fontSize: "30px" }}>Loading....</h1>;
+  }
 
   return (
     <SignUpContainer>
