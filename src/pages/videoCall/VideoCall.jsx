@@ -3,54 +3,33 @@ import {
   useClient,
   useMicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
-import { createScreenVideoTrack } from "agora-rtc-react";
 import AgoraRTM from "agora-rtm-sdk";
 import { useContext, useEffect, useState } from "react";
 import Controls from "../../components/videoControl/Controls";
 import Videos from "../../components/video/Videos";
+import ShareScreen from "../../components/shareScreen/ShareScreen";
 import { useParams } from "react-router-dom";
 import { VideoCallContainer } from "./VideoCall.style";
-import { UserContext } from "../../context/userContext";
-
-let joinId = String(Math.floor(Math.random() * 10000));
+import { RtcContext } from "../../context/rtcContext";
 
 function VideoCall() {
   const { roomId } = useParams();
-
-  const [start, setStart] = useState(false);
-
   const client = useClient();
-  const { currentUser } = useContext(UserContext);
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const [localTrack, setlocalTrack] = useState(null);
-  const [users, setUsers] = useState([
-    { name: currentUser.displayName, client: client },
-  ]);
+  const { start, addRtcUser, removeRtcUser, toggleStart, clearRtcUser } =
+    useContext(RtcContext);
 
-  // useEffect(() => {
-  //   const init = async (roomName) => {
-  //     const rtmClient = await AgoraRTM.createInstance(config.appId);
-  //     await rtmClient.login({ uid: currentUser.id, token: null });
-  //     let channel = await rtmClient.createChannel(roomName);
-  //     await channel.join();
-  //     channel.on("MemberJoined", async (MemberId) => {
-  //       console.log("a new member has joined the room : ", MemberId);
-  //     });
-  //   };
-  //   init(roomId);
-  // }, [roomId, currentUser]);
+  const [share, setShare] = useState(false);
+  const { ready, tracks } = useMicrophoneAndCameraTracks();
 
   useEffect(() => {
-    console.log("starting point", roomId, client.uid);
+    // console.log("starting point", roomId, client.uid);
     const init = async (roomName) => {
-      console.log("init", roomName, client);
+      // remote user가 들어오고 나가고 할 때 event handler
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
-        console.log("subscribe success", user);
+        console.log("subscribe success", user, "client", client);
         if (mediaType === "video") {
-          setUsers((prevUsers) => {
-            return [...prevUsers, user];
-          });
+          addRtcUser({ user: user, videoTrack: user.videoTrack });
         }
         if (mediaType === "audio") {
           user.audioTrack?.play();
@@ -63,38 +42,67 @@ function VideoCall() {
           user.audioTrack?.stop();
         }
         if (mediaType === "video") {
-          setUsers((prevUsers) => {
-            return prevUsers.filter((User) => User.uid !== user.uid);
-          });
+          removeRtcUser(user);
         }
       });
 
       client.on("user-left", (user) => {
         console.log("leaving", user);
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
-        });
+        removeRtcUser(user);
       });
-
-      await client.join(config.appId, roomName, config.token, joinId);
+      const clientjoined = await client.join(
+        config.appId,
+        roomName,
+        config.token,
+        null
+      );
 
       if (tracks) await client.publish([tracks[0], tracks[1]]);
-      setlocalTrack(tracks);
-      setStart(true);
+
+      if (clientjoined) {
+        addRtcUser({
+          user: client,
+          videoTrack: client.localTracks[0],
+        });
+      }
+      console.log("client", client);
+
+      toggleStart(true);
     };
 
-    if (ready && tracks) {
+    if (ready && tracks && client) {
       console.log("init ready");
+      console.log("starting point", roomId, client);
       init(roomId);
     }
-  }, [roomId, client, ready, tracks, localTrack]);
+  }, [roomId, client, ready, tracks]);
 
-  console.log("my infomation", roomId, client);
+  window.onpopstate = async () => {
+    await client.leave();
+    client.removeAllListeners();
+    tracks[0].close();
+    tracks[1].close();
+    clearRtcUser();
+    toggleStart(false);
+  };
+
+  const toggleShare = async (bool) => {
+    if (bool) {
+      await client.unpublish([tracks[0], tracks[1]]);
+    }
+    // if (share) {
+    //   await client.publish([tracks[0], tracks[1]]);
+    // }
+    setShare(!share);
+  };
 
   return (
     <VideoCallContainer>
-      {ready && tracks && <Controls tracks={localTrack} setStart={setStart} />}
-      {start && tracks && <Videos users={users} tracks={localTrack} />}
+      {share && <ShareScreen />}
+      {ready && tracks && (
+        <Controls tracks={tracks} onToggleShare={toggleShare} />
+      )}
+      {start && tracks && <Videos />}
     </VideoCallContainer>
   );
 }

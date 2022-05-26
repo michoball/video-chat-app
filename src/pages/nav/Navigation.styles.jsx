@@ -8,7 +8,7 @@ export const NavContainer = styled.div`
   margin-top: 0;
   height: 70px;
   width: 100%;
-  background-color: #034a03;
+  background-color: #033a03;
   padding: 15px 20px;
   h1 {
     color: #caab10;
@@ -30,6 +30,6 @@ export const LogOutContainer = styled.div`
 export const NavLink = styled(Link)`
   font-size: large;
   font-weight: bold;
-  color: yellow;
+  color: #caab10;
   cursor: pointer;
 `;
