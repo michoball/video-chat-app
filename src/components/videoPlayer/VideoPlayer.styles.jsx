@@ -3,16 +3,16 @@ import { AgoraVideoPlayer } from "agora-rtc-react";
 
 export const VideoContainer = styled.div`
   position: relative;
-  width: 400px;
-  height: 300px;
+  width: ${(props) => (props.width ? "200px" : "400px")};
+  height: ${(props) => (props.height ? props.height : "300px")};
   margin: 10px;
   border: 5px solid #045204;
   border-radius: 10%;
   overflow: hidden;
 
   &.big {
-    width: 70%;
-    height: 75vh;
+    width: 100%;
+    height: 70vh;
   }
 `;
 

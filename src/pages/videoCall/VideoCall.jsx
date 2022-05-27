@@ -1,10 +1,10 @@
 import {
   config,
   useClient,
-  useMicrophoneAndCameraTracks,
+  MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
 import AgoraRTM from "agora-rtm-sdk";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Controls from "../../components/videoControl/Controls";
 import Videos from "../../components/video/Videos";
 import ShareScreen from "../../components/shareScreen/ShareScreen";
@@ -15,11 +15,10 @@ import { RtcContext } from "../../context/rtcContext";
 function VideoCall() {
   const { roomId } = useParams();
   const client = useClient();
-  const { start, addRtcUser, removeRtcUser, toggleStart, clearRtcUser } =
+  const { start, addRtcUser, removeRtcUser, toggleStart, clearRtcUser, share } =
     useContext(RtcContext);
 
-  const [share, setShare] = useState(false);
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const { ready, tracks } = MicrophoneAndCameraTracks();
 
   useEffect(() => {
     // console.log("starting point", roomId, client.uid);
@@ -50,6 +49,7 @@ function VideoCall() {
         console.log("leaving", user);
         removeRtcUser(user);
       });
+
       const clientjoined = await client.join(
         config.appId,
         roomName,
@@ -86,22 +86,10 @@ function VideoCall() {
     toggleStart(false);
   };
 
-  const toggleShare = async (bool) => {
-    if (bool) {
-      await client.unpublish([tracks[0], tracks[1]]);
-    }
-    // if (share) {
-    //   await client.publish([tracks[0], tracks[1]]);
-    // }
-    setShare(!share);
-  };
-
   return (
     <VideoCallContainer>
-      {share && <ShareScreen />}
-      {ready && tracks && (
-        <Controls tracks={tracks} onToggleShare={toggleShare} />
-      )}
+      {share && <ShareScreen localTracks={tracks} />}
+      {ready && tracks && <Controls tracks={tracks} />}
       {start && tracks && <Videos />}
     </VideoCallContainer>
   );

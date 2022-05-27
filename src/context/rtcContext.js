@@ -15,9 +15,11 @@ import { createAction } from "../utill/reducer/reducer.config";
 export const RtcContext = createContext({
   rtcUsers: [],
   start: false,
+  share: false,
   addRtcUser: (user) => null,
   removeRtcUser: (user) => null,
   toggleStart: (bool) => null,
+  toggleShare: (bool) => null,
 });
 
 const INIT_STATE = {
@@ -36,6 +38,7 @@ export const USER_ACTION_TYPE = {
   REMOVE_RTC_USER: "REMOVE_RTC_USER",
   CLEAR_RTC_USER: "CLEAR_RTC_USER",
   SET_RTC_START: "SET_RTC_START",
+  SET_RTC_SHARE: "SET_RTC_SHARE",
 };
 
 const rtcReducer = (state, action) => {
@@ -63,6 +66,11 @@ const rtcReducer = (state, action) => {
         ...state,
         start: payload,
       };
+    case USER_ACTION_TYPE.SET_RTC_SHARE:
+      return {
+        ...state,
+        share: payload,
+      };
     default:
       return state;
   }
@@ -70,8 +78,7 @@ const rtcReducer = (state, action) => {
 
 export const RtcProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rtcReducer, INIT_STATE);
-  // const [rtcUser, setRtcUser] = useState([]);
-  const { start, rtcUsers } = state;
+  const { start, rtcUsers, share } = state;
   console.log("rtcUsers : ", rtcUsers);
 
   const addRtcUser = (user) => {
@@ -89,17 +96,23 @@ export const RtcProvider = ({ children }) => {
 
   const clearRtcUser = () =>
     dispatch(createAction(USER_ACTION_TYPE.CLEAR_RTC_USER));
+
   const toggleStart = (bool) => {
     dispatch(createAction(USER_ACTION_TYPE.SET_RTC_START, bool));
+  };
+  const toggleShare = (bool) => {
+    dispatch(createAction(USER_ACTION_TYPE.SET_RTC_SHARE, bool));
   };
 
   const value = {
     rtcUsers,
     start,
+    share,
     addRtcUser,
     removeRtcUser,
     clearRtcUser,
     toggleStart,
+    toggleShare,
   };
 
   useEffect(() => {}, []);

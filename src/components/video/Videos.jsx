@@ -2,15 +2,16 @@ import { VideosContainer } from "./Videos.styles";
 import VideoPlayer from "../videoPlayer/VideoPlayer";
 import { useContext, useEffect } from "react";
 import { RtcContext } from "../../context/rtcContext";
-import { useClient } from "../../utill/Agora.config";
+// import { useClient } from "../../utill/Agora.config";
 
 function Videos() {
+  //const client = useClient();
   const { rtcUsers } = useContext(RtcContext);
 
   return (
     <VideosContainer id="videos">
-      {rtcUsers.remoteUsers.length > 0 &&
-        rtcUsers.remoteUsers.map((user) => {
+      {rtcUsers.length > 0 &&
+        rtcUsers.map((user) => {
           if (user.videoTrack) {
             return (
               <VideoPlayer

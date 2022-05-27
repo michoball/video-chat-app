@@ -13,7 +13,8 @@ import { RtcContext } from "../../context/rtcContext";
 const Controls = (props) => {
   const client = useClient();
   const navigate = useNavigate();
-  const { toggleStart, clearRtcUser } = useContext(RtcContext);
+  const { toggleStart, clearRtcUser, toggleShare, share } =
+    useContext(RtcContext);
   const { tracks } = props;
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
@@ -36,14 +37,13 @@ const Controls = (props) => {
     tracks[1].close();
     await client.leave();
     client.removeAllListeners();
-
-    // clearRtcUser();
+    clearRtcUser();
     toggleStart(false);
     navigate("/room");
   };
 
   const shareHandler = () => {
-    props.onToggleShare(true);
+    toggleShare(!share);
   };
 
   return (
@@ -60,7 +60,7 @@ const Controls = (props) => {
       >
         {trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}
       </ButtonBox>
-      <ButtonBox onClick={shareHandler}>
+      <ButtonBox onClick={() => shareHandler()}>
         <PersonalVideoIcon />
       </ButtonBox>
       <ButtonBox onClick={() => leaveChannel()}>
