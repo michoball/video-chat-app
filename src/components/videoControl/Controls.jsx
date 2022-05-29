@@ -1,5 +1,4 @@
-import { useClient, setScreenTracks } from "../../utill/Agora.config";
-import { createScreenVideoTrack } from "agora-rtc-react";
+import { useClient } from "../../utill/Agora.config";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ControlsContainer, ButtonBox } from "./Controls.styles";
@@ -18,6 +17,7 @@ const Controls = (props) => {
     useContext(RtcContext);
   const { tracks } = props;
   const [trackState, setTrackState] = useState({ video: true, audio: true });
+  const [isLoading, setIsLoading] = useState(false);
 
   const mute = async (type) => {
     if (type === "audio") {
@@ -26,10 +26,17 @@ const Controls = (props) => {
         return { ...ps, audio: !ps.audio };
       });
     } else if (type === "video") {
-      await tracks[1].setEnabled(!trackState.video);
-      setTrackState((ps) => {
-        return { ...ps, video: !ps.video };
-      });
+      setIsLoading(true);
+      try {
+        await tracks[1].setEnabled(!trackState.video);
+
+        setTrackState((ps) => {
+          return { ...ps, video: !ps.video };
+        });
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -59,7 +66,11 @@ const Controls = (props) => {
         className={trackState.video ? "on" : ""}
         onClick={() => mute("video")}
       >
-        {trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}
+        {isLoading ? (
+          <div>isLoading...</div>
+        ) : (
+          <div>{trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}</div>
+        )}
       </ButtonBox>
       <ButtonBox onClick={() => shareHandler()}>
         <PersonalVideoIcon />

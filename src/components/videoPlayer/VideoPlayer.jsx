@@ -5,6 +5,7 @@ import {
   UserNameTag,
   VideoContainer,
   VideoContainerSmall,
+  CamIcon,
 } from "./VideoPlayer.styles";
 
 function VideoPlayer({ user, track }) {
@@ -23,7 +24,12 @@ function VideoPlayer({ user, track }) {
       className={bigSize && "big"}
       onClick={!share ? toggleSizeHandler : undefined}
     >
-      <Video videoTrack={track} />
+      {/* {track && <Video videoTrack={track} />} */}
+      {track.enabled || user.hasVideo ? (
+        <Video videoTrack={track} />
+      ) : (
+        <CamIcon />
+      )}
       <UserNameTag>
         <p>{user.uid}</p>
       </UserNameTag>

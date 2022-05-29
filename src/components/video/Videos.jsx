@@ -6,10 +6,12 @@ import { RtcContext } from "../../context/rtcContext";
 
 function Videos() {
   //const client = useClient();
-  const { rtcUsers } = useContext(RtcContext);
+  const { rtcUsers, localUser } = useContext(RtcContext);
+  console.log("videos Rtc Users List : ", rtcUsers);
 
   return (
     <VideosContainer id="videos">
+      <VideoPlayer user={localUser.user} track={localUser.videoTrack} />
       {rtcUsers.length > 0 &&
         rtcUsers.map((user) => {
           if (user.videoTrack) {

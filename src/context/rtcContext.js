@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer, useState } from "react";
 import { ScreenTracks, useClient } from "../utill/Agora.config";
 import { createAction } from "../utill/reducer/reducer.config";
 
-// const addUserItem = (userlists, user) => {
+// const checkUserItem = (userlists, user) => {
 //   console.log("기본 rtcUser", userlists);
 //   console.log("들어온  rtcUser", user);
 //   return [...userlists, { ...user }];
@@ -12,29 +12,16 @@ import { createAction } from "../utill/reducer/reducer.config";
 //   return userlists.filter((userlist) => userlist.id !== user.id);
 // };
 
-export const RtcContext = createContext({
-  rtcUsers: [],
-  start: false,
-  share: false,
-  addRtcUser: (user) => null,
-  removeRtcUser: (user) => null,
-  toggleStart: (bool) => null,
-  toggleShare: (bool) => null,
-});
-
 const INIT_STATE = {
   rtcUsers: [],
+  localUser: {},
   start: false,
   share: false,
 };
 
-// rtcUser: {
-//   uid: null,
-//   user: null,
-// },
-
 export const USER_ACTION_TYPE = {
   ADD_RTC_USER: "ADD_RTC_USER",
+  SET_LOCAL_USER: "SET_LOCAL_USER",
   REMOVE_RTC_USER: "REMOVE_RTC_USER",
   CLEAR_RTC_USER: "CLEAR_RTC_USER",
   SET_RTC_START: "SET_RTC_START",
@@ -46,15 +33,31 @@ const rtcReducer = (state, action) => {
 
   switch (type) {
     case USER_ACTION_TYPE.ADD_RTC_USER:
+      const existingUser = state.rtcUsers.find(
+        (rtcUser) => rtcUser.uid === payload.uid
+      );
+      if (existingUser) {
+        const newRtcUsers = state.rtcUsers.map((rtcUser) =>
+          rtcUser.uid === payload.uid ? payload : rtcUser
+        );
+        return {
+          ...state,
+          rtcUsers: newRtcUsers,
+        };
+      }
       return {
         ...state,
         rtcUsers: state.rtcUsers.concat(payload),
+      };
+    case USER_ACTION_TYPE.SET_LOCAL_USER:
+      return {
+        ...state,
+        localUser: payload,
       };
     case USER_ACTION_TYPE.REMOVE_RTC_USER:
       return {
         ...state,
         rtcUsers: state.rtcUsers.filter((user) => user.uid !== payload.uid),
-        // rtcUsers: state.rtcUser.filter((user) => user.uid !== payload.uid),
       };
     case USER_ACTION_TYPE.CLEAR_RTC_USER:
       return {
@@ -76,19 +79,26 @@ const rtcReducer = (state, action) => {
   }
 };
 
+export const RtcContext = createContext({
+  rtcUsers: [],
+  localUser: {},
+  start: false,
+  share: false,
+  addRtcUser: (user) => null,
+  removeRtcUser: (user) => null,
+  toggleStart: (bool) => null,
+  toggleShare: (bool) => null,
+  setLocalUser: (user) => null,
+});
+
 export const RtcProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rtcReducer, INIT_STATE);
-  const { start, rtcUsers, share } = state;
+  const { start, rtcUsers, share, localUser } = state;
 
   console.log("rtcUsers : ", rtcUsers);
 
   const addRtcUser = (user) => {
-    const newUser = {
-      uid: user.user.uid,
-      user: user,
-      videoTrack: user.videoTrack,
-    };
-    dispatch(createAction(USER_ACTION_TYPE.ADD_RTC_USER, newUser));
+    dispatch(createAction(USER_ACTION_TYPE.ADD_RTC_USER, user));
   };
 
   const removeRtcUser = (user) => {
@@ -105,8 +115,13 @@ export const RtcProvider = ({ children }) => {
     dispatch(createAction(USER_ACTION_TYPE.SET_RTC_SHARE, bool));
   };
 
+  const setLocalUser = (user) => {
+    dispatch(createAction(USER_ACTION_TYPE.SET_LOCAL_USER, user));
+  };
+
   const value = {
     rtcUsers,
+    localUser,
     start,
     share,
     addRtcUser,
@@ -114,6 +129,7 @@ export const RtcProvider = ({ children }) => {
     clearRtcUser,
     toggleStart,
     toggleShare,
+    setLocalUser,
   };
 
   useEffect(() => {}, []);

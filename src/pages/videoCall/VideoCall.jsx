@@ -15,8 +15,16 @@ import { RtcContext } from "../../context/rtcContext";
 function VideoCall() {
   const { roomId } = useParams();
   const client = useClient();
-  const { start, addRtcUser, removeRtcUser, toggleStart, clearRtcUser, share } =
-    useContext(RtcContext);
+  const {
+    start,
+    addRtcUser,
+    removeRtcUser,
+    toggleStart,
+    setLocalUser,
+    clearRtcUser,
+    share,
+    rtcUsers,
+  } = useContext(RtcContext);
 
   const { ready, tracks } = MicrophoneAndCameraTracks();
 
@@ -26,22 +34,26 @@ function VideoCall() {
       // remote user가 들어오고 나가고 할 때 event handler
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
-        console.log("subscribe success", user, "client", client);
         if (mediaType === "video") {
-          addRtcUser({ user: user, videoTrack: user.videoTrack });
+          console.log("new published User : ", user, mediaType);
+          addRtcUser(user);
         }
         if (mediaType === "audio") {
           user.audioTrack?.play();
         }
+
+        console.log("subscribe success", user, "client", client);
       });
 
-      client.on("user-unpublished", (user, mediaType) => {
+      client.on("user-unpublished", async (user, mediaType) => {
+        await client.unsubscribe(user, mediaType);
         console.log("unpublished", user, mediaType);
         if (mediaType === "audio") {
           user.audioTrack?.stop();
         }
         if (mediaType === "video") {
-          removeRtcUser(user);
+          // const mutedUser = rtcUsers.find(rtcuser => rtcuser.uid === user.uid)
+          // removeRtcUser(user);
         }
       });
 
@@ -60,7 +72,8 @@ function VideoCall() {
       if (tracks) await client.publish([tracks[0], tracks[1]]);
 
       if (clientjoined) {
-        addRtcUser({
+        setLocalUser({
+          uid: client.uid,
           user: client,
           videoTrack: client.localTracks[0],
         });

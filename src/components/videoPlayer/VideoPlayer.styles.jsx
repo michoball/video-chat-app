@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { AgoraVideoPlayer } from "agora-rtc-react";
+import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 
 export const VideoContainer = styled.div`
   position: relative;
@@ -9,7 +10,6 @@ export const VideoContainer = styled.div`
   border: 5px solid #045204;
   border-radius: 10%;
   overflow: hidden;
-
   &.big {
     width: 90%;
     height: 80vh;
@@ -35,6 +35,18 @@ export const UserNameTag = styled.div`
 `;
 
 export const Video = styled(AgoraVideoPlayer)`
+  /* display: none; */
+
   height: 100% !important;
   width: 100% !important;
+`;
+export const CamIcon = styled(CameraEnhanceIcon)`
+  position: absolute;
+  color: #caab10;
+  opacity: 0.7;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px !important;
+  height: 300px !important;
 `;
