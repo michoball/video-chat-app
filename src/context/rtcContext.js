@@ -1,5 +1,5 @@
-import { createContext, useEffect, useReducer } from "react";
-import { useClient } from "../utill/Agora.config";
+import { createContext, useEffect, useReducer, useState } from "react";
+import { ScreenTracks, useClient } from "../utill/Agora.config";
 import { createAction } from "../utill/reducer/reducer.config";
 
 // const addUserItem = (userlists, user) => {
@@ -79,6 +79,7 @@ const rtcReducer = (state, action) => {
 export const RtcProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rtcReducer, INIT_STATE);
   const { start, rtcUsers, share } = state;
+
   console.log("rtcUsers : ", rtcUsers);
 
   const addRtcUser = (user) => {

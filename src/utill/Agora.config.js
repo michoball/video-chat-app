@@ -20,7 +20,7 @@ export const MicrophoneAndCameraTracks = createMicrophoneAndCameraTracks(
     },
   }
 );
-export const ScreenTracks = createScreenVideoTrack(
+export const setScreenTracks = createScreenVideoTrack(
   {
     encoderConfig: {
       framerate: 15,

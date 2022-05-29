@@ -1,6 +1,8 @@
+// import { createScreenVideoTrack } from "agora-rtc-react";
+import AgoraRTC from "agora-rtc-sdk-ng";
 import { useContext, useEffect, useState } from "react";
 import { RtcContext } from "../../context/rtcContext";
-import { useClient, ScreenTracks } from "../../utill/Agora.config";
+import { useClient } from "../../utill/Agora.config";
 import {
   ShareScreenContainer,
   ShareVideoContainer,
@@ -10,34 +12,55 @@ import {
 
 function ShareScreen({ localTracks }) {
   const client = useClient();
-  const { share } = useContext(RtcContext);
-  const { ready, tracks } = ScreenTracks();
-  // const [screenTrack, setScreenTrack] = useState(null);
-
+  const { share, toggleShare } = useContext(RtcContext);
   // const { rtcUsers } = useContext(RtcContext);
+
+  const [screenTrack, setScreenTrack] = useState(null);
 
   useEffect(() => {
     const init = async () => {
-      await client.publish(tracks);
+      const screenShareVideoTrack = await AgoraRTC.createScreenVideoTrack(
+        {
+          encoderConfig: {
+            framerate: 15,
+            height: 720,
+            width: 1280,
+          },
+        },
+        "auto"
+      );
+      if (screenShareVideoTrack) {
+        setScreenTrack(screenShareVideoTrack);
+      }
+    };
+    init();
+  }, []);
 
-      tracks.on("track-ended", async () => {
+  useEffect(() => {
+    const init = async () => {
+      await client.publish(screenTrack);
+
+      screenTrack.on("track-ended", async () => {
         console.log("TRACK ENDEDDDDDDD~~~~!!!");
-        await client.unpublish(tracks);
-        await client.publish(localTracks);
+        await client
+          .unpublish(screenTrack)
+          .then(await client.publish(localTracks[1]));
+
+        toggleShare(false);
       });
     };
 
-    if (ready && tracks && share) {
-      console.log("showScreen ready", tracks, client);
-      client.unpublish([localTracks[1]]);
+    if (screenTrack && share) {
+      console.log("showScreen ready", screenTrack, client);
+      client.unpublish(localTracks[1]);
       init();
     }
-  }, [client, tracks, ready, share, localTracks]);
+  }, [client, screenTrack, share, localTracks, toggleShare]);
 
   return (
     <ShareScreenContainer>
       <ShareVideoContainer>
-        {ready && tracks ? <Video videoTrack={tracks} /> : <CamIcon />}
+        {screenTrack ? <Video videoTrack={screenTrack} /> : <CamIcon />}
       </ShareVideoContainer>
     </ShareScreenContainer>
   );

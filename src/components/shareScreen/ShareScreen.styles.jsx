@@ -11,7 +11,7 @@ export const ShareScreenContainer = styled.div`
 export const ShareVideoContainer = styled.div`
   border: 5px solid #045204;
   border-radius: 10px;
-  width: 100% !important;
+  width: 90% !important;
   height: 100% !important;
 `;
 
