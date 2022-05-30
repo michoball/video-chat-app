@@ -5,10 +5,10 @@ import { UserContext } from "../../context/userContext";
 import {
   HomeContainer,
   IconContainer,
-  CamIcon,
   ButtonContainer,
   HomeHeader,
 } from "./Home.styles";
+import { CamIcon } from "../../UI/CanIcon";
 
 function Home() {
   const { currentUser } = useContext(UserContext);
@@ -51,11 +51,3 @@ function Home() {
 }
 
 export default Home;
-
-// const [inCall, setInCall] = useState(false);
-// const [channelName, setChannelName] = useState("");
-// {inCall ? (
-//   <VideoCall setInCall={setInCall} channelName={channelName} />
-// ) : (
-//   <RoomForm setInCall={setInCall} setChannelName={setChannelName} />
-// )}

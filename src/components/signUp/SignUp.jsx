@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
-import { ThemeProvider } from "@mui/material/styles";
+
 import FormInput from "../formInput/FormInput";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,12 @@ import {
 import { AuthErrorCodes } from "firebase/auth";
 import { theme } from "../../UI/MuiTheme.config";
 
-import { SignUpContainer, FormContainer, ToggleSignUp } from "./SignUp.styles";
+import {
+  SignUpContainer,
+  FormContainer,
+  ToggleSignUp,
+  ButtonContainer,
+} from "./SignUp.styles";
 
 const defaultFormField = {
   displayName: "",
@@ -119,16 +124,17 @@ const SignUp = () => {
           onChange={onChangeHandler}
         />
 
-        <ThemeProvider theme={theme}>
+        <ButtonContainer>
           <Button
+            style={{ width: "400px" }}
             variant="contained"
-            color="neutral"
+            color="secondary"
             size="large"
             type="submit"
           >
             submit
           </Button>
-        </ThemeProvider>
+        </ButtonContainer>
       </FormContainer>
       <ToggleSignUp onClick={toggleSignUpFormHandler}>
         Back to Log in

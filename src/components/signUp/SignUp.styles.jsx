@@ -1,21 +1,4 @@
 import styled from "styled-components";
-import { createTheme } from "@mui/material/styles";
-
-export const theme = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#0971f1",
-      darker: "#053e85",
-    },
-    neutral: {
-      main: "#64748B",
-      contrastText: "#fff",
-    },
-  },
-});
 
 export const SignUpContainer = styled.div`
   width: 70%;
@@ -46,4 +29,16 @@ export const ToggleSignUp = styled.p`
   color: #caab10;
   padding: 20px 0;
   cursor: pointer;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 5px 5px 0;
+
+  span {
+    width: 200px;
+    font-weight: bold;
+  }
 `;

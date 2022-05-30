@@ -7,7 +7,6 @@ import AgoraRTM from "agora-rtm-sdk";
 import { useContext, useEffect } from "react";
 import Controls from "../../components/videoControl/Controls";
 import Videos from "../../components/video/Videos";
-import ShareScreen from "../../components/shareScreen/ShareScreen";
 import { useParams } from "react-router-dom";
 import { VideoCallContainer } from "./VideoCall.style";
 import { RtcContext } from "../../context/rtcContext";
@@ -48,13 +47,6 @@ function VideoCall() {
       client.on("user-unpublished", async (user, mediaType) => {
         await client.unsubscribe(user, mediaType);
         console.log("unpublished", user, mediaType);
-        if (mediaType === "audio") {
-          user.audioTrack?.stop();
-        }
-        if (mediaType === "video") {
-          // const mutedUser = rtcUsers.find(rtcuser => rtcuser.uid === user.uid)
-          // removeRtcUser(user);
-        }
       });
 
       client.on("user-left", (user) => {
@@ -73,7 +65,6 @@ function VideoCall() {
 
       if (clientjoined) {
         setLocalUser({
-          uid: client.uid,
           user: client,
           videoTrack: client.localTracks[0],
         });
@@ -101,7 +92,6 @@ function VideoCall() {
 
   return (
     <VideoCallContainer>
-      {share && <ShareScreen localTracks={tracks} />}
       {ready && tracks && <Controls tracks={tracks} />}
       {start && tracks && <Videos />}
     </VideoCallContainer>

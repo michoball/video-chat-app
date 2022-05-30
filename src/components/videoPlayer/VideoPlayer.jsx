@@ -3,36 +3,54 @@ import { RtcContext } from "../../context/rtcContext";
 import {
   Video,
   UserNameTag,
-  VideoContainer,
-  VideoContainerSmall,
-  CamIcon,
+  BaseVideoContainer,
+  SmallVideoContainer,
+  ShareVideoContainer,
+  LocalVideoContainer,
 } from "./VideoPlayer.styles";
+import { CamIcon } from "../../UI/CanIcon";
 
-function VideoPlayer({ user, track }) {
-  console.log(user);
-  const [bigSize, setBigSize] = useState(false);
-  const { share } = useContext(RtcContext);
+export const VIDEO_TYPE_CLASS = {
+  base: "base",
+  local: "local",
+  share: "share",
+  small: "small",
+};
 
-  const CustomVideoContainer = share ? VideoContainerSmall : VideoContainer;
+const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
+  ({
+    [VIDEO_TYPE_CLASS.base]: share ? SmallVideoContainer : BaseVideoContainer,
+    [VIDEO_TYPE_CLASS.local]: LocalVideoContainer,
+    [VIDEO_TYPE_CLASS.share]: ShareVideoContainer,
+    [VIDEO_TYPE_CLASS.small]: SmallVideoContainer,
+  }[VideoType]);
+
+function VideoPlayer({ rtcUser, track, videoType, bigSize }) {
+  // const [bigSize, setBigSize] = useState(false);
+  const { share, toggleBig } = useContext(RtcContext);
+
+  const CustomVideoContainer = getVideoType(videoType, share);
 
   const toggleSizeHandler = () => {
-    setBigSize(!bigSize);
+    console.log("toggle Video", rtcUser);
+    toggleBig(rtcUser);
   };
 
   return (
     <CustomVideoContainer
-      className={bigSize && "big"}
+      className={bigSize ? "big" : ""}
       onClick={!share ? toggleSizeHandler : undefined}
     >
-      {/* {track && <Video videoTrack={track} />} */}
-      {track.enabled || user.hasVideo ? (
+      {track.enabled || rtcUser.user.hasVideo || track ? (
         <Video videoTrack={track} />
       ) : (
         <CamIcon />
       )}
-      <UserNameTag>
-        <p>{user.uid}</p>
-      </UserNameTag>
+      {rtcUser && (
+        <UserNameTag>
+          <p>{rtcUser.user.uid}</p>
+        </UserNameTag>
+      )}
     </CustomVideoContainer>
   );
 }

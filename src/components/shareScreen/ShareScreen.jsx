@@ -3,12 +3,9 @@ import AgoraRTC from "agora-rtc-sdk-ng";
 import { useContext, useEffect, useState } from "react";
 import { RtcContext } from "../../context/rtcContext";
 import { useClient } from "../../utill/Agora.config";
-import {
-  ShareScreenContainer,
-  ShareVideoContainer,
-  Video,
-  CamIcon,
-} from "./ShareScreen.styles";
+import { ShareScreenContainer } from "./ShareScreen.styles";
+import { CamIcon } from "../../UI/CanIcon";
+import VideoPlayer, { VIDEO_TYPE_CLASS } from "../videoPlayer/VideoPlayer";
 
 function ShareScreen({ localTracks }) {
   const client = useClient();
@@ -30,6 +27,7 @@ function ShareScreen({ localTracks }) {
         "auto"
       );
       if (screenShareVideoTrack) {
+        console.log(screenShareVideoTrack);
         setScreenTrack(screenShareVideoTrack);
       }
     };
@@ -44,7 +42,7 @@ function ShareScreen({ localTracks }) {
         console.log("TRACK ENDEDDDDDDD~~~~!!!");
         await client
           .unpublish(screenTrack)
-          .then(await client.publish(localTracks[1]));
+          .then(await client.publish(localTracks));
 
         toggleShare(false);
       });
@@ -52,16 +50,18 @@ function ShareScreen({ localTracks }) {
 
     if (screenTrack && share) {
       console.log("showScreen ready", screenTrack, client);
-      client.unpublish(localTracks[1]);
+      client.unpublish(localTracks);
       init();
     }
   }, [client, screenTrack, share, localTracks, toggleShare]);
 
   return (
     <ShareScreenContainer>
-      <ShareVideoContainer>
-        {screenTrack ? <Video videoTrack={screenTrack} /> : <CamIcon />}
-      </ShareVideoContainer>
+      {screenTrack ? (
+        <VideoPlayer videoType={VIDEO_TYPE_CLASS.share} track={screenTrack} />
+      ) : (
+        <CamIcon />
+      )}
     </ShareScreenContainer>
   );
 }

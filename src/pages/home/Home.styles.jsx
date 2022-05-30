@@ -25,15 +25,4 @@ export const HomeHeader = styled.h1`
   padding: 30px 0;
 `;
 
-export const CamIcon = styled(CameraEnhanceIcon)`
-  position: absolute;
-  color: #caab10;
-  opacity: 0.7;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px !important;
-  height: 300px !important;
-`;
-
 export const ButtonContainer = styled.div``;

@@ -1,9 +1,8 @@
 import { Button } from "@mui/material";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import FormInput from "../formInput/FormInput";
 import {
-  createUserDocumentFromAuth,
   signInAuthWithEmailAndPassword,
   GoogleSignUpWithPopUp,
 } from "../../utill/firebase/firebase.auth";

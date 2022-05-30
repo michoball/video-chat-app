@@ -1,25 +1,29 @@
 import styled from "styled-components";
 import { AgoraVideoPlayer } from "agora-rtc-react";
-import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 
-export const VideoContainer = styled.div`
+export const BaseVideoContainer = styled.div`
   position: relative;
-  width: 550px;
-  height: 450px;
+  width: 500px;
+  height: 400px;
   margin: 10px;
   border: 5px solid #045204;
   border-radius: 10%;
   overflow: hidden;
+  cursor: pointer;
   &.big {
-    width: 90%;
-    height: 80vh;
+    width: 1080px;
+    height: 700px;
+  }
+  &.small {
+    width: 250px;
+    height: 200px;
+    border-radius: 20%;
   }
 `;
 
-export const VideoContainerSmall = styled(VideoContainer)`
-  width: 250px;
-  height: 200px;
-  border-radius: 20%;
+export const ShareVideoContainer = styled(BaseVideoContainer)`
+  width: 1080px;
+  height: 700px;
 `;
 
 export const UserNameTag = styled.div`
@@ -34,19 +38,31 @@ export const UserNameTag = styled.div`
   letter-spacing: 1px;
 `;
 
-export const Video = styled(AgoraVideoPlayer)`
-  /* display: none; */
+export const LocalVideoContainer = styled(BaseVideoContainer)`
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  ${UserNameTag} {
+    position: absolute;
+    bottom: 10px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+`;
 
+export const SmallVideoContainer = styled(BaseVideoContainer)`
+  width: 250px;
+  height: 200px;
+  border-radius: 40%;
+  ${UserNameTag} {
+    position: absolute;
+    bottom: 10px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+`;
+
+export const Video = styled(AgoraVideoPlayer)`
   height: 100% !important;
   width: 100% !important;
-`;
-export const CamIcon = styled(CameraEnhanceIcon)`
-  position: absolute;
-  color: #caab10;
-  opacity: 0.7;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px !important;
-  height: 300px !important;
 `;
