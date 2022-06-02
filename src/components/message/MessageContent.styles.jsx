@@ -9,13 +9,18 @@ export const MessageContainer = styled.div`
   border-radius: 10px;
   padding: 10px 15px;
   width: fit-content;
-  max-width: 900px;
+  width: 200px;
+  word-wrap: break-word;
+
+  /* white-space: pre-wrap;
+  overflow-wrap: break-word; */
   p {
     font-weight: bold;
     color: white;
+    word-wrap: break-word;
   }
   span {
-    margin-right: 10px;
+    margin-right: 5px;
     color: #a52aca !important;
   }
 `;

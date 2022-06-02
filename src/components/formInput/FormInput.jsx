@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Input, FormInputContainer, FromInputLabel } from "./FormInput.styles";
 
-function FormInput({ label, ...otherProps }) {
+const FormInput = React.forwardRef((props, ref) => {
+  const { label, ...otherProps } = props;
+  // const inputRef = useRef();
   return (
     <FormInputContainer>
-      <FromInputLabel htmlFor={label}>{label}</FromInputLabel>
-      <Input {...otherProps} />
+      <FromInputLabel htmlFor={label}>{label && label}</FromInputLabel>
+      <Input ref={ref} {...otherProps} />
     </FormInputContainer>
   );
-}
+});
 
 export default FormInput;

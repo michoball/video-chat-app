@@ -6,6 +6,7 @@ import { useClient } from "../../utill/Agora.config";
 import { ShareScreenContainer } from "./ShareScreen.styles";
 import { CamIcon } from "../../UI/CanIcon";
 import VideoPlayer, { VIDEO_TYPE_CLASS } from "../videoPlayer/VideoPlayer";
+import { AgoraRTCErrorCode } from "agora-rtc-react";
 
 function ShareScreen({ localTracks }) {
   const client = useClient();
@@ -16,19 +17,26 @@ function ShareScreen({ localTracks }) {
 
   useEffect(() => {
     const init = async () => {
-      const screenShareVideoTrack = await AgoraRTC.createScreenVideoTrack(
-        {
-          encoderConfig: {
-            framerate: 15,
-            height: 720,
-            width: 1280,
+      try {
+        const screenShareVideoTrack = await AgoraRTC.createScreenVideoTrack(
+          {
+            encoderConfig: {
+              framerate: 15,
+              height: 720,
+              width: 1280,
+            },
           },
-        },
-        "auto"
-      );
-      if (screenShareVideoTrack) {
-        console.log(screenShareVideoTrack);
-        setScreenTrack(screenShareVideoTrack);
+          "auto"
+        );
+        if (screenShareVideoTrack) {
+          console.log(screenShareVideoTrack);
+          setScreenTrack(screenShareVideoTrack);
+        }
+      } catch (error) {
+        if (error.code === AgoraRTCErrorCode.PERMISSION_DENIED) {
+          alert(`Share Screen Failed ${error.code}`);
+          toggleShare(false);
+        }
       }
     };
     init();

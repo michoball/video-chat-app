@@ -52,7 +52,7 @@ const rtcReducer = (state, action) => {
         rtcUsers:
           state.rtcUsers.length > 1
             ? state.rtcUsers.filter(
-                (rtcUser) => rtcUser.user.uid !== payload.user.uid
+                (rtcUser) => rtcUser.user.uid !== payload.uid
               )
             : [],
       };

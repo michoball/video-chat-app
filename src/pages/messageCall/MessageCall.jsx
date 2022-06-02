@@ -5,13 +5,15 @@ import { RtcContext } from "../../context/rtcContext";
 import { UserContext } from "../../context/userContext";
 import { createInstance } from "agora-rtm-sdk";
 import MessageContent from "../../components/message/MessageContent";
-
+import { Button } from "@mui/material";
 import {
   MessageCallContainer,
   Header,
   FormContainer,
   MessageConainer,
   EndOfMessage,
+  ButtonContainer,
+  MessageFormInput,
 } from "./MessageCall.styles";
 // 임의로 만드는 message Uid
 const messageUid = () => {
@@ -68,11 +70,10 @@ function MessageCall() {
         });
 
         console.log("A new Message was recieved ", data);
+        scrollToBottom();
       });
 
-      console.log("rtmClient", rtmClient);
       toggleStart(true);
-      scrollToBottom();
     };
 
     if (channel) {
@@ -81,11 +82,6 @@ function MessageCall() {
     }
   }, [roomId, channel]);
 
-  // window.onpopstate = async () => {
-  //   await rtmClient.logout();
-  //   toggleStart(false);
-  // };
-
   const scrollToBottom = () => {
     endfMessagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -93,8 +89,10 @@ function MessageCall() {
     });
   };
 
-  const SubmitHandler = async (e) => {
-    e.preventDefault();
+  const messageSendHandler = async () => {
+    if (messageRef.current.value === "") {
+      return;
+    }
     const messageuid = messageUid();
     const sendMessageData = {
       type: "chat",
@@ -118,12 +116,22 @@ function MessageCall() {
     scrollToBottom();
   };
 
-  console.log(messages);
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+  //   messageSendHandler();
+  // };
+
+  const changeHandler = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      messageSendHandler();
+      e.preventDefault();
+    }
+  };
 
   return (
     <MessageCallContainer>
       <Header>
-        <h1>Meassge Call Part</h1>
+        <h1>Meassge Room</h1>
       </Header>
       <MessageConainer>
         {messages.map((message) => {
@@ -133,11 +141,24 @@ function MessageCall() {
       </MessageConainer>
 
       <FormContainer>
-        <form onSubmit={SubmitHandler}>
-          <input type="text" id="message" ref={messageRef} />
-
-          <button type="submit">SEND</button>
-        </form>
+        <MessageFormInput
+          type="text"
+          id="input"
+          ref={messageRef}
+          onKeyPress={changeHandler}
+        />
+        <ButtonContainer>
+          <Button
+            style={{ display: "block" }}
+            variant="contained"
+            color="secondary"
+            size="small"
+            type="click"
+            onClick={messageSendHandler}
+          >
+            SEND
+          </Button>
+        </ButtonContainer>
       </FormContainer>
     </MessageCallContainer>
   );
