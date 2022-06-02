@@ -9,16 +9,8 @@ export const BaseVideoContainer = styled.div`
   border: 5px solid #045204;
   border-radius: 10%;
   overflow: hidden;
+  z-index: 4;
   cursor: pointer;
-  &.big {
-    width: 1080px;
-    height: 700px;
-  }
-  &.small {
-    width: 250px;
-    height: 200px;
-    border-radius: 20%;
-  }
 `;
 
 export const ShareVideoContainer = styled(BaseVideoContainer)`

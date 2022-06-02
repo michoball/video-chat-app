@@ -15,7 +15,7 @@ export const USER_ACTION_TYPE = {
   CLEAR_RTC_USER: "CLEAR_RTC_USER",
   TOGGLE_RTC_START: "TOGGLE_RTC_START",
   TOGGLE_RTC_SHARE: "TOGGLE_RTC_SHARE",
-  TOGGLE_RTC_BIG: "TOGGLE_RTC_BIG",
+  TOGGLE_RTC_SIZE: "TOGGLE_RTC_SIZE",
 };
 
 const rtcReducer = (state, action) => {
@@ -28,7 +28,9 @@ const rtcReducer = (state, action) => {
       );
       if (existingUser) {
         const newRtcUsers = state.rtcUsers.map((rtcUser) =>
-          rtcUser.user.uid === payload.user.uid ? payload : rtcUser
+          rtcUser.user.uid === payload.user.uid
+            ? { ...rtcUser, user: payload.user }
+            : rtcUser
         );
         return {
           ...state,
@@ -47,9 +49,12 @@ const rtcReducer = (state, action) => {
     case USER_ACTION_TYPE.REMOVE_RTC_USER:
       return {
         ...state,
-        rtcUsers: state.rtcUsers.filter(
-          (rtcUser) => rtcUser.user.uid !== payload.user.uid
-        ),
+        rtcUsers:
+          state.rtcUsers.length > 1
+            ? state.rtcUsers.filter(
+                (rtcUser) => rtcUser.user.uid !== payload.user.uid
+              )
+            : [],
       };
     case USER_ACTION_TYPE.CLEAR_RTC_USER:
       return {
@@ -65,8 +70,11 @@ const rtcReducer = (state, action) => {
       return {
         ...state,
         share: payload,
+        rtcUsers: payload
+          ? state.rtcUsers.map((rtcUser) => ({ ...rtcUser, size: "small" }))
+          : state.rtcUsers.map((rtcUser) => ({ ...rtcUser, size: "base" })),
       };
-    case USER_ACTION_TYPE.TOGGLE_RTC_BIG:
+    case USER_ACTION_TYPE.TOGGLE_RTC_SIZE:
       const checkRtcUser = state.rtcUsers.find(
         (rtcUser) => rtcUser.user.uid === payload.user.uid
       );
@@ -109,7 +117,7 @@ export const RtcContext = createContext({
   addRtcUser: (user) => null,
   removeRtcUser: (user) => null,
   toggleStart: (bool) => null,
-  toggleShare: (bool) => null,
+  toggleShare: () => null,
   toggleBig: (bool) => null,
   setLocalUser: (user) => null,
 });
@@ -146,7 +154,7 @@ export const RtcProvider = ({ children }) => {
   };
 
   const toggleBig = (user) => {
-    dispatch(createAction(USER_ACTION_TYPE.TOGGLE_RTC_BIG, user));
+    dispatch(createAction(USER_ACTION_TYPE.TOGGLE_RTC_SIZE, user));
   };
 
   const value = {

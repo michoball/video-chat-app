@@ -4,6 +4,8 @@ import Authentication from "./pages/Authentication";
 import Navigation from "./pages/nav/Navigation";
 import RoomForm from "./pages/roomForm/RoomForm";
 import VideoCall from "./pages/videoCall/VideoCall";
+import MessageCall from "./pages/messageCall/MessageCall";
+import Room from "./pages/room/Room";
 
 function App() {
   return (
@@ -12,7 +14,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="sign-in" element={<Authentication />} />
         <Route path="room" element={<RoomForm />} />
-        <Route path="room/:roomId" element={<VideoCall />} />
+        <Route path="room/:roomId" element={<Room />} />
       </Route>
     </Routes>
   );

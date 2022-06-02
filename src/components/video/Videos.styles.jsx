@@ -5,7 +5,7 @@ export const VideosContainer = styled.div`
 `;
 
 export const LocalUserVideoContianer = styled.div`
-  flex: 0.1;
+  flex: 0.2;
 `;
 
 export const OtherVideoContianer = styled.div`

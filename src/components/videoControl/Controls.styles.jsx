@@ -2,10 +2,8 @@ import styled from "styled-components";
 
 export const ControlsContainer = styled.div`
   display: flex;
-  position: fixed;
-  bottom: 1rem;
-
-  padding: 1rem;
+  position: absolute;
+  bottom: 1.5rem;
   left: 50%;
   gap: 1rem;
   transform: translateX(-50%);

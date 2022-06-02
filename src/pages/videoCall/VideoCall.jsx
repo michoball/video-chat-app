@@ -1,15 +1,20 @@
+import { useContext, useEffect } from "react";
 import {
   config,
   useClient,
   MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
-import AgoraRTM from "agora-rtm-sdk";
-import { useContext, useEffect } from "react";
 import Controls from "../../components/videoControl/Controls";
 import Videos from "../../components/video/Videos";
 import { useParams } from "react-router-dom";
-import { VideoCallContainer } from "./VideoCall.style";
 import { RtcContext } from "../../context/rtcContext";
+
+import {
+  VideoCallContainer,
+  RoomContainer,
+  MessageCallContainer,
+} from "./VideoCall.style";
+import MessageCall from "../messageCall/MessageCall";
 
 function VideoCall() {
   const { roomId } = useParams();
@@ -21,8 +26,6 @@ function VideoCall() {
     toggleStart,
     setLocalUser,
     clearRtcUser,
-    share,
-    rtcUsers,
   } = useContext(RtcContext);
 
   const { ready, tracks } = MicrophoneAndCameraTracks();
@@ -91,10 +94,13 @@ function VideoCall() {
   };
 
   return (
-    <VideoCallContainer>
-      {ready && tracks && <Controls tracks={tracks} />}
-      {start && tracks && <Videos />}
-    </VideoCallContainer>
+    <RoomContainer>
+      <VideoCallContainer>
+        {ready && tracks && <Controls tracks={tracks} />}
+        {start && tracks && <Videos />}
+      </VideoCallContainer>
+      <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>
+    </RoomContainer>
   );
 }
 

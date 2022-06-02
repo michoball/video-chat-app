@@ -31,7 +31,7 @@ function Videos() {
 
       <OtherVideoContianer>
         {share && <ShareScreen localTracks={localUser.videoTrack} />}
-        {bigSizeVideo && bigSizeVideo.user.videoTrack && (
+        {bigSizeVideo && (
           <VideoPlayer
             videoType={VIDEO_TYPE_CLASS.share}
             rtcUser={bigSizeVideo}
@@ -43,7 +43,7 @@ function Videos() {
         <RemoteUserVideoContianer>
           {rtcUsers.length > 0 &&
             rtcUsers.map((rtcUser) => {
-              if (rtcUser.size !== "big" && rtcUser.user.videoTrack) {
+              if (rtcUser.size !== "big") {
                 return (
                   <VideoPlayer
                     videoType={

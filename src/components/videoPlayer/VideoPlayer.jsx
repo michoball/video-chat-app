@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { RtcContext } from "../../context/rtcContext";
 import {
   Video,
@@ -25,23 +25,19 @@ const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
     [VIDEO_TYPE_CLASS.small]: SmallVideoContainer,
   }[VideoType]);
 
-function VideoPlayer({ rtcUser, track, videoType, bigSize }) {
+function VideoPlayer({ rtcUser, track, videoType }) {
   // const [bigSize, setBigSize] = useState(false);
   const { share, toggleBig } = useContext(RtcContext);
 
   const CustomVideoContainer = getVideoType(videoType, share);
 
   const toggleSizeHandler = () => {
-    console.log("toggle Video", rtcUser);
     toggleBig(rtcUser);
   };
 
   return (
-    <CustomVideoContainer
-      className={bigSize ? "big" : ""}
-      onClick={!share ? toggleSizeHandler : undefined}
-    >
-      {track.enabled || rtcUser.user.hasVideo || track ? (
+    <CustomVideoContainer onClick={!share ? toggleSizeHandler : undefined}>
+      {track || rtcUser.user.hasVideo ? (
         <Video videoTrack={track} />
       ) : (
         <CamIcon />
