@@ -2,30 +2,39 @@ import styled from "styled-components";
 
 export const MessageContainer = styled.div`
   display: flex;
-  position: relative;
-  gap: 10px;
-  margin: 0.5rem;
-  background-color: #363739;
-  border-radius: 10px;
-  padding: 10px 15px;
-  width: fit-content;
-  width: 200px;
-  word-wrap: break-word;
-
-  /* white-space: pre-wrap;
-  overflow-wrap: break-word; */
-  p {
-    font-weight: bold;
-    color: white;
-    word-wrap: break-word;
-  }
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 10px;
+  font-size: 10px;
   span {
-    margin-right: 5px;
-    color: #a52aca !important;
+    color: #a52aca;
   }
 `;
 
+export const Message = styled.div`
+  display: inline-block;
+  background-color: #363739;
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: auto;
+  max-width: 60%;
+  font-weight: bold;
+  color: white;
+  white-space: pre;
+  letter-spacing: 0.75px;
+`;
+
 export const Sender = styled(MessageContainer)`
+  span {
+    display: block;
+    text-align: end;
+    color: #a52aca;
+  }
+`;
+
+export const SenderMessage = styled(Message)`
   margin-left: auto;
-  background-color: #3f4043;
+`;
+export const reciveMessage = styled(Message)`
+  margin-right: auto;
 `;

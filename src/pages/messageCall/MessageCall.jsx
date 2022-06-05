@@ -2,9 +2,10 @@ import { config } from "../../utill/Agora.config";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { RtcContext } from "../../context/rtcContext";
-import { UserContext } from "../../context/userContext";
+// import { UserContext } from "../../context/userContext";
 import { createInstance } from "agora-rtm-sdk";
 import MessageContent from "../../components/message/MessageContent";
+import { SendingIcon } from "../../UI/Icons";
 import { Button } from "@mui/material";
 import {
   MessageCallContainer,
@@ -28,7 +29,6 @@ function MessageCall() {
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const [rtmClient, setRtmClient] = useState({});
 
   useEffect(() => {
     const init = async () => {
@@ -39,12 +39,14 @@ function MessageCall() {
 
       if (rtmChannel) {
         setChannel(rtmChannel);
-        // setRtmClient(RTMclient);
-        // console.log("RTMClient : ", RTMclient);
       }
     };
     init();
   }, [localUser]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     const init = async (channel) => {
@@ -57,20 +59,22 @@ function MessageCall() {
       });
 
       channel.on("ChannelMessage", async (messageData, MemberId) => {
-        let data = JSON.parse(messageData.text);
-        const messageuid = messageUid();
+        try {
+          let data = JSON.parse(messageData.text);
+          const messageuid = messageUid();
 
-        const reciveMessageData = {
-          ...data,
-          id: messageuid,
-          from: "others",
-        };
-        setMessages((prevState) => {
-          return [...prevState, reciveMessageData];
-        });
+          const reciveMessageData = {
+            ...data,
+            id: messageuid,
+            from: "others",
+          };
+          setMessages((prevState) => [...prevState, reciveMessageData]);
 
-        console.log("A new Message was recieved ", data);
-        scrollToBottom();
+          console.log("A new Message was recieved ", data);
+          scrollToBottom();
+        } catch (error) {
+          console.log(error);
+        }
       });
 
       toggleStart(true);
@@ -90,36 +94,34 @@ function MessageCall() {
   };
 
   const messageSendHandler = async () => {
-    if (messageRef.current.value === "") {
-      return;
-    }
-    const messageuid = messageUid();
-    const sendMessageData = {
-      type: "chat",
-      id: messageuid,
-      from: "me",
-      message: messageRef.current.value,
-      displayName: localUser.user.uid,
-    };
-    setMessages((prev) => {
-      return [...prev, sendMessageData];
-    });
-    channel.sendMessage({
-      // 다음 JSON 양식을 string으로 만들어서 보냄
-      text: JSON.stringify({
+    try {
+      if (messageRef.current.value === "") {
+        return;
+      }
+      const messageuid = messageUid();
+      const sendMessageData = {
         type: "chat",
+        id: messageuid,
+        from: "me",
         message: messageRef.current.value,
         displayName: localUser.user.uid,
-      }),
-    });
-    messageRef.current.value = "";
-    scrollToBottom();
-  };
+      };
 
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-  //   messageSendHandler();
-  // };
+      setMessages((prev) => [...prev, sendMessageData]);
+      channel.sendMessage({
+        // 다음 JSON 양식을 string으로 만들어서 보냄
+        text: JSON.stringify({
+          type: "chat",
+          message: messageRef.current.value,
+          displayName: localUser.user.uid,
+        }),
+      });
+
+      messageRef.current.value = "";
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const changeHandler = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -131,7 +133,7 @@ function MessageCall() {
   return (
     <MessageCallContainer>
       <Header>
-        <h1>Meassge Room</h1>
+        <p> Meassge Room </p>
       </Header>
       <MessageConainer>
         {messages.map((message) => {
@@ -147,16 +149,17 @@ function MessageCall() {
           ref={messageRef}
           onKeyPress={changeHandler}
         />
+
         <ButtonContainer>
           <Button
-            style={{ display: "block" }}
+            style={{ minWidth: "50px" }}
             variant="contained"
             color="secondary"
             size="small"
             type="click"
             onClick={messageSendHandler}
           >
-            SEND
+            <SendingIcon />
           </Button>
         </ButtonContainer>
       </FormContainer>

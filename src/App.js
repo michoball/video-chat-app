@@ -1,10 +1,8 @@
 import Home from "./pages/home/Home";
 import { Routes, Route } from "react-router-dom";
-import Authentication from "./pages/Authentication";
+import Authentication from "./pages/authentication/Authentication";
 import Navigation from "./pages/nav/Navigation";
 import RoomForm from "./pages/roomForm/RoomForm";
-import VideoCall from "./pages/videoCall/VideoCall";
-import MessageCall from "./pages/messageCall/MessageCall";
 import Room from "./pages/room/Room";
 
 function App() {

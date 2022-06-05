@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "@mui/material";
+
 export const RoomFormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -8,13 +8,14 @@ export const RoomFormContainer = styled.div`
   height: calc(100vh - 70px);
   h1 {
     color: #caab10;
-    font-size: 60px;
+    font-size: 50px;
+    white-space: nowrap;
   }
 `;
 
 export const FormContainer = styled.form`
   background-color: #363739;
-  width: 400px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;

@@ -2,7 +2,8 @@ import { Button } from "@mui/material";
 import { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
 
-import FormInput from "../formInput/FormInput";
+import FormInput from "../../UI/formInput/FormInput";
+
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -115,7 +116,7 @@ const SignUp = () => {
         />
 
         <FormInput
-          label="PasswordConfirm"
+          label="Password Confirm"
           type="password"
           id="confirmPassword"
           placeholder="Confirm Password"

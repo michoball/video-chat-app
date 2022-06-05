@@ -8,7 +8,7 @@ import {
   ShareVideoContainer,
   LocalVideoContainer,
 } from "./VideoPlayer.styles";
-import { CamIcon } from "../../UI/CanIcon";
+import { CamIcon } from "../../UI/Icons";
 
 export const VIDEO_TYPE_CLASS = {
   base: "base",
@@ -26,7 +26,6 @@ const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
   }[VideoType]);
 
 function VideoPlayer({ rtcUser, track, videoType }) {
-  // const [bigSize, setBigSize] = useState(false);
   const { share, toggleBig } = useContext(RtcContext);
 
   const CustomVideoContainer = getVideoType(videoType, share);
@@ -42,11 +41,7 @@ function VideoPlayer({ rtcUser, track, videoType }) {
       ) : (
         <CamIcon />
       )}
-      {rtcUser && (
-        <UserNameTag>
-          <p>{rtcUser.user.uid}</p>
-        </UserNameTag>
-      )}
+      {rtcUser && <UserNameTag>{rtcUser.user.uid}</UserNameTag>}
     </CustomVideoContainer>
   );
 }

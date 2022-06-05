@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Input, FormInputContainer, FromInputLabel } from "./FormInput.styles";
 
 const FormInput = React.forwardRef((props, ref) => {

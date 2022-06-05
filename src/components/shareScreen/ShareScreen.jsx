@@ -3,15 +3,13 @@ import AgoraRTC from "agora-rtc-sdk-ng";
 import { useContext, useEffect, useState } from "react";
 import { RtcContext } from "../../context/rtcContext";
 import { useClient } from "../../utill/Agora.config";
-import { ShareScreenContainer } from "./ShareScreen.styles";
-import { CamIcon } from "../../UI/CanIcon";
+import { CamIcon } from "../../UI/Icons";
 import VideoPlayer, { VIDEO_TYPE_CLASS } from "../videoPlayer/VideoPlayer";
 import { AgoraRTCErrorCode } from "agora-rtc-react";
 
 function ShareScreen({ localTracks }) {
   const client = useClient();
   const { share, toggleShare } = useContext(RtcContext);
-  // const { rtcUsers } = useContext(RtcContext);
 
   const [screenTrack, setScreenTrack] = useState(null);
 
@@ -29,7 +27,6 @@ function ShareScreen({ localTracks }) {
           "auto"
         );
         if (screenShareVideoTrack) {
-          console.log(screenShareVideoTrack);
           setScreenTrack(screenShareVideoTrack);
         }
       } catch (error) {
@@ -64,13 +61,13 @@ function ShareScreen({ localTracks }) {
   }, [client, screenTrack, share, localTracks, toggleShare]);
 
   return (
-    <ShareScreenContainer>
+    <div>
       {screenTrack ? (
         <VideoPlayer videoType={VIDEO_TYPE_CLASS.share} track={screenTrack} />
       ) : (
         <CamIcon />
       )}
-    </ShareScreenContainer>
+    </div>
   );
 }
 

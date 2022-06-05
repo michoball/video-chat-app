@@ -2,11 +2,11 @@ import {
   VideosContainer,
   RemoteUserVideoContianer,
   LocalUserVideoContianer,
-  OtherVideoContianer,
+  ShareOrBigVideoContianer,
 } from "./Videos.styles";
 import ShareScreen from "../../components/shareScreen/ShareScreen";
 import VideoPlayer, { VIDEO_TYPE_CLASS } from "../videoPlayer/VideoPlayer";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { RtcContext } from "../../context/rtcContext";
 
 // import { useClient } from "../../utill/Agora.config";
@@ -29,7 +29,7 @@ function Videos() {
         />
       </LocalUserVideoContianer>
 
-      <OtherVideoContianer>
+      <ShareOrBigVideoContianer>
         {share && <ShareScreen localTracks={localUser.videoTrack} />}
         {bigSizeVideo && (
           <VideoPlayer
@@ -60,7 +60,7 @@ function Videos() {
               } else return null;
             })}
         </RemoteUserVideoContianer>
-      </OtherVideoContianer>
+      </ShareOrBigVideoContianer>
     </VideosContainer>
   );
 }

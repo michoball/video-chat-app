@@ -8,7 +8,7 @@ import {
   ButtonContainer,
   HomeHeader,
 } from "./Home.styles";
-import { CamIcon } from "../../UI/CanIcon";
+import { CamIcon } from "../../UI/Icons";
 
 function Home() {
   const { currentUser } = useContext(UserContext);
@@ -28,7 +28,6 @@ function Home() {
           <Button
             variant="contained"
             color="primary"
-            size="large"
             type="submit"
             onClick={() => navigate("/room")}
           >
@@ -38,7 +37,6 @@ function Home() {
           <Button
             variant="contained"
             color="primary"
-            size="large"
             type="submit"
             onClick={() => navigate("/sign-in")}
           >

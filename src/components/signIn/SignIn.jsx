@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useContext, useState } from "react";
 
-import FormInput from "../formInput/FormInput";
+import FormInput from "../../UI/formInput/FormInput";
 import {
   signInAuthWithEmailAndPassword,
   GoogleSignUpWithPopUp,
@@ -14,7 +14,7 @@ import {
   ButtonContainer,
   ToggleSignUp,
 } from "./SignIn.styles";
-
+import Spinner from "../../UI/spinner/spinner";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
@@ -59,9 +59,7 @@ const SignIn = () => {
 
   const googleLogInHandler = async () => {
     await GoogleSignUpWithPopUp();
-
     navigate("/");
-    //alert(`Welcome ${user.displayName} `);
   };
 
   const toggleSignUpFormHandler = () => {
@@ -69,7 +67,7 @@ const SignIn = () => {
   };
 
   if (isLoading) {
-    return <h1 style={{ color: "white", fontSize: "30px" }}>Loading....</h1>;
+    return <Spinner />;
   }
 
   return (
@@ -97,18 +95,12 @@ const SignIn = () => {
         />
 
         <ButtonContainer>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            type="submit"
-          >
+          <Button variant="contained" color="secondary" type="submit">
             <span> submit</span>
           </Button>
           <Button
             variant="contained"
             color="primary"
-            size="large"
             type="submit"
             onClick={googleLogInHandler}
           >

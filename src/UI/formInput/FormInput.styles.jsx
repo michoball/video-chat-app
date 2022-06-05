@@ -7,8 +7,8 @@ export const FormInputContainer = styled.div`
 `;
 
 export const Input = styled.input`
-  padding: 5px 20px;
-  font-size: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
   border: none;
   border-bottom: 3px solid gray;
   background-color: transparent;
@@ -28,8 +28,8 @@ export const Input = styled.input`
 
 export const FromInputLabel = styled.label`
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   letter-spacing: 0.7px;
 `;

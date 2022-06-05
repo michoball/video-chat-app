@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
+import SendIcon from "@mui/icons-material/Send";
 
 export const CamIcon = styled(CameraEnhanceIcon)`
   position: absolute;
@@ -9,6 +10,11 @@ export const CamIcon = styled(CameraEnhanceIcon)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px !important;
-  height: 300px !important;
+  width: 200px !important;
+  height: 200px !important;
+`;
+
+export const SendingIcon = styled(SendIcon)`
+  width: 20px !important;
+  height: 20px !important;
 `;

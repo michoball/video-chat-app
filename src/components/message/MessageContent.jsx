@@ -1,14 +1,19 @@
-import { MessageContainer, Sender } from "./MessageContent.styles";
+import {
+  MessageContainer,
+  Sender,
+  reciveMessage,
+  SenderMessage,
+} from "./MessageContent.styles";
 
 function MessageContent({ message }) {
-  const { from } = message;
+  const { from, displayName } = message;
 
   const CustomContainer = from === "me" ? Sender : MessageContainer;
-
+  const CustomMessage = from === "me" ? SenderMessage : reciveMessage;
   return (
     <CustomContainer>
-      <span>{message.from}</span>
-      <p>{message.message}</p>
+      <span>{displayName && displayName}</span>
+      <CustomMessage>{message.message}</CustomMessage>
     </CustomContainer>
   );
 }

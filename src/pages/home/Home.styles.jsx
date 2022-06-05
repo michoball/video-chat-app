@@ -1,4 +1,3 @@
-import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import styled from "styled-components";
 
 export const HomeContainer = styled.div`
@@ -13,16 +12,20 @@ export const HomeContainer = styled.div`
 export const IconContainer = styled.div`
   position: relative;
   width: 350px;
-  height: 350px;
-  border-radius: 50%;
+  height: 250px;
+  border-radius: 30px;
   background-color: #2a2b2d;
   z-index: -1;
   margin: 120px auto 0;
 `;
 
 export const HomeHeader = styled.h1`
-  font-size: 70px;
+  font-size: 60px;
   padding: 30px 0;
 `;
 
-export const ButtonContainer = styled.div``;
+export const ButtonContainer = styled.div`
+  span {
+    font-size: 10px;
+  }
+`;

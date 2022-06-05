@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
 
 export const ControlsContainer = styled.div`
   display: flex;
-  position: absolute;
-  bottom: 1.5rem;
+  position: fixed;
+  bottom: 0.75rem;
   left: 50%;
   gap: 1rem;
   transform: translateX(-50%);
@@ -23,10 +24,15 @@ export const ButtonBox = styled.button`
   transition: all 0.2s ease-in-out;
 
   svg {
-    font-size: 2rem !important;
+    font-size: 1.25rem !important;
   }
 
   &.on {
     background-color: #ab47bc;
   }
+`;
+
+export const ButtonSpinner = styled(SpinnerContainer)`
+  width: 20px;
+  height: 20px;
 `;

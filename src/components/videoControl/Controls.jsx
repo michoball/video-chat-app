@@ -1,14 +1,15 @@
 import { useClient } from "../../utill/Agora.config";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ControlsContainer, ButtonBox } from "./Controls.styles";
+import { ControlsContainer, ButtonBox, ButtonSpinner } from "./Controls.styles";
+import { RtcContext } from "../../context/rtcContext";
+
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
-import { RtcContext } from "../../context/rtcContext";
 
 const Controls = (props) => {
   const client = useClient();
@@ -67,7 +68,7 @@ const Controls = (props) => {
         onClick={() => mute("video")}
       >
         {isLoading ? (
-          <div>isLoading...</div>
+          <ButtonSpinner />
         ) : (
           <div>{trackState.video ? <VideocamIcon /> : <VideocamOffIcon />}</div>
         )}

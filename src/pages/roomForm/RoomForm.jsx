@@ -4,7 +4,7 @@ import {
   FormContainer,
   ButtonContainer,
 } from "./RoomForm.styles";
-import FormInput from "../../components/formInput/FormInput";
+import FormInput from "../../UI/formInput/FormInput";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -45,12 +45,7 @@ const RoomForm = () => {
           onChange={roomIdHandler}
         />
         <ButtonContainer>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            type="submit"
-          >
+          <Button variant="contained" color="primary" type="submit">
             Join
           </Button>
         </ButtonContainer>
