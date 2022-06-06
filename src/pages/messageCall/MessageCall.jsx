@@ -3,9 +3,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { RtcContext } from "../../context/rtcContext";
 import { UserContext } from "../../context/userContext";
-import { createInstance, RtmClient } from "agora-rtm-sdk";
+import { createInstance } from "agora-rtm-sdk";
 import MessageContent from "../../components/message/MessageContent";
 import { SendingIcon } from "../../UI/Icons";
+import { MESSAGE_TYPE } from "../../components/message/MessageContent";
 
 import {
   MessageCallContainer,
@@ -26,11 +27,11 @@ function MessageCall() {
   const { toggleStart, localUser } = useContext(RtcContext);
   const { currentUser } = useContext(UserContext);
   const [channel, setChannel] = useState(null);
+  const [rtmClient, setRtmClient] = useState(null);
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
   const [messages, setMessages] = useState([]);
 
-  console.log(currentUser);
   useEffect(() => {
     const init = async () => {
       const RTMclient = createInstance(config.appId);
@@ -42,6 +43,7 @@ function MessageCall() {
       await rtmChannel.join();
       if (rtmChannel) {
         setChannel(rtmChannel);
+        setRtmClient(RTMclient);
       }
     };
     if (currentUser && localUser) {
@@ -56,10 +58,37 @@ function MessageCall() {
   useEffect(() => {
     const init = async (channel) => {
       channel.on("MemberJoined", async (MemberId) => {
-        console.log("NEW Member Joined~!!", MemberId);
+        const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
+          "name",
+        ]);
+        const messageuid = messageUid();
+
+        const botMessageData = {
+          type: "chat",
+          id: messageuid,
+          from: MESSAGE_TYPE.bot,
+          message: `New Member Joined ${name} `,
+          displayName: "Bot 🤖",
+        };
+        setMessages((prevState) => [...prevState, botMessageData]);
+
+        console.log("NEW Member Joined~!!", MemberId, name);
       });
 
-      channel.on("MemberLeft", (MemberId) => {
+      channel.on("MemberLeft", async (MemberId) => {
+        const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
+          "name",
+        ]);
+        const messageuid = messageUid();
+
+        const botMessageData = {
+          type: "chat",
+          id: messageuid,
+          from: MESSAGE_TYPE.bot,
+          message: `Member left ${name} `,
+          displayName: "Bot 🤖",
+        };
+        setMessages((prevState) => [...prevState, botMessageData]);
         console.log("leaving", MemberId);
       });
 
@@ -72,7 +101,7 @@ function MessageCall() {
           const reciveMessageData = {
             ...data,
             id: messageuid,
-            from: "others",
+            from: MESSAGE_TYPE.other,
           };
           setMessages((prevState) => [...prevState, reciveMessageData]);
 
@@ -86,11 +115,11 @@ function MessageCall() {
       toggleStart(true);
     };
 
-    if (channel) {
+    if (channel && rtmClient) {
       console.log("starting Message point", roomId, channel);
       init(channel);
     }
-  }, [roomId, channel]);
+  }, [roomId, channel, rtmClient]);
 
   const scrollToBottom = () => {
     endfMessagesRef.current.scrollIntoView({
@@ -109,7 +138,7 @@ function MessageCall() {
       const sendMessageData = {
         type: "chat",
         id: messageuid,
-        from: "me",
+        from: MESSAGE_TYPE.me,
         message: messageRef.current.value,
         displayName: currentUser.displayName,
       };

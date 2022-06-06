@@ -11,6 +11,25 @@ export const MessageContainer = styled.div`
   }
 `;
 
+export const BotContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+
+  span {
+    color: #f23030;
+    margin-right: 10px;
+  }
+`;
+
+export const BotMessage = styled.p`
+  color: #494a4d;
+`;
+
 export const Message = styled.div`
   display: inline-block;
   background-color: #363739;
@@ -24,17 +43,15 @@ export const Message = styled.div`
   letter-spacing: 0.75px;
 `;
 
-export const Sender = styled(MessageContainer)`
+export const MyContainer = styled(MessageContainer)`
   span {
-    display: block;
     text-align: end;
-    color: #a52aca;
   }
 `;
 
-export const SenderMessage = styled(Message)`
+export const MyMessage = styled(Message)`
   margin-left: auto;
 `;
-export const reciveMessage = styled(Message)`
+export const OtherMessage = styled(Message)`
   margin-right: auto;
 `;
