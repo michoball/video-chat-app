@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import Button from "../../UI/button/Button";
 
 export const MessageCallContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: calc(100vh - 60px);
-  border-left: 3px solid #033a03;
+  border-left: 3px solid #1d594e;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: -5px 10px 10px rgba(0, 0, 0, 0.3);
@@ -38,7 +39,7 @@ export const Header = styled.header`
   color: white;
   text-align: center;
   border-bottom: 3px solid black;
-  background-color: #1d1e1d;
+  background-color: #262625;
 `;
 
 export const FormContainer = styled.div`
@@ -48,17 +49,21 @@ export const FormContainer = styled.div`
   height: 10%;
   padding: 10px 20px;
   border-top: 3px solid black;
-  background-color: #1d1e1d;
+  background-color: #262625;
 `;
 
-export const ButtonContainer = styled.div`
-  align-items: center;
-  justify-content: center;
+export const SendButton = styled(Button)`
+  width: 40px;
+  height: 30px;
+  background-color: #f28705;
+  svg {
+    font-size: 0.5rem;
+  }
 `;
 
 export const MessageFormInput = styled.textarea`
   display: block;
-  font-size: 14px;
+  font-size: 12px;
   margin-right: 10px;
   width: 100%;
   resize: none;

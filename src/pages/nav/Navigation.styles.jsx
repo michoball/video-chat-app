@@ -5,13 +5,13 @@ export const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   height: 60px;
   width: 100%;
-  background-color: #033a03;
+  background-color: #1d594e;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
   padding: 15px 20px;
   h1 {
-    color: #caab10;
+    color: #f29f05;
     margin: 0 20px;
   }
 `;
@@ -30,6 +30,6 @@ export const LogOutContainer = styled.div`
 export const NavLink = styled(Link)`
   font-size: 14px;
   font-weight: bold;
-  color: #caab10;
+  color: #f29f05;
   cursor: pointer;
 `;

@@ -7,14 +7,15 @@ export const RoomFormContainer = styled.div`
   align-items: center;
   height: calc(100vh - 70px);
   h1 {
-    color: #caab10;
+    color: #f29f05;
     font-size: 50px;
     white-space: nowrap;
   }
 `;
 
 export const FormContainer = styled.form`
-  background-color: #363739;
+  background-color: rgb(99, 99, 99);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
   width: 350px;
   display: flex;
   flex-direction: column;

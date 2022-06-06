@@ -6,7 +6,7 @@ export const HomeContainer = styled.div`
   height: calc(100vh - 70px);
   flex-direction: column;
   align-items: center;
-  color: white;
+  color: whitesmoke;
 `;
 
 export const IconContainer = styled.div`
@@ -14,7 +14,8 @@ export const IconContainer = styled.div`
   width: 350px;
   height: 250px;
   border-radius: 30px;
-  background-color: #2a2b2d;
+  background-color: #5a6063;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
   z-index: -1;
   margin: 120px auto 0;
 `;

@@ -16,7 +16,9 @@ export const SignUpContainer = styled.div`
 `;
 
 export const FormContainer = styled.form`
-  background-color: #363739;
+  background-color: rgb(99, 99, 99);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -28,7 +30,7 @@ export const FormContainer = styled.form`
 
 export const ToggleSignUp = styled.p`
   font-size: 16px;
-  color: #caab10;
+  color: #f2cb05;
   padding: 20px 0;
   cursor: pointer;
 `;

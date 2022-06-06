@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
-import SendIcon from "@mui/icons-material/Send";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 
 export const CamIcon = styled(CameraEnhanceIcon)`
   position: absolute;
-  color: #caab10;
+  color: #f29f05;
   opacity: 0.7;
   top: 50%;
   left: 50%;
@@ -14,7 +14,8 @@ export const CamIcon = styled(CameraEnhanceIcon)`
   height: 200px !important;
 `;
 
-export const SendingIcon = styled(SendIcon)`
+export const SendingIcon = styled(SendOutlinedIcon)`
+  color: whitesmoke;
   width: 20px !important;
   height: 20px !important;
 `;

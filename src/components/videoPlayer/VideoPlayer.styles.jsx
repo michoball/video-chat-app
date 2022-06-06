@@ -6,8 +6,9 @@ export const BaseVideoContainer = styled.div`
   width: 350px;
   height: 250px;
   margin: 10px;
-  border: 5px solid #045204;
+  border: 5px solid #1d594e;
   border-radius: 10%;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
   overflow: hidden;
   cursor: pointer;
 `;
@@ -43,9 +44,9 @@ export const LocalVideoContainer = styled(BaseVideoContainer)`
 `;
 
 export const SmallVideoContainer = styled(BaseVideoContainer)`
-  width: 200px;
+  width: 175px;
   height: 150px;
-  border-radius: 40%;
+  border-radius: 30%;
   ${UserNameTag} {
     position: absolute;
     bottom: 10px;

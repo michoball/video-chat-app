@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
+import Button from "../../UI/button/Button";
 
 export const ControlsContainer = styled.div`
   display: flex;
-  position: fixed;
+  position: absolute;
   bottom: 0.75rem;
   left: 50%;
   gap: 1rem;
@@ -11,28 +12,15 @@ export const ControlsContainer = styled.div`
   z-index: 10;
 `;
 
-export const ButtonBox = styled.button`
-  cursor: pointer;
-  background-color: #262625;
-  color: #fff;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+export const ButtonBox = styled(Button)`
   transition: all 0.2s ease-in-out;
 
-  svg {
-    font-size: 1.25rem !important;
-  }
-
   &.on {
-    background-color: #ab47bc;
+    background-color: #f23030;
   }
 `;
 
 export const ButtonSpinner = styled(SpinnerContainer)`
-  width: 20px;
-  height: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
