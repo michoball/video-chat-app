@@ -1,11 +1,30 @@
 import React, { Fragment, useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { NavContainer, NavLink, LogOutContainer } from "./Navigation.styles";
+import {
+  NavContainer,
+  NavLink,
+  LogOutContainer,
+  NavSpinner,
+} from "./Navigation.styles";
 import { signOutUser } from "../../utill/firebase/firebase.auth";
 import { UserContext } from "../../context/userContext";
 
 function Navigation() {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, isLoading } = useContext(UserContext);
+
+  if (isLoading) {
+    return (
+      <Fragment>
+        <NavContainer>
+          <Link to="/">
+            <h1>Chat Room</h1>
+          </Link>
+          <NavSpinner />
+        </NavContainer>
+        <Outlet />
+      </Fragment>
+    );
+  }
 
   return (
     <Fragment>

@@ -7,8 +7,9 @@ import {
   IconContainer,
   ButtonContainer,
   HomeHeader,
+  BackgroundImage,
 } from "./Home.styles";
-import { CamIcon } from "../../UI/Icons";
+import Ci from "../../asset/videoChatIcon-96x96.png";
 
 function Home() {
   const { currentUser } = useContext(UserContext);
@@ -20,7 +21,7 @@ function Home() {
   return (
     <HomeContainer>
       <IconContainer>
-        <CamIcon />
+        <BackgroundImage imageUrl={Ci} />
       </IconContainer>
       <HomeHeader> Video Chat Room</HomeHeader>
       <ButtonContainer>
@@ -29,7 +30,7 @@ function Home() {
             variant="contained"
             color="primary"
             type="submit"
-            onClick={() => navigate("/room")}
+            onClick={() => navigate("/lobby")}
           >
             <span>GET START</span>
           </Button>

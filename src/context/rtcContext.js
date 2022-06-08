@@ -1,10 +1,9 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useReducer } from "react";
 import { createAction } from "../utill/reducer/reducer.config";
 
 const INIT_STATE = {
   rtcUsers: [],
   localUser: {},
-  start: false,
   share: false,
 };
 
@@ -13,7 +12,6 @@ export const USER_ACTION_TYPE = {
   SET_LOCAL_USER: "SET_LOCAL_USER",
   REMOVE_RTC_USER: "REMOVE_RTC_USER",
   CLEAR_RTC_USER: "CLEAR_RTC_USER",
-  TOGGLE_RTC_START: "TOGGLE_RTC_START",
   TOGGLE_RTC_SHARE: "TOGGLE_RTC_SHARE",
   TOGGLE_RTC_SIZE: "TOGGLE_RTC_SIZE",
 };
@@ -60,12 +58,9 @@ const rtcReducer = (state, action) => {
       return {
         ...state,
         rtcUsers: [],
+        localUser: {},
       };
-    case USER_ACTION_TYPE.TOGGLE_RTC_START:
-      return {
-        ...state,
-        start: payload,
-      };
+
     case USER_ACTION_TYPE.TOGGLE_RTC_SHARE:
       return {
         ...state,
@@ -112,11 +107,9 @@ const rtcReducer = (state, action) => {
 export const RtcContext = createContext({
   rtcUsers: [],
   localUser: {},
-  start: false,
   share: false,
   addRtcUser: (user) => null,
   removeRtcUser: (user) => null,
-  toggleStart: (bool) => null,
   toggleShare: () => null,
   toggleBig: (bool) => null,
   setLocalUser: (user) => null,
@@ -142,9 +135,6 @@ export const RtcProvider = ({ children }) => {
   const clearRtcUser = () =>
     dispatch(createAction(USER_ACTION_TYPE.CLEAR_RTC_USER));
 
-  const toggleStart = (bool) => {
-    dispatch(createAction(USER_ACTION_TYPE.TOGGLE_RTC_START, bool));
-  };
   const toggleShare = (bool) => {
     dispatch(createAction(USER_ACTION_TYPE.TOGGLE_RTC_SHARE, bool));
   };
@@ -165,13 +155,10 @@ export const RtcProvider = ({ children }) => {
     addRtcUser,
     removeRtcUser,
     clearRtcUser,
-    toggleStart,
     toggleShare,
     setLocalUser,
     toggleBig,
   };
-
-  useEffect(() => {}, []);
 
   return <RtcContext.Provider value={value}>{children}</RtcContext.Provider>;
 };

@@ -27,7 +27,7 @@ export const BotContainer = styled.div`
 `;
 
 export const BotMessage = styled.p`
-  color: #494a4d;
+  color: #babfbec7;
 `;
 
 export const Message = styled.div`

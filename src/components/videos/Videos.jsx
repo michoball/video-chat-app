@@ -25,12 +25,12 @@ function Videos() {
           videoType={VIDEO_TYPE_CLASS.local}
           rtcUser={localUser}
           id={localUser.uid}
-          track={localUser.videoTrack}
+          track={localUser.tracks[0]}
         />
       </LocalUserVideoContianer>
 
       <ShareOrBigVideoContianer>
-        {share && <ShareScreen localTracks={localUser.videoTrack} />}
+        {share && <ShareScreen localTracks={localUser.tracks[0]} />}
         {bigSizeVideo && (
           <VideoPlayer
             videoType={VIDEO_TYPE_CLASS.share}

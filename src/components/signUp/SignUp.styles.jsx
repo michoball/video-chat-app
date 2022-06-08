@@ -16,7 +16,7 @@ export const SignUpContainer = styled.div`
 `;
 
 export const FormContainer = styled.form`
-  background-color: rgb(99, 99, 99);
+  background-color: #33322e;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
 
   width: 100%;

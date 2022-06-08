@@ -4,8 +4,10 @@ import {
   useClient,
   MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
-import Controls from "../../components/videoControl/Controls";
-import Videos from "../../components/video/Videos";
+import AgoraRTM, { createInstance } from "agora-rtm-sdk";
+
+// import Controls from "../../components/videoControl/Controls";
+// import Videos from "../../components/videos/Videos";
 import { useParams } from "react-router-dom";
 import { RtcContext } from "../../context/rtcContext";
 
@@ -14,101 +16,92 @@ import {
   RoomContainer,
   MessageCallContainer,
 } from "./Room.style";
-import MessageCall from "../messageCall/MessageCall";
+import MessageCall from "../../components/messageCall/MessageCall";
 import Spinner from "../../UI/spinner/spinner";
+import VideoCall from "../../components/videoCall/VideoCall";
+import { UserContext } from "../../context/userContext";
+import { RtmContext } from "../../context/rtmContext";
 
-function VideoCall() {
-  const [isLoading, setIsLoading] = useState(true);
+function Room() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [start, setStart] = useState(false);
   const { roomId } = useParams();
   const client = useClient();
-  const {
-    start,
-    addRtcUser,
-    removeRtcUser,
-    toggleStart,
-    setLocalUser,
-    clearRtcUser,
-  } = useContext(RtcContext);
-
+  const { setLocalUser, clearRtcUser } = useContext(RtcContext);
+  const { setChannel, setRtmClient } = useContext(RtmContext);
+  const { currentUser } = useContext(UserContext);
   const { ready, tracks } = MicrophoneAndCameraTracks();
 
   useEffect(() => {
-    // console.log("starting point", roomId, client.uid);
     const init = async (roomName) => {
-      // remote user가 들어오고 나가고 할 때 event handler
-      client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        if (mediaType === "video") {
-          console.log("new published User : ", user, mediaType);
-          addRtcUser(user);
-        }
-        if (mediaType === "audio") {
-          user.audioTrack?.play();
-        }
+      try {
+        setIsLoading(true);
 
-        console.log("subscribe success", user, "client", client);
-      });
+        // client roomName 방에 입장
+        const clientUid = await client.join(
+          config.appId,
+          roomName,
+          config.token,
+          null
+        );
+        //비디오 & 오디오 방안 사람들과 공유
+        if (tracks) await client.publish([tracks[0], tracks[1]]);
 
-      client.on("user-unpublished", async (user, mediaType) => {
-        await client.unsubscribe(user, mediaType);
-        console.log("unpublished", user, mediaType);
-      });
-
-      client.on("user-left", (user) => {
-        console.log("leaving", user);
-        removeRtcUser(user);
-      });
-
-      const clientjoined = await client.join(
-        config.appId,
-        roomName,
-        config.token,
-        null
-      );
-
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
-
-      if (clientjoined) {
-        setLocalUser({
-          user: client,
-          videoTrack: client.localTracks[0],
+        // 메세지 유저정보 만들기
+        const RTMclient = createInstance(config.appId);
+        // 혼자서 실험하려면 uid를 firebase currentUser uid로 하면 안됨 uid중복이라 안됨
+        await RTMclient.login({ uid: String(clientUid), token: null });
+        // 내 displayName 넣기
+        await RTMclient.addOrUpdateLocalUserAttributes({
+          name: currentUser.displayName,
         });
+        // roomName 방에 채널을 만들기
+        const rtmChannel = RTMclient.createChannel(roomName);
+        // 방에 입장
+        await rtmChannel.join();
+
+        if (clientUid && rtmChannel) {
+          setLocalUser({
+            user: client,
+            tracks: client.localTracks,
+          });
+          setChannel(rtmChannel);
+          setRtmClient(RTMclient);
+          setStart(true);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(`Room UseEffect has Error!!! : ${error}`);
       }
-      console.log("client", client);
-
-      toggleStart(true);
-      setIsLoading(false);
     };
-
     if (ready && tracks && client) {
       console.log("init ready");
-      console.log("starting point", roomId, client);
+      console.log("Room starting point", roomId, client);
       init(roomId);
     }
-  }, [roomId, client, ready, tracks]);
-
-  window.onpopstate = async () => {
-    await client.leave();
-    client.removeAllListeners();
-    tracks[0].close();
-    tracks[1].close();
-    clearRtcUser();
-    toggleStart(false);
-  };
+  }, [roomId, client, ready, tracks, currentUser]);
 
   if (isLoading) {
     return <Spinner />;
   }
 
+  window.addEventListener("popstate", async () => {
+    tracks[0].close();
+    tracks[1].close();
+    await client.leave();
+    client.removeAllListeners();
+    clearRtcUser();
+    setStart(false);
+  });
+
   return (
     <RoomContainer>
       <VideoCallContainer>
-        {ready && tracks && <Controls tracks={tracks} />}
-        {start && tracks && <Videos />}
+        {ready && tracks && <VideoCall tracks={tracks} />}
       </VideoCallContainer>
       <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>
     </RoomContainer>
   );
 }
 
-export default VideoCall;
+export default Room;

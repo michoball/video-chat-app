@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
 
 export const NavContainer = styled.div`
   display: flex;
@@ -32,4 +33,11 @@ export const NavLink = styled(Link)`
   font-weight: bold;
   color: #f29f05;
   cursor: pointer;
+`;
+
+export const NavSpinner = styled(SpinnerContainer)`
+  width: 30px;
+  height: 30px;
+  border: 2px solid whitesmoke;
+  border-top-color: #f2cb05;
 `;

@@ -6,12 +6,11 @@ import {
 } from "./RoomForm.styles";
 import FormInput from "../../UI/formInput/FormInput";
 import { Button } from "@mui/material";
-// import Button from "../../UI/button/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const RoomForm = () => {
-  // roomId 를 useSearchParams 로 해서 videos.jsx에서 params로 room찾아가기
+  // roomId 를 useParams 로 해서 videos.jsx에서 params로 room찾아가기
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState("");
 
@@ -24,7 +23,6 @@ const RoomForm = () => {
   const roomSubmitHandler = (e) => {
     e.preventDefault();
 
-    console.log(roomId);
     navigate(`/room/${roomId}`);
     clearRoomId();
   };

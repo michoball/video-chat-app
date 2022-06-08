@@ -1,8 +1,8 @@
-import { useClient } from "../../utill/Agora.config";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ControlsContainer, ButtonBox, ButtonSpinner } from "./Controls.styles";
 import { RtcContext } from "../../context/rtcContext";
+import { RtmContext } from "../../context/rtmContext";
 
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
@@ -11,25 +11,25 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 
-const Controls = (props) => {
-  const client = useClient();
+const Controls = () => {
   const navigate = useNavigate();
-  const { toggleStart, clearRtcUser, toggleShare, share } =
+  const { clearRtcUser, toggleShare, share, localUser } =
     useContext(RtcContext);
-  const { tracks } = props;
+  const { channel, rtmClient, clearClientAndChannel, clearMessages } =
+    useContext(RtmContext);
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log("control~~~~~  created~~~~~~~~");
   const mute = async (type) => {
     if (type === "audio") {
-      await tracks[0].setEnabled(!trackState.audio);
+      await localUser.tracks[1].setEnabled(!trackState.audio);
       setTrackState((ps) => {
         return { ...ps, audio: !ps.audio };
       });
     } else if (type === "video") {
       setIsLoading(true);
       try {
-        await tracks[1].setEnabled(!trackState.video);
+        await localUser.tracks[0].setEnabled(!trackState.video);
 
         setTrackState((ps) => {
           return { ...ps, video: !ps.video };
@@ -42,13 +42,17 @@ const Controls = (props) => {
   };
 
   const leaveChannel = async () => {
-    tracks[0].close();
-    tracks[1].close();
-    await client.leave();
-    client.removeAllListeners();
+    localUser.tracks[0].close();
+    localUser.tracks[1].close();
+    await localUser.user.leave();
+    localUser.user.removeAllListeners();
+    await channel.leave();
+    await rtmClient.logout();
+    navigate("/lobby");
+
+    clearClientAndChannel();
+    clearMessages();
     clearRtcUser();
-    toggleStart(false);
-    navigate("/room");
   };
 
   const shareHandler = () => {

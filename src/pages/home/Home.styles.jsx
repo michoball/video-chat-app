@@ -11,13 +11,20 @@ export const HomeContainer = styled.div`
 
 export const IconContainer = styled.div`
   position: relative;
-  width: 350px;
-  height: 250px;
-  border-radius: 30px;
-  background-color: #5a6063;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  align-items: center;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
-  z-index: -1;
-  margin: 120px auto 0;
+  margin: 100px auto 0;
+`;
+
+export const BackgroundImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
 `;
 
 export const HomeHeader = styled.h1`

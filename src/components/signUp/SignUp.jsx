@@ -11,7 +11,7 @@ import {
   createUserDocumentFromAuth,
 } from "../../utill/firebase/firebase.auth";
 import { AuthErrorCodes } from "firebase/auth";
-import { theme } from "../../UI/MuiTheme.config";
+import Spinner from "../../UI/spinner/spinner";
 
 import {
   SignUpContainer,
@@ -78,7 +78,7 @@ const SignUp = () => {
   };
 
   if (isLoading) {
-    return <h1 style={{ color: "white", fontSize: "30px" }}>Loading....</h1>;
+    return <Spinner />;
   }
 
   return (

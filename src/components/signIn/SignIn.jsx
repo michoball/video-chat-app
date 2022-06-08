@@ -44,21 +44,31 @@ const SignIn = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       await signInAuthWithEmailAndPassword(email, password);
       resetFormField();
+      setIsLoading(false);
     } catch (error) {
       if (error.message === AuthErrorCodes.EMAIL_EXISTS) {
         alert("Input Email is already in used");
       }
       console.log(error);
+      setIsLoading(false);
     }
     navigate("/");
   };
 
   const googleLogInHandler = async () => {
-    await GoogleSignUpWithPopUp();
+    setIsLoading(true);
+
+    try {
+      await GoogleSignUpWithPopUp();
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
     navigate("/");
   };
 

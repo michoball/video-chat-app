@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
@@ -44,6 +44,7 @@ const userReducer = (state, action) => {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, INIT_STATE);
   const { IsSignUpForm, currentUser } = state;
+  const [isLoading, setIsLoading] = useState(false);
 
   const setCurrentUser = (user) => {
     dispatch(createAction(USER_ACTION_TYPE.SET_CURRENT_USER, user));
@@ -57,16 +58,19 @@ export const UserProvider = ({ children }) => {
     currentUser,
     toggleSignForm,
     IsSignUpForm,
+    isLoading,
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
+      setIsLoading(true);
       let userAuth = null;
       if (user) {
         const userSnapshot = await createUserDocumentFromAuth(user);
         userAuth = { id: userSnapshot.id, ...userSnapshot.data() };
       }
       setCurrentUser(userAuth);
+      setIsLoading(false);
     });
 
     return unsubscribe;

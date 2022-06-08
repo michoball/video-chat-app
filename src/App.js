@@ -11,7 +11,7 @@ function App() {
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
         <Route path="sign-in" element={<Authentication />} />
-        <Route path="room" element={<RoomForm />} />
+        <Route path="lobby" element={<RoomForm />} />
         <Route path="room/:roomId" element={<Room />} />
       </Route>
     </Routes>

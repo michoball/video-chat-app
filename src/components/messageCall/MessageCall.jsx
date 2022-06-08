@@ -3,10 +3,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { RtcContext } from "../../context/rtcContext";
 import { UserContext } from "../../context/userContext";
+import { RtmContext } from "../../context/rtmContext";
 import { createInstance } from "agora-rtm-sdk";
-import MessageContent from "../../components/message/MessageContent";
+import MessageContent, { MESSAGE_TYPE } from "../message/MessageContent";
 import { SendingIcon } from "../../UI/Icons";
-import { MESSAGE_TYPE } from "../../components/message/MessageContent";
 
 import {
   MessageCallContainer,
@@ -17,39 +17,20 @@ import {
   MessageFormInput,
   SendButton,
 } from "./MessageCall.styles";
-// 임의로 만드는 message Uid
-const messageUid = () => {
-  return Math.floor(Math.random() * 100000 + Math.random() * 10000).toString();
-};
 
 function MessageCall() {
-  const { roomId } = useParams();
-  const { toggleStart, localUser } = useContext(RtcContext);
+  const {
+    channel,
+    rtmClient,
+    clearMessages,
+    clearClientAndChannel,
+    messages,
+    addMessages,
+  } = useContext(RtmContext);
+
   const { currentUser } = useContext(UserContext);
-  const [channel, setChannel] = useState(null);
-  const [rtmClient, setRtmClient] = useState(null);
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    const init = async () => {
-      const RTMclient = createInstance(config.appId);
-      await RTMclient.login({ uid: String(localUser.user.uid), token: null });
-      await RTMclient.addOrUpdateLocalUserAttributes({
-        name: currentUser.displayName,
-      });
-      const rtmChannel = RTMclient.createChannel(roomId);
-      await rtmChannel.join();
-      if (rtmChannel) {
-        setChannel(rtmChannel);
-        setRtmClient(RTMclient);
-      }
-    };
-    if (currentUser && localUser) {
-      init();
-    }
-  }, [localUser, currentUser]);
 
   useEffect(() => {
     scrollToBottom();
@@ -58,37 +39,34 @@ function MessageCall() {
   useEffect(() => {
     const init = async (channel) => {
       channel.on("MemberJoined", async (MemberId) => {
+        console.log(" New Member Id : ", MemberId, "my RtmInfo : ", rtmClient);
         const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
           "name",
         ]);
-        const messageuid = messageUid();
-
         const botMessageData = {
           type: "chat",
-          id: messageuid,
           from: MESSAGE_TYPE.bot,
-          message: `New Member Joined ${name} `,
+          message: `New Member Joined "${name}" `,
           displayName: "Bot 🤖",
         };
-        setMessages((prevState) => [...prevState, botMessageData]);
+        addMessages(botMessageData);
 
         console.log("NEW Member Joined~!!", MemberId, name);
       });
 
       channel.on("MemberLeft", async (MemberId) => {
-        const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
-          "name",
-        ]);
-        const messageuid = messageUid();
+        // 이미 나갔다고 나간 맴버의 id로는 name attributes를 가져올수 없다고 함
+        // const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
+        //   "name",
+        // ]);
 
         const botMessageData = {
           type: "chat",
-          id: messageuid,
           from: MESSAGE_TYPE.bot,
-          message: `Member left ${name} `,
+          message: `Member left `,
           displayName: "Bot 🤖",
         };
-        setMessages((prevState) => [...prevState, botMessageData]);
+        addMessages(botMessageData);
         console.log("leaving", MemberId);
       });
 
@@ -96,14 +74,11 @@ function MessageCall() {
         try {
           let data = JSON.parse(messageData.text);
 
-          const messageuid = messageUid();
-
           const reciveMessageData = {
             ...data,
-            id: messageuid,
             from: MESSAGE_TYPE.other,
           };
-          setMessages((prevState) => [...prevState, reciveMessageData]);
+          addMessages(reciveMessageData);
 
           console.log("A new Message was recieved ", data);
           scrollToBottom();
@@ -111,15 +86,14 @@ function MessageCall() {
           console.log(error);
         }
       });
-
-      toggleStart(true);
     };
 
     if (channel && rtmClient) {
-      console.log("starting Message point", roomId, channel);
+      console.log("starting Message point", channel);
+      console.log("rtmClient : ", rtmClient);
       init(channel);
     }
-  }, [roomId, channel, rtmClient]);
+  }, [channel, rtmClient]);
 
   const scrollToBottom = () => {
     endfMessagesRef.current.scrollIntoView({
@@ -129,22 +103,19 @@ function MessageCall() {
   };
 
   const messageSendHandler = async () => {
+    if (messageRef.current.value === "") {
+      return;
+    }
     try {
-      if (messageRef.current.value === "") {
-        return;
-      }
-
-      const messageuid = messageUid();
       const sendMessageData = {
         type: "chat",
-        id: messageuid,
         from: MESSAGE_TYPE.me,
         message: messageRef.current.value,
         displayName: currentUser.displayName,
       };
 
-      setMessages((prev) => [...prev, sendMessageData]);
-      channel.sendMessage({
+      addMessages(sendMessageData);
+      await channel.sendMessage({
         // 다음 JSON 양식을 string으로 만들어서 보냄
         text: JSON.stringify({
           type: "chat",
@@ -152,11 +123,10 @@ function MessageCall() {
           displayName: currentUser.displayName,
         }),
       });
-
-      messageRef.current.value = "";
     } catch (error) {
       console.log(error);
     }
+    messageRef.current.value = "";
   };
 
   const changeHandler = (e) => {
@@ -164,6 +134,15 @@ function MessageCall() {
       messageSendHandler();
       e.preventDefault();
     }
+  };
+
+  window.onpopstate = async () => {
+    await channel.leave();
+    await rtmClient.logout();
+    clearMessages();
+    clearClientAndChannel();
+
+    console.log("rtm User Out~!!!!!!!!!");
   };
 
   return (
