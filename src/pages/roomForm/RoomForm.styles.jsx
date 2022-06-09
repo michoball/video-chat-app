@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
 
 export const RoomFormContainer = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ export const FormContainer = styled.form`
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
   width: 350px;
   display: flex;
+
   flex-direction: column;
   border-radius: 10px;
   padding: 20px;
@@ -30,4 +32,12 @@ export const ButtonContainer = styled.div`
   align-items: center;
   margin-top: 5px;
   font-weight: bold;
+`;
+
+export const FormSpinner = styled(SpinnerContainer)`
+  width: 25px;
+  height: 25px;
+  border: 3px solid #1d5958;
+  border-radius: 50%;
+  border-top-color: #f2cb05;
 `;

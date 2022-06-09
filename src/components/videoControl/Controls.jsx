@@ -19,7 +19,6 @@ const Controls = () => {
     useContext(RtmContext);
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const [isLoading, setIsLoading] = useState(false);
-  console.log("control~~~~~  created~~~~~~~~");
   const mute = async (type) => {
     if (type === "audio") {
       await localUser.tracks[1].setEnabled(!trackState.audio);
