@@ -1,21 +1,19 @@
 import { config } from "../../utill/Agora.config";
 import {
+  RoomContainer,
   RoomFormContainer,
-  FormContainer,
   ButtonContainer,
   FormSpinner,
+  RoomFormBtn,
+  Backdrop,
 } from "./RoomForm.styles";
 import FormInput from "../../UI/formInput/FormInput";
-import { Button } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  createandAddRoomDocuments,
-  getUserRoomArray,
-} from "../../utill/firebase/firebase.document";
+import { createandAddRoomDocuments } from "../../utill/firebase/firebase.document";
 import { UserContext } from "../../context/userContext";
 
-const RoomForm = () => {
+const RoomForm = ({ onToggleForm }) => {
   // roomId 를 useParams 로 해서 videos.jsx에서 params로 room찾아가기
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,15 +25,6 @@ const RoomForm = () => {
   };
 
   const clearRoomId = () => setRoomId("");
-
-  useEffect(() => {
-    const userRoom = async (user) => {
-      const snapShot = await getUserRoomArray(user);
-      console.log(snapShot.map((room) => room.data()));
-    };
-
-    userRoom(currentUser);
-  }, []);
 
   const roomSubmitHandler = async (e) => {
     e.preventDefault();
@@ -60,29 +49,43 @@ const RoomForm = () => {
     navigate(`/room/${roomUid}`);
   };
 
+  const toggleBackdropHandler = () => {
+    onToggleForm();
+  };
+
   return (
-    <RoomFormContainer>
-      <h1 className="heading">Enter the room Number</h1>
-      <FormContainer onSubmit={roomSubmitHandler}>
-        {config.appId === "" && (
-          <p style={{ color: "red" }}>
-            Please enter your Agora App ID in App.tsx and refresh the page
-          </p>
-        )}
-        <FormInput
-          label="RoomName"
-          type="text"
-          placeholder="Enter Channel Name"
-          value={roomId}
-          onChange={roomIdHandler}
-        />
-        <ButtonContainer>
-          <Button variant="contained" color="primary" type="submit">
-            {isLoading ? <FormSpinner /> : "Join"}
-          </Button>
-        </ButtonContainer>
-      </FormContainer>
-    </RoomFormContainer>
+    <>
+      <RoomContainer>
+        <h3 className="heading">Create New Room</h3>
+        <RoomFormContainer onSubmit={roomSubmitHandler}>
+          {config.appId === "" && (
+            <p style={{ color: "red" }}>
+              Please enter your Agora App ID in App.tsx and refresh the page
+            </p>
+          )}
+          <FormInput
+            label="RoomName"
+            type="text"
+            placeholder="Enter Channel Name"
+            value={roomId}
+            onChange={roomIdHandler}
+          />
+          <ButtonContainer>
+            <RoomFormBtn type="submit">
+              {isLoading ? <FormSpinner /> : "Join"}
+            </RoomFormBtn>
+            <RoomFormBtn
+              className="cancel"
+              type="button"
+              onClick={toggleBackdropHandler}
+            >
+              Cancel
+            </RoomFormBtn>
+          </ButtonContainer>
+        </RoomFormContainer>
+      </RoomContainer>
+      <Backdrop onClick={toggleBackdropHandler} />
+    </>
   );
 };
 

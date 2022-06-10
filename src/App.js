@@ -4,6 +4,7 @@ import Authentication from "./pages/authentication/Authentication";
 import Navigation from "./pages/nav/Navigation";
 import RoomForm from "./pages/roomForm/RoomForm";
 import Room from "./pages/room/Room";
+import Lobby from "./pages/lobby/Lobby";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
         <Route path="sign-in" element={<Authentication />} />
-        <Route path="lobby" element={<RoomForm />} />
+        <Route path="lobby" element={<Lobby />} />
+
         <Route path="room/:roomId" element={<Room />} />
       </Route>
     </Routes>

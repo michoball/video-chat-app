@@ -5,7 +5,7 @@ import { UserContext } from "../../context/userContext";
 import FormInput from "../../UI/formInput/FormInput";
 
 import { useNavigate } from "react-router-dom";
-
+import FormContainer from "../../UI/formContainer/FormContainer";
 import {
   createUserAuthWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -15,7 +15,6 @@ import Spinner from "../../UI/spinner/spinner";
 
 import {
   SignUpContainer,
-  FormContainer,
   ToggleSignUp,
   ButtonContainer,
 } from "./SignUp.styles";
@@ -83,7 +82,7 @@ const SignUp = () => {
 
   return (
     <SignUpContainer>
-      <h2> Make Your New Account</h2>
+      <h1> Make Your New Account</h1>
       <FormContainer onSubmit={submitHandler}>
         <FormInput
           label="Name"

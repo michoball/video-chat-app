@@ -26,12 +26,6 @@ export const createandAddRoomDocuments = async (roomId, user) => {
         roomName: roomId,
         userList: [{ email, displayName, id }],
       });
-      // await setDoc(doc(newRoom, "userList", id), {
-      //   email,
-      //   displayName,
-      //   id,
-      // });
-
       return newRoom;
     } catch (error) {
       console.log("error occur from adding room ", error);
@@ -61,13 +55,16 @@ export const createandAddRoomDocuments = async (roomId, user) => {
   return roomSnapshot.docs[0];
 };
 
+// user 가 있는 방 가져오기
 export const getUserRoomArray = async (user) => {
   const roomDocRef = collection(db, "rooms");
-  // const roomQuery = query(roomDocRef, where("userList", "in", [user.id]));
-
   const userRoomSnapshot = await getDocs(roomDocRef);
   const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
     roomDoc.data().userList.find((users) => users.id.includes(user.id))
   );
   return myRoomSnapshot;
 };
+
+// message 업로드 하는 기능 추가 room 안에서 message 교환하니까
+// useparam으로 room id 가져와서 doc(db, "rooms", roomid)로 들어가서
+// update message 하든 addDoc을 하던

@@ -1,29 +1,40 @@
 import styled from "styled-components";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
+import { CustomForm } from "../../UI/formContainer/FormContainer.styles";
+import Button from "../../UI/button/Button";
 
-export const RoomFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 70px);
-  h1 {
-    color: whitesmoke;
-    font-size: 50px;
-    white-space: nowrap;
-  }
+export const Backdrop = styled.div`
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 
-export const FormContainer = styled.form`
-  background-color: #33322e;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
-  width: 350px;
+export const RoomContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-
   flex-direction: column;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 30px 0;
+  height: calc(100vh - 70px);
+  justify-content: center;
+  align-items: center;
+  h3 {
+    color: #f29f05;
+    font-size: 40px;
+    margin-bottom: 30px;
+    white-space: nowrap;
+  }
+  z-index: 200;
+`;
+
+export const RoomFormContainer = styled(CustomForm)`
+  width: 400px;
+  border: 3px solid #1d594e;
 `;
 
 export const ButtonContainer = styled.div`
@@ -32,6 +43,19 @@ export const ButtonContainer = styled.div`
   align-items: center;
   margin-top: 5px;
   font-weight: bold;
+  gap: 1rem;
+`;
+
+export const RoomFormBtn = styled(Button)`
+  background-color: #f2cb05;
+  color: black;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  &.cancel {
+    background-color: #f23030;
+    color: whitesmoke;
+  }
 `;
 
 export const FormSpinner = styled(SpinnerContainer)`

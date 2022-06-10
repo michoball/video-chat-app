@@ -1,10 +1,7 @@
-import { config } from "../../utill/Agora.config";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import { RtcContext } from "../../context/rtcContext";
+import { useContext, useEffect, useRef } from "react";
 import { UserContext } from "../../context/userContext";
 import { RtmContext } from "../../context/rtmContext";
-import { createInstance } from "agora-rtm-sdk";
+
 import MessageContent, { MESSAGE_TYPE } from "../message/MessageContent";
 import { SendingIcon } from "../../UI/Icons";
 

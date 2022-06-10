@@ -7,10 +7,10 @@ import {
   GoogleSignUpWithPopUp,
 } from "../../utill/firebase/firebase.auth";
 import { AuthErrorCodes } from "firebase/auth";
+import FormContainer from "../../UI/formContainer/FormContainer";
 
 import {
   SignUpContainer,
-  FormContainer,
   ButtonContainer,
   ToggleSignUp,
 } from "./SignIn.styles";
@@ -82,7 +82,7 @@ const SignIn = () => {
 
   return (
     <SignUpContainer>
-      <h2> Enter Your Account</h2>
+      <h1> Enter Your Account</h1>
       <FormContainer onSubmit={submitHandler}>
         <FormInput
           label="Email"
