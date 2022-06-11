@@ -19,6 +19,7 @@ import Spinner from "../../UI/spinner/spinner";
 import VideoCall from "../../components/videoCall/VideoCall";
 import { UserContext } from "../../context/userContext";
 import { RtmContext } from "../../context/rtmContext";
+import { getRoomInfo } from "../../utill/firebase/firebase.document";
 
 function Room() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,10 +32,18 @@ function Room() {
   const { ready, tracks } = MicrophoneAndCameraTracks();
 
   useEffect(() => {
+    const getUserInfo = async () => {
+      const roomInfo = await getRoomInfo(roomId);
+      console.log(roomInfo);
+    };
+
+    getUserInfo();
+  }, [roomId]);
+
+  useEffect(() => {
     const init = async (roomName) => {
       try {
         setIsLoading(true);
-
         // client roomName 방에 입장
         const clientUid = await client.join(
           config.appId,
@@ -73,7 +82,6 @@ function Room() {
       }
     };
     if (ready && tracks && client) {
-      console.log("init ready");
       console.log("Room starting point", roomId, client);
       init(roomId);
     }

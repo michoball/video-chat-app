@@ -70,3 +70,9 @@ export const getUserRoomArray = async (user) => {
 // message 업로드 하는 기능 추가 room 안에서 message 교환하니까
 // useparam으로 room id 가져와서 doc(db, "rooms", roomid)로 들어가서
 // update message 하든 addDoc을 하던
+export const getRoomInfo = async (roomId) => {
+  const roomDocRef = doc(db, "rooms", roomId);
+  const RoomSnapshot = await getDoc(roomDocRef);
+
+  return RoomSnapshot.data();
+};
