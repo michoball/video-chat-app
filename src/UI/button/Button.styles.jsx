@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 export const BaseButton = styled.button`
   cursor: pointer;
-
   background-color: #262625;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
   color: whitesmoke;
   border: none;
   display: flex;

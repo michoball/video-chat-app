@@ -35,7 +35,13 @@ function VideoPlayer({ rtcUser, track, videoType }) {
   };
 
   return (
-    <CustomVideoContainer onClick={!share ? toggleSizeHandler : undefined}>
+    <CustomVideoContainer
+      onClick={
+        !share && videoType !== VIDEO_TYPE_CLASS.local
+          ? toggleSizeHandler
+          : undefined
+      }
+    >
       {track || rtcUser.user.hasVideo ? (
         <Video videoTrack={track} />
       ) : (

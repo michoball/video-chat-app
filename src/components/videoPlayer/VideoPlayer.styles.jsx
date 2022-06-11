@@ -8,7 +8,7 @@ export const BaseVideoContainer = styled.div`
   margin: 10px;
   border: 5px solid #1d594e;
   border-radius: 10%;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
   overflow: hidden;
   cursor: pointer;
 `;

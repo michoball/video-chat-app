@@ -45,6 +45,8 @@ const Controls = () => {
     localUser.tracks[1].close();
     await localUser.user.leave();
     localUser.user.removeAllListeners();
+    // logOutRtc();
+
     await channel.leave();
     await rtmClient.logout();
     navigate("/lobby");

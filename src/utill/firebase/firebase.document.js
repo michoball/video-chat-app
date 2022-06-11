@@ -59,9 +59,11 @@ export const createandAddRoomDocuments = async (roomId, user) => {
 export const getUserRoomArray = async (user) => {
   const roomDocRef = collection(db, "rooms");
   const userRoomSnapshot = await getDocs(roomDocRef);
+
   const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
     roomDoc.data().userList.find((users) => users.id.includes(user.id))
   );
+
   return myRoomSnapshot;
 };
 

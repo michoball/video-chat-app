@@ -1,34 +1,31 @@
 import { useState, useEffect, useContext } from "react";
 import { getUserRoomArray } from "../../utill/firebase/firebase.document";
 import { UserContext } from "../../context/userContext";
+import RoomForm from "../../components/roomForm/RoomForm";
+import { LobbyContainer, RoomListContainer, AddRoomBtn } from "./Lobby.styles";
 
-import RoomForm from "../roomForm/RoomForm";
-import {
-  LobbyContainer,
-  RoomListContainer,
-  RoomContainer,
-  DeleteButton,
-  RoomInfo,
-  Name,
-  AddRoomBtn,
-} from "./Lobby.styles";
+import RoomList from "../../components/roomList/RoomList";
 
 function Lobby() {
   const [toggleRoomForm, setToggleRoomForm] = useState(false);
+  const [userRooms, setUserRooms] = useState([]);
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     const userRoom = async (user) => {
       const snapShot = await getUserRoomArray(user);
       console.log(snapShot.map((room) => room.data()));
+
+      setUserRooms(snapShot);
     };
+    if (currentUser) {
+      userRoom(currentUser);
+    }
+  }, [currentUser]);
 
-    userRoom(currentUser);
-  }, []);
-
+  console.log(userRooms);
   const toggleRoomFormHandelr = () => {
     setToggleRoomForm(!toggleRoomForm);
-    console.log("click");
   };
 
   return (
@@ -36,56 +33,16 @@ function Lobby() {
       <LobbyContainer>
         <h1>where are you want to go~?</h1>
         <RoomListContainer>
-          <RoomContainer>
-            <Name>
-              <a href="/#">room1</a>
-            </Name>
-            <DeleteButton> &#10005;</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> total member : 4</div>
-              <div className="liveUser"> online user: 2</div>
-            </RoomInfo>
-          </RoomContainer>
-          <RoomContainer>
-            <Name>
-              <a href="/#">room2</a>
-            </Name>
-            <DeleteButton>X</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> totalUser : 2</div>
-              <div className="liveUser"> userIn : 2</div>
-            </RoomInfo>
-          </RoomContainer>
-          <RoomContainer>
-            <Name>
-              <a href="/#">room3</a>
-            </Name>
-            <DeleteButton>X</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> totalUser : 5</div>
-              <div className="liveUser"> userIn : 4</div>
-            </RoomInfo>
-          </RoomContainer>
-          <RoomContainer>
-            <Name>
-              <a href="/#">room4</a>
-            </Name>
-            <DeleteButton>X</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> totalUser : 5</div>
-              <div className="liveUser"> userIn : 4</div>
-            </RoomInfo>
-          </RoomContainer>
-          <RoomContainer>
-            <Name>
-              <a href="/#">room5</a>
-            </Name>
-            <DeleteButton>X</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> totalUser : 5</div>
-              <div className="liveUser"> userIn : 4</div>
-            </RoomInfo>
-          </RoomContainer>
+          {userRooms.length > 0 &&
+            userRooms.map((userRoom) => {
+              return (
+                <RoomList
+                  key={userRoom.id}
+                  id={userRoom.id}
+                  room={userRoom.data()}
+                />
+              );
+            })}
         </RoomListContainer>
         <div className="newRoomButton">
           <AddRoomBtn onClick={toggleRoomFormHandelr}>New Room</AddRoomBtn>
@@ -97,3 +54,26 @@ function Lobby() {
 }
 
 export default Lobby;
+
+/*
+          <RoomContainer>
+            <Name>
+              <a href="/#">영어 수업 방</a>
+            </Name>
+            <DeleteButton> &#10005;</DeleteButton>
+            <RoomInfo>
+              <div className="userTotal"> totalUser : 2</div>
+              <div className="liveUser"> userIn : 1</div>
+            </RoomInfo>
+          </RoomContainer>
+          <RoomContainer>
+            <Name>
+              <a href="/#">대학교 동기 방</a>
+            </Name>
+            <DeleteButton> &#10005;</DeleteButton>
+            <RoomInfo>
+              <div className="userTotal"> totalUser : 5</div>
+              <div className="liveUser"> userIn : 4</div>
+            </RoomInfo>
+          </RoomContainer>
+          */

@@ -90,6 +90,7 @@ function MessageCall() {
       console.log("rtmClient : ", rtmClient);
       init(channel);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channel, rtmClient]);
 
   const scrollToBottom = () => {
@@ -136,6 +137,7 @@ function MessageCall() {
   window.onpopstate = async () => {
     await channel.leave();
     await rtmClient.logout();
+
     clearMessages();
     clearClientAndChannel();
 

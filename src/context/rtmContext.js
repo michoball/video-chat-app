@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useReducer } from "react";
 import { createAction } from "../utill/reducer/reducer.config";
 
 // 임의로 만드는 message Uid
@@ -70,7 +70,7 @@ const INIT_STATE = {
 export const RtmProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rtmReducer, INIT_STATE);
   const { messages, channel, rtmClient } = state;
-  console.log(messages);
+  console.log(messages, rtmClient);
   const addMessages = (messageData) => {
     dispatch(createAction(USER_ACTION_TYPE.ADD_NEW_MESSAGE, messageData));
   };

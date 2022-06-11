@@ -4,10 +4,8 @@ import {
   useClient,
   MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
-import AgoraRTM, { createInstance } from "agora-rtm-sdk";
+import { createInstance } from "agora-rtm-sdk";
 
-// import Controls from "../../components/videoControl/Controls";
-// import Videos from "../../components/videos/Videos";
 import { useParams } from "react-router-dom";
 import { RtcContext } from "../../context/rtcContext";
 
@@ -79,6 +77,7 @@ function Room() {
       console.log("Room starting point", roomId, client);
       init(roomId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId, client, ready, tracks, currentUser]);
 
   if (isLoading) {
@@ -91,13 +90,12 @@ function Room() {
     await client.leave();
     client.removeAllListeners();
     clearRtcUser();
-    setStart(false);
   });
 
   return (
     <RoomContainer>
       <VideoCallContainer>
-        {ready && tracks && <VideoCall tracks={tracks} />}
+        {ready && tracks && <VideoCall />}
       </VideoCallContainer>
       <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>
     </RoomContainer>

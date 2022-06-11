@@ -55,7 +55,7 @@ export const FormContainer = styled.div`
 export const SendButton = styled(Button)`
   width: 40px;
   height: 30px;
-  background-color: #f28705;
+  background-color: #f28705 !important;
   svg {
     font-size: 0.5rem;
   }

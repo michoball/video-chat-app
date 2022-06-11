@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Button from "../../UI/button/Button";
 
 export const HomeContainer = styled.div`
   display: flex;
@@ -30,10 +31,9 @@ export const BackgroundImage = styled.div`
 export const HomeHeader = styled.h1`
   font-size: 60px;
   padding: 30px 0;
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
 `;
 
-export const ButtonContainer = styled.div`
-  span {
-    font-size: 10px;
-  }
+export const HomeButton = styled(Button)`
+  background-color: #f28705 !important;
 `;

@@ -54,13 +54,6 @@ export const UserProvider = ({ children }) => {
     dispatch(createAction(USER_ACTION_TYPE.TOGGLE_SIGN_FORM, !IsSignUpForm));
   };
 
-  const value = {
-    currentUser,
-    toggleSignForm,
-    IsSignUpForm,
-    isLoading,
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
       setIsLoading(true);
@@ -69,12 +62,37 @@ export const UserProvider = ({ children }) => {
         const userSnapshot = await createUserDocumentFromAuth(user);
         userAuth = { id: userSnapshot.id, ...userSnapshot.data() };
       }
+      localStorage.setItem("user", JSON.stringify(userAuth));
       setCurrentUser(userAuth);
       setIsLoading(false);
     });
 
     return unsubscribe;
   }, []);
+
+  const value = {
+    currentUser,
+    // setIsLoading,
+    // setCurrentUser,
+    toggleSignForm,
+    IsSignUpForm,
+    isLoading,
+  };
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChangedListener(async (user) => {
+  //     setIsLoading(true);
+  //     let userAuth = null;
+  //     if (user) {
+  //       const userSnapshot = await createUserDocumentFromAuth(user);
+  //       userAuth = { id: userSnapshot.id, ...userSnapshot.data() };
+  //     }
+  //     setCurrentUser(userAuth);
+  //     setIsLoading(false);
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

@@ -113,13 +113,14 @@ export const RtcContext = createContext({
   toggleShare: () => null,
   toggleBig: (bool) => null,
   setLocalUser: (user) => null,
+  logOutRtc: () => null,
 });
 
 export const RtcProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rtcReducer, INIT_STATE);
   const { start, rtcUsers, share, localUser } = state;
 
-  console.log("rtcUsers : ", rtcUsers);
+  console.log("rtcUsers : ", rtcUsers, "localUser :", localUser);
 
   const addRtcUser = (user) => {
     console.log({ ...user, isBig: false });
@@ -131,6 +132,16 @@ export const RtcProvider = ({ children }) => {
   const removeRtcUser = (user) => {
     dispatch(createAction(USER_ACTION_TYPE.REMOVE_RTC_USER, user));
   };
+
+  // const logOutRtc = async () => {
+  //   if (localUser) {
+  //     localUser.tracks[0].close();
+  //     localUser.tracks[1].close();
+  //     await localUser.user.leave();
+  //     localUser.user.removeAllListeners();
+  //     clearRtcUser();
+  //   }
+  // };
 
   const clearRtcUser = () =>
     dispatch(createAction(USER_ACTION_TYPE.CLEAR_RTC_USER));
@@ -158,6 +169,7 @@ export const RtcProvider = ({ children }) => {
     toggleShare,
     setLocalUser,
     toggleBig,
+    // logOutRtc,
   };
 
   return <RtcContext.Provider value={value}>{children}</RtcContext.Provider>;

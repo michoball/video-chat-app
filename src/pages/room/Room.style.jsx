@@ -4,7 +4,7 @@ export const RoomContainer = styled.div`
   display: flex;
   width: 100%;
   height: calc(100vh - 70px);
-  min-width: 1000px;
+  min-width: 800px;
 `;
 
 export const VideoCallContainer = styled.div`

@@ -47,13 +47,13 @@ export const ButtonContainer = styled.div`
 `;
 
 export const RoomFormBtn = styled(Button)`
-  background-color: #f2cb05;
+  background-color: #f2cb05 !important;
   color: black;
   font-weight: bold;
   font-size: 12px;
   text-transform: uppercase;
   &.cancel {
-    background-color: #f23030;
+    background-color: #f23030 !important;
     color: whitesmoke;
   }
 `;
