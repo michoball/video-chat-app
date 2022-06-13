@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   config,
   useClient,
   MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
 import { createInstance } from "agora-rtm-sdk";
-
 import { useParams } from "react-router-dom";
-import { RtcContext } from "../../context/rtcContext";
 
 import {
   VideoCallContainer,
@@ -17,28 +15,31 @@ import {
 import MessageCall from "../../components/messageCall/MessageCall";
 import Spinner from "../../UI/spinner/spinner";
 import VideoCall from "../../components/videoCall/VideoCall";
-import { UserContext } from "../../context/userContext";
-import { RtmContext } from "../../context/rtmContext";
-import { getRoomInfo } from "../../utill/firebase/firebase.document";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
+// import { getRoomInfo } from "../../utill/firebase/firebase.document";
+import { setLocalUser, clearRtcUser } from "../../store/rtc/rtc.action";
+import { setChannel, setRtmClient } from "../../store/rtm/rtm.action";
 
 function Room() {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
   const { roomId } = useParams();
   const client = useClient();
-  const { setLocalUser, clearRtcUser } = useContext(RtcContext);
-  const { setChannel, setRtmClient } = useContext(RtmContext);
-  const { currentUser } = useContext(UserContext);
+
+  const currentUser = useSelector(selectCurrentUser);
   const { ready, tracks } = MicrophoneAndCameraTracks();
 
-  useEffect(() => {
-    const getUserInfo = async () => {
-      const roomInfo = await getRoomInfo(roomId);
-      console.log(roomInfo);
-    };
+  // useEffect(() => {
+  //   const getUserInfo = async () => {
+  //     const roomInfo = await getRoomInfo(roomId);
+  //     console.log(roomInfo);
+  //   };
 
-    getUserInfo();
-  }, [roomId]);
+  //   getUserInfo();
+  // }, [roomId]);
 
   useEffect(() => {
     const init = async (roomName) => {
@@ -68,12 +69,17 @@ function Room() {
         await rtmChannel.join();
 
         if (clientUid && rtmChannel) {
-          setLocalUser({
+          const localUser = {
             user: client,
             tracks: client.localTracks,
-          });
-          setChannel(rtmChannel);
-          setRtmClient(RTMclient);
+          };
+
+          dispatch(setLocalUser(localUser));
+          console.log(localUser);
+          // addRtmUser(clientUid, currentUser.displayName);
+          dispatch(setChannel(rtmChannel));
+
+          dispatch(setRtmClient(RTMclient));
           setStart(true);
         }
         setIsLoading(false);
@@ -97,7 +103,7 @@ function Room() {
     tracks[1].close();
     await client.leave();
     client.removeAllListeners();
-    clearRtcUser();
+    dispatch(clearRtcUser());
   });
 
   return (

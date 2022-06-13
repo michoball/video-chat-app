@@ -7,7 +7,6 @@ import {
   getDocs,
   addDoc,
   where,
-  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
@@ -17,6 +16,7 @@ export const createandAddRoomDocuments = async (roomId, user) => {
   const roomQuery = query(roomDocRef, where("roomName", "==", roomId));
 
   const roomSnapshot = await getDocs(roomQuery);
+  console.log(user);
   const { email, displayName, id } = user;
 
   if (roomSnapshot.empty) {

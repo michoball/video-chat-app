@@ -1,21 +1,23 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { getUserRoomArray } from "../../utill/firebase/firebase.document";
-import { UserContext } from "../../context/userContext";
+
 import RoomForm from "../../components/roomForm/RoomForm";
 import { LobbyContainer, RoomListContainer, AddRoomBtn } from "./Lobby.styles";
 
 import RoomList from "../../components/roomList/RoomList";
+import { selectCurrentUser } from "../../store/user/user.selector";
+import { useSelector } from "react-redux";
 
 function Lobby() {
   const [toggleRoomForm, setToggleRoomForm] = useState(false);
   const [userRooms, setUserRooms] = useState([]);
-  const { currentUser } = useContext(UserContext);
+
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     const userRoom = async (user) => {
       const snapShot = await getUserRoomArray(user);
       console.log(snapShot.map((room) => room.data()));
-
       setUserRooms(snapShot);
     };
     if (currentUser) {
@@ -24,6 +26,7 @@ function Lobby() {
   }, [currentUser]);
 
   console.log(userRooms);
+
   const toggleRoomFormHandelr = () => {
     setToggleRoomForm(!toggleRoomForm);
   };
@@ -31,7 +34,7 @@ function Lobby() {
   return (
     <>
       <LobbyContainer>
-        <h1>where are you want to go~?</h1>
+        <h2>where are you want to go ?</h2>
         <RoomListContainer>
           {userRooms.length > 0 &&
             userRooms.map((userRoom) => {

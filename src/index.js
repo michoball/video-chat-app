@@ -3,20 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { UserProvider } from "./context/userContext";
-import { RtcProvider } from "./context/rtcContext";
-import { RtmProvider } from "./context/rtmContext";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <UserProvider>
-        <RtcProvider>
-          <RtmProvider>
-            <App />
-          </RtmProvider>
-        </RtcProvider>
-      </UserProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

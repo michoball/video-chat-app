@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const CustomForm = styled.form`
-  background-color: #33322e;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+  background-color: #313131;
+  border: 1px solid #747474;
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -16,10 +16,7 @@ provider.setCustomParameters({
   prompt: "select_account",
 });
 
-export const createUserDocumentFromAuth = async (
-  userAuth,
-  additionalInfo = {}
-) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, "users", userAuth.uid);
@@ -60,9 +57,7 @@ export const signInAuthWithEmailAndPassword = async (email, password) => {
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
-export const signOutUser = async () => {
-  await signOut(auth);
-};
+export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);

@@ -9,6 +9,7 @@ const messageUid = () => {
 export const USER_ACTION_TYPE = {
   SET_RTM_CLIENT: "SET_RTM_CLIENT",
   ADD_NEW_MESSAGE: "ADD_NEW_MESSAGE",
+  // ADD_RTM_USER: "ADD_RTM_USER",
   CLEAR_MESSAGE: "CLEAR_MESSAGE",
   CLEAR_CLIENT_CHANNEL: "CLEAR_CLIENT_CHANNEL",
   SET_CHANNEL: "SET_LCHANNEL",
@@ -24,6 +25,11 @@ const rtmReducer = (state, action) => {
         ...state,
         messages: state.messages.concat({ ...payload, id: messageuid }),
       };
+    // case USER_ACTION_TYPE.ADD_RTM_USER:
+    //   return {
+    //     ...state,
+    //     rtmUsers: state.rtmUsers.concat(payload),
+    //   };
     case USER_ACTION_TYPE.CLEAR_MESSAGE:
       return {
         ...state,
@@ -53,23 +59,26 @@ const rtmReducer = (state, action) => {
 export const RtmContext = createContext({
   messages: [],
   rtmClient: null,
+  // rtmUsers: [],
   channel: null,
   addMessages: (messageData) => null,
   clearMessages: () => null,
   setRtmClient: (rtmClientInfo) => null,
   setChannel: (channelInfo) => null,
   clearClientAndChannel: () => null,
+  // addRtmUser: (userid, name) => {},
 });
 
 const INIT_STATE = {
   messages: [],
   rtmClient: null,
+  rtmUsers: [],
   channel: null,
 };
 
 export const RtmProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rtmReducer, INIT_STATE);
-  const { messages, channel, rtmClient } = state;
+  const { messages, channel, rtmClient, rtmUsers } = state;
   console.log(messages, rtmClient);
   const addMessages = (messageData) => {
     dispatch(createAction(USER_ACTION_TYPE.ADD_NEW_MESSAGE, messageData));
@@ -83,6 +92,10 @@ export const RtmProvider = ({ children }) => {
     dispatch(createAction(USER_ACTION_TYPE.SET_RTM_CLIENT, rtmClientInfo));
   };
 
+  // const addRtmUser = (userId, name) => {
+  //   dispatch(createAction(USER_ACTION_TYPE.ADD_RTM_USER, { userId, name }));
+  // };
+
   const clearMessages = () => {
     dispatch(createAction(USER_ACTION_TYPE.CLEAR_MESSAGE));
   };
@@ -95,11 +108,13 @@ export const RtmProvider = ({ children }) => {
     messages,
     channel,
     rtmClient,
+    // rtmUsers,
     addMessages,
     setRtmClient,
     setChannel,
     clearMessages,
     clearClientAndChannel,
+    // addRtmUser,
   };
 
   return <RtmContext.Provider value={value}>{children}</RtmContext.Provider>;

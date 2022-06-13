@@ -6,7 +6,7 @@ export const MessageCallContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: calc(100vh - 60px);
-  border-left: 3px solid #1d594e;
+  border-left: 1px solid #3958fc;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: -5px 10px 10px rgba(0, 0, 0, 0.3);
@@ -15,7 +15,7 @@ export const MessageCallContainer = styled.div`
 export const MessageConainer = styled.div`
   overflow: scroll;
   height: 82%;
-  background-color: #161616;
+  background-color: #1b1b1b;
 
   //스크롤 가리기
   ::-webkit-scrollbar {
@@ -36,10 +36,10 @@ export const Header = styled.header`
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: #d0d2d7;
   text-align: center;
-  border-bottom: 3px solid black;
-  background-color: #262625;
+  border-bottom: 2px solid #a52aca;
+  background-color: #262626;
 `;
 
 export const FormContainer = styled.div`
@@ -48,14 +48,14 @@ export const FormContainer = styled.div`
   justify-content: center;
   height: 10%;
   padding: 10px 20px;
-  border-top: 3px solid black;
-  background-color: #262625;
+  border-top: 2px solid #a52aca;
+  background-color: #262626;
 `;
 
 export const SendButton = styled(Button)`
   width: 40px;
   height: 30px;
-  background-color: #f28705 !important;
+  border-color: #a52aca !important;
   svg {
     font-size: 0.5rem;
   }

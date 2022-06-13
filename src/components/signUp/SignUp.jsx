@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
-import { useState, useContext } from "react";
-import { UserContext } from "../../context/userContext";
+import { useState } from "react";
 
 import FormInput from "../../UI/formInput/FormInput";
 
@@ -12,12 +11,14 @@ import {
 } from "../../utill/firebase/firebase.auth";
 import { AuthErrorCodes } from "firebase/auth";
 import Spinner from "../../UI/spinner/spinner";
+import { toggleSignForm } from "../../store/user/user.action";
 
 import {
   SignUpContainer,
   ToggleSignUp,
   ButtonContainer,
 } from "./SignUp.styles";
+import { useDispatch } from "react-redux";
 
 const defaultFormField = {
   displayName: "",
@@ -28,7 +29,8 @@ const defaultFormField = {
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { toggleSignForm } = useContext(UserContext);
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
   const [formField, setFormField] = useState(defaultFormField);
 
@@ -73,7 +75,7 @@ const SignUp = () => {
   };
 
   const toggleSignUpFormHandler = () => {
-    toggleSignForm();
+    dispatch(toggleSignForm());
   };
 
   if (isLoading) {
@@ -126,8 +128,8 @@ const SignUp = () => {
 
         <ButtonContainer>
           <Button
-            style={{ width: "400px" }}
-            variant="contained"
+            style={{ width: "300px" }}
+            variant="outlined"
             color="secondary"
             size="large"
             type="submit"

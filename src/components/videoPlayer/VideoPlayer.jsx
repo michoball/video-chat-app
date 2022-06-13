@@ -1,5 +1,7 @@
-import { useContext } from "react";
-import { RtcContext } from "../../context/rtcContext";
+import { useDispatch, useSelector } from "react-redux";
+import { selectRtcShare, selectRtcUsers } from "../../store/rtc/rtc.selector";
+import { toggleBig } from "../../store/rtc/rtc.action";
+
 import {
   Video,
   UserNameTag,
@@ -26,12 +28,15 @@ const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
   }[VideoType]);
 
 function VideoPlayer({ rtcUser, track, videoType }) {
-  const { share, toggleBig } = useContext(RtcContext);
+  const dispatch = useDispatch();
+
+  const rtcUsers = useSelector(selectRtcUsers);
+  const share = useSelector(selectRtcShare);
 
   const CustomVideoContainer = getVideoType(videoType, share);
 
   const toggleSizeHandler = () => {
-    toggleBig(rtcUser);
+    dispatch(toggleBig(rtcUsers, rtcUser));
   };
 
   return (
@@ -47,7 +52,9 @@ function VideoPlayer({ rtcUser, track, videoType }) {
       ) : (
         <CamIcon />
       )}
-      {rtcUser && <UserNameTag>{rtcUser.user.uid}</UserNameTag>}
+      {rtcUser && (
+        <UserNameTag>{String(rtcUser.user.uid).slice(4)}</UserNameTag>
+      )}
     </CustomVideoContainer>
   );
 }

@@ -24,9 +24,9 @@ export const RoomContainer = styled.div`
   justify-content: center;
   align-items: center;
   h3 {
-    color: #f29f05;
+    color: #fff;
     font-size: 40px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     white-space: nowrap;
   }
   z-index: 200;
@@ -34,7 +34,7 @@ export const RoomContainer = styled.div`
 
 export const RoomFormContainer = styled(CustomForm)`
   width: 400px;
-  border: 3px solid #1d594e;
+  border: 2px solid #a52aca;
 `;
 
 export const ButtonContainer = styled.div`
@@ -42,26 +42,29 @@ export const ButtonContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   margin-top: 5px;
-  font-weight: bold;
   gap: 1rem;
 `;
 
 export const RoomFormBtn = styled(Button)`
-  background-color: #f2cb05 !important;
-  color: black;
+  background-color: #313131 !important;
+  color: #fff;
   font-weight: bold;
   font-size: 12px;
   text-transform: uppercase;
+  box-shadow: unset;
   &.cancel {
-    background-color: #f23030 !important;
-    color: whitesmoke;
+    border-color: #f23030 !important;
+    color: #fff;
+  }
+  :hover {
+    background-color: #1b1b1b !important;
   }
 `;
 
 export const FormSpinner = styled(SpinnerContainer)`
   width: 25px;
   height: 25px;
-  border: 3px solid #1d5958;
+  border: 2px solid #fff;
   border-radius: 50%;
-  border-top-color: #f2cb05;
+  border-top-color: #3958fc;
 `;

@@ -9,8 +9,8 @@ export const SignUpContainer = styled.div`
   align-items: center;
   h1 {
     color: white;
-    font-size: 50px;
-    margin-bottom: 40px;
+    font-size: 40px;
+    margin-bottom: 10px;
     white-space: nowrap;
   }
 `;
@@ -20,7 +20,7 @@ export const ButtonContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   margin: 20px 5px 5px 0;
-  gap: 20px;
+  gap: 10px;
   span {
     width: 150px;
     font-weight: bold;
@@ -30,7 +30,7 @@ export const ButtonContainer = styled.div`
 
 export const ToggleSignUp = styled.p`
   font-size: 16px;
-  color: #f2cb05;
+  color: #d0d2d7;
   padding: 20px 0;
   cursor: pointer;
 `;

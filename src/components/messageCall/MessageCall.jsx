@@ -1,6 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
-import { UserContext } from "../../context/userContext";
-import { RtmContext } from "../../context/rtmContext";
+import { useEffect, useRef } from "react";
 
 import MessageContent, { MESSAGE_TYPE } from "../message/MessageContent";
 import { SendingIcon } from "../../UI/Icons";
@@ -14,18 +12,36 @@ import {
   MessageFormInput,
   SendButton,
 } from "./MessageCall.styles";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
+import {
+  selectRtmChannel,
+  selectRtmMessages,
+  selectRtmClient,
+} from "../../store/rtm/rtm.selector";
+import {
+  clearClientAndChannel,
+  clearMessages,
+  addMessages,
+} from "../../store/rtm/rtm.action";
 
 function MessageCall() {
-  const {
-    channel,
-    rtmClient,
-    clearMessages,
-    clearClientAndChannel,
-    messages,
-    addMessages,
-  } = useContext(RtmContext);
+  const dispatch = useDispatch();
+  const channel = useSelector(selectRtmChannel);
+  const rtmClient = useSelector(selectRtmClient);
+  const messages = useSelector(selectRtmMessages);
 
-  const { currentUser } = useContext(UserContext);
+  // const {
+  //   channel,
+  //   rtmClient,
+  //   clearMessages,
+  //   clearClientAndChannel,
+  //   messages,
+  //   addMessages,
+  // } = useContext(RtmContext);
+
+  const currentUser = useSelector(selectCurrentUser);
+
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
 
@@ -36,26 +52,24 @@ function MessageCall() {
   useEffect(() => {
     const init = async (channel) => {
       channel.on("MemberJoined", async (MemberId) => {
-        console.log(" New Member Id : ", MemberId, "my RtmInfo : ", rtmClient);
+        console.log(" New Member Id : ", MemberId);
         const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
           "name",
         ]);
+        // addRtmUser(MemberId, name);
         const botMessageData = {
           type: "chat",
           from: MESSAGE_TYPE.bot,
           message: `New Member Joined "${name}" `,
           displayName: "Bot 🤖",
         };
-        addMessages(botMessageData);
+        dispatch(addMessages(botMessageData));
 
         console.log("NEW Member Joined~!!", MemberId, name);
       });
 
       channel.on("MemberLeft", async (MemberId) => {
         // 이미 나갔다고 나간 맴버의 id로는 name attributes를 가져올수 없다고 함
-        // const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
-        //   "name",
-        // ]);
 
         const botMessageData = {
           type: "chat",
@@ -63,7 +77,7 @@ function MessageCall() {
           message: `Member left `,
           displayName: "Bot 🤖",
         };
-        addMessages(botMessageData);
+        dispatch(addMessages(botMessageData));
         console.log("leaving", MemberId);
       });
 
@@ -75,7 +89,7 @@ function MessageCall() {
             ...data,
             from: MESSAGE_TYPE.other,
           };
-          addMessages(reciveMessageData);
+          dispatch(addMessages(reciveMessageData));
 
           console.log("A new Message was recieved ", data);
           scrollToBottom();
@@ -112,7 +126,7 @@ function MessageCall() {
         displayName: currentUser.displayName,
       };
 
-      addMessages(sendMessageData);
+      dispatch(addMessages(sendMessageData));
       await channel.sendMessage({
         // 다음 JSON 양식을 string으로 만들어서 보냄
         text: JSON.stringify({
@@ -138,8 +152,8 @@ function MessageCall() {
     await channel.leave();
     await rtmClient.logout();
 
-    clearMessages();
-    clearClientAndChannel();
+    dispatch(clearMessages());
+    dispatch(clearClientAndChannel());
 
     console.log("rtm User Out~!!!!!!!!!");
   };

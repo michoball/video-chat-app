@@ -6,17 +6,21 @@ import {
 } from "./Videos.styles";
 import ShareScreen from "../../components/shareScreen/ShareScreen";
 import VideoPlayer, { VIDEO_TYPE_CLASS } from "../videoPlayer/VideoPlayer";
-import { useContext } from "react";
-import { RtcContext } from "../../context/rtcContext";
-
-// import { useClient } from "../../utill/Agora.config";
+import { useSelector } from "react-redux";
+import {
+  selectRtcLocalUser,
+  selectRtcShare,
+  selectRtcUsers,
+  selectRtcBig,
+} from "../../store/rtc/rtc.selector";
 
 function Videos() {
-  //const client = useClient();
-  const { rtcUsers, localUser, share } = useContext(RtcContext);
-  console.log("videos Rtc Users List : ", rtcUsers);
+  const rtcUsers = useSelector(selectRtcUsers);
+  const localUser = useSelector(selectRtcLocalUser);
+  const share = useSelector(selectRtcShare);
+  const bigSizeVideo = useSelector(selectRtcBig);
 
-  const bigSizeVideo = rtcUsers.find((rtcUser) => rtcUser.size === "big");
+  console.log("videos Rtc Users List : ", rtcUsers);
 
   return (
     <VideosContainer id="videos">

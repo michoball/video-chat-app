@@ -1,5 +1,7 @@
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import FormInput from "../../UI/formInput/FormInput";
 import {
@@ -15,8 +17,8 @@ import {
   ToggleSignUp,
 } from "./SignIn.styles";
 import Spinner from "../../UI/spinner/spinner";
-import { UserContext } from "../../context/userContext";
-import { useNavigate } from "react-router-dom";
+
+import { toggleSignForm } from "../../store/user/user.action";
 
 const defaultFormField = {
   email: "",
@@ -24,8 +26,9 @@ const defaultFormField = {
 };
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { toggleSignForm } = useContext(UserContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [formField, setFormField] = useState(defaultFormField);
 
@@ -73,7 +76,7 @@ const SignIn = () => {
   };
 
   const toggleSignUpFormHandler = () => {
-    toggleSignForm();
+    dispatch(toggleSignForm());
   };
 
   if (isLoading) {
@@ -105,13 +108,19 @@ const SignIn = () => {
         />
 
         <ButtonContainer>
-          <Button variant="contained" color="secondary" type="submit">
+          <Button
+            variant="outlined"
+            color="secondary"
+            type="submit"
+            size="large"
+          >
             <span> submit</span>
           </Button>
           <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
             type="submit"
+            size="large"
             onClick={googleLogInHandler}
           >
             <span>Google log in</span>

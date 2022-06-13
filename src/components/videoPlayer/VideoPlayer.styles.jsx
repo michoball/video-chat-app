@@ -6,7 +6,7 @@ export const BaseVideoContainer = styled.div`
   width: 350px;
   height: 250px;
   margin: 10px;
-  border: 5px solid #1d594e;
+  border: 3px solid #a52aca;
   border-radius: 10%;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
   overflow: hidden;
@@ -26,6 +26,7 @@ export const UserNameTag = styled.div`
   font-size: 12px;
   padding: 2px 10px;
   border-radius: 8px;
+
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   letter-spacing: 0.5px;

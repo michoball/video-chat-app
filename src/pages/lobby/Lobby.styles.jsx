@@ -9,19 +9,20 @@ export const LobbyContainer = styled.div`
   align-items: center;
   justify-content: center;
   color: whitesmoke;
-  h1 {
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+  h2 {
+    text-transform: uppercase;
+    /* text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6); */
   }
 `;
 
 export const RoomListContainer = styled.div`
   width: 500px;
   height: 400px;
-  background-color: #161616;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
-  margin: 20px auto;
+  background-color: #151515;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+  margin: 10px auto 20px;
   padding: 20px;
-  border: 5px solid #1d594e;
+  border: 1px solid #494949;
   border-radius: 20px;
   overflow: scroll;
 
@@ -34,5 +35,10 @@ export const RoomListContainer = styled.div`
 `;
 
 export const AddRoomBtn = styled(Button)`
-  background-color: #a52aca !important;
+  background-color: #313131 !important;
+  border-color: #a52aca !important;
+
+  :hover {
+    background-color: rgba(38, 38, 38, 0.7) !important;
+  }
 `;

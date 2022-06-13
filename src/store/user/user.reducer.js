@@ -16,6 +16,11 @@ export const userReducer = (state = INIT_STATE, action) => {
         ...state,
         currentUser: payload,
       };
+    case USER_ACTION_TYPE.SET_ISLOADING:
+      return {
+        ...state,
+        isLoading: payload,
+      };
     case USER_ACTION_TYPE.TOGGLE_SIGN_FORM:
       return {
         ...state,
@@ -25,3 +30,5 @@ export const userReducer = (state = INIT_STATE, action) => {
       return state;
   }
 };
+
+export default userReducer;

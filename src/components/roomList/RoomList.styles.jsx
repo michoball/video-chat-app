@@ -7,14 +7,14 @@ export const RoomContainer = styled.div`
   position: relative;
   justify-content: space-between;
   align-items: center;
-  background-color: #4b4952;
+  background-color: #313131;
   padding: 10px;
   margin-bottom: 10px;
-  border: 3px solid #f2cb05;
+  border: 1px solid #3958fc;
   border-radius: 10px;
 
   :hover {
-    background-color: rgba(51, 50, 46, 0.6);
+    background-color: rgba(38, 38, 38, 0.7);
   }
   :last-child {
     margin-bottom: 0;

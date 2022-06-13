@@ -27,12 +27,12 @@ export const BotContainer = styled.div`
 `;
 
 export const BotMessage = styled.p`
-  color: #babfbec7;
+  color: #494949;
 `;
 
 export const Message = styled.div`
   display: inline-block;
-  background-color: #363739;
+  background-color: #494949;
   border-radius: 10px;
   padding: 10px 10px;
   width: auto;

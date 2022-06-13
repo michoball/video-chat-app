@@ -9,15 +9,15 @@ export const SignUpContainer = styled.div`
   align-items: center;
   h1 {
     color: white;
-    font-size: 50px;
-    margin-bottom: 30px;
+    font-size: 40px;
+    margin-bottom: 10px;
     white-space: nowrap;
   }
 `;
 
 export const ToggleSignUp = styled.p`
   font-size: 16px;
-  color: #f2cb05;
+  color: #d0d2d7;
   padding: 20px 0;
   cursor: pointer;
 `;

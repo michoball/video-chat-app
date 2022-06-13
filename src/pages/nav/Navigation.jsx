@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import {
   NavContainer,
@@ -7,17 +7,32 @@ import {
   NavSpinner,
 } from "./Navigation.styles";
 import { signOutUser } from "../../utill/firebase/firebase.auth";
-import { UserContext } from "../../context/userContext";
-import { RtcContext } from "../../context/rtcContext";
-import { RtmContext } from "../../context/rtmContext";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCurrentUser,
+  selectIsLoading,
+} from "../../store/user/user.selector";
+import { selectRtcLocalUser } from "../../store/rtc/rtc.selector";
+import { clearRtcUser } from "../../store/rtc/rtc.action";
+import {
+  selectRtmChannel,
+  selectRtmClient,
+} from "../../store/rtm/rtm.selector";
+import {
+  clearClientAndChannel,
+  clearMessages,
+} from "../../store/rtm/rtm.action";
 
 function Navigation() {
-  const { currentUser, isLoading } = useContext(UserContext);
-  const { clearRtcUser, localUser } = useContext(RtcContext);
-  const { channel, rtmClient, clearClientAndChannel, clearMessages } =
-    useContext(RtmContext);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const currentUser = useSelector(selectCurrentUser);
+  const isLoading = useSelector(selectIsLoading);
+  const localUser = useSelector(selectRtcLocalUser);
+  const rtmClient = useSelector(selectRtmClient);
+  const channel = useSelector(selectRtmChannel);
 
   const signOutHandler = async () => {
     let signOutConfirm = window.confirm("Do you really want to log out?");
@@ -27,13 +42,13 @@ function Navigation() {
         localUser.tracks[1].close();
         await localUser.user.leave();
         localUser.user.removeAllListeners();
-        clearRtcUser();
+        dispatch(clearRtcUser());
       }
       if ((rtmClient && channel) !== null) {
         await channel.leave();
         await rtmClient.logout();
-        clearClientAndChannel();
-        clearMessages();
+        dispatch(clearClientAndChannel());
+        dispatch(clearMessages());
       }
       signOutUser();
       navigate("/");

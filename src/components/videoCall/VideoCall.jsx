@@ -1,16 +1,24 @@
-import { useContext, useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useClient } from "../../utill/Agora.config";
 import Controls from "../../components/videoControl/Controls";
 import Videos from "../../components/videos/Videos";
-import { RtcContext } from "../../context/rtcContext";
+
 import Spinner from "../../UI/spinner/spinner";
 
+import { addRtcUser, removeRtcUser } from "../../store/rtc/rtc.action";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectRtcLocalUser,
+  selectRtcUsers,
+} from "../../store/rtc/rtc.selector";
+
 function VideoCall() {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [start, setStart] = useState(false);
-
+  const localUser = useSelector(selectRtcLocalUser);
+  const rtcUsers = useSelector(selectRtcUsers);
   const client = useClient();
-  const { addRtcUser, removeRtcUser, localUser } = useContext(RtcContext);
 
   useEffect(() => {
     const init = async () => {
@@ -20,7 +28,7 @@ function VideoCall() {
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
           console.log("new published User : ", user, mediaType);
-          addRtcUser(user);
+          dispatch(addRtcUser(rtcUsers, user));
         }
         if (mediaType === "audio") {
           user.audioTrack?.play();
@@ -36,7 +44,7 @@ function VideoCall() {
 
       client.on("user-left", (user) => {
         console.log("leaving", user);
-        removeRtcUser(user);
+        dispatch(removeRtcUser(rtcUsers, user));
       });
 
       setStart(true);

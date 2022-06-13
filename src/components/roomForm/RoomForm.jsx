@@ -8,17 +8,18 @@ import {
   Backdrop,
 } from "./RoomForm.styles";
 import FormInput from "../../UI/formInput/FormInput";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createandAddRoomDocuments } from "../../utill/firebase/firebase.document";
-import { UserContext } from "../../context/userContext";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 const RoomForm = ({ onToggleForm }) => {
   // roomId 를 useParams 로 해서 videos.jsx에서 params로 room찾아가기
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [roomId, setRoomId] = useState("");
-  const { currentUser } = useContext(UserContext);
+  const currentUser = useSelector(selectCurrentUser);
 
   const roomIdHandler = (e) => {
     setRoomId(e.target.value);

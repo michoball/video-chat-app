@@ -1,8 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ControlsContainer, ButtonBox, ButtonSpinner } from "./Controls.styles";
-import { RtcContext } from "../../context/rtcContext";
-import { RtmContext } from "../../context/rtmContext";
+import { clearRtcUser, toggleShare } from "../../store/rtc/rtc.action";
+import {
+  selectRtcLocalUser,
+  selectRtcShare,
+  selectRtcUsers,
+} from "../../store/rtc/rtc.selector";
+import { useDispatch, useSelector } from "react-redux";
 
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
@@ -11,14 +15,28 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 
+import { ControlsContainer, ButtonBox, ButtonSpinner } from "./Controls.styles";
+import {
+  selectRtmChannel,
+  selectRtmClient,
+} from "../../store/rtm/rtm.selector";
+import {
+  clearClientAndChannel,
+  clearMessages,
+} from "../../store/rtm/rtm.action";
+
 const Controls = () => {
   const navigate = useNavigate();
-  const { clearRtcUser, toggleShare, share, localUser } =
-    useContext(RtcContext);
-  const { channel, rtmClient, clearClientAndChannel, clearMessages } =
-    useContext(RtmContext);
+  const dispatch = useDispatch();
+  const localUser = useSelector(selectRtcLocalUser);
+  const rtcUsers = useSelector(selectRtcUsers);
+  const share = useSelector(selectRtcShare);
+  const channel = useSelector(selectRtmChannel);
+  const rtmClient = useSelector(selectRtmClient);
+
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const [isLoading, setIsLoading] = useState(false);
+
   const mute = async (type) => {
     if (type === "audio") {
       await localUser.tracks[1].setEnabled(!trackState.audio);
@@ -51,13 +69,13 @@ const Controls = () => {
     await rtmClient.logout();
     navigate("/lobby");
 
-    clearClientAndChannel();
-    clearMessages();
-    clearRtcUser();
+    dispatch(clearClientAndChannel());
+    dispatch(clearMessages());
+    dispatch(clearRtcUser());
   };
 
   const shareHandler = () => {
-    toggleShare(!share);
+    dispatch(toggleShare(rtcUsers, !share));
   };
 
   return (
