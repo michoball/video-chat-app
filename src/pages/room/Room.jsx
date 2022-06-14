@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getRoomInfo } from "../../utill/firebase/firebase.document";
+
 import {
   config,
   useClient,
   MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
 import { createInstance } from "agora-rtm-sdk";
-import { useParams } from "react-router-dom";
 
 import {
   VideoCallContainer,
@@ -18,28 +20,30 @@ import VideoCall from "../../components/videoCall/VideoCall";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-// import { getRoomInfo } from "../../utill/firebase/firebase.document";
 import { setLocalUser, clearRtcUser } from "../../store/rtc/rtc.action";
 import { setChannel, setRtmClient } from "../../store/rtm/rtm.action";
 
 function Room() {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [start, setStart] = useState(false);
-  const { roomId } = useParams();
-  const client = useClient();
-
   const currentUser = useSelector(selectCurrentUser);
   const { ready, tracks } = MicrophoneAndCameraTracks();
+  const [isLoading, setIsLoading] = useState(false);
+  const [start, setStart] = useState(false);
+  const client = useClient();
 
-  // useEffect(() => {
-  //   const getUserInfo = async () => {
-  //     const roomInfo = await getRoomInfo(roomId);
-  //     console.log(roomInfo);
-  //   };
+  const { roomId } = useParams();
 
-  //   getUserInfo();
-  // }, [roomId]);
+  const [roomInfo, setRoomInfo] = useState({});
+
+  useEffect(() => {
+    const getUserInfo = async (roomUid) => {
+      const roomInfomation = await getRoomInfo(roomUid);
+      console.log(roomInfomation);
+      setRoomInfo(roomInfomation);
+    };
+
+    getUserInfo(roomId);
+  }, []);
 
   useEffect(() => {
     const init = async (roomName) => {
@@ -109,8 +113,9 @@ function Room() {
   return (
     <RoomContainer>
       <VideoCallContainer>
-        {ready && tracks && <VideoCall />}
+        {ready && tracks && <VideoCall roomInfo={roomInfo} />}
       </VideoCallContainer>
+
       <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>
     </RoomContainer>
   );

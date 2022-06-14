@@ -34,7 +34,7 @@ export const RoomContainer = styled.div`
 
 export const RoomFormContainer = styled(CustomForm)`
   width: 400px;
-  border: 2px solid #a52aca;
+  border: 2px solid ${({ color }) => `${color}`};
 `;
 
 export const ButtonContainer = styled.div`

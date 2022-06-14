@@ -10,7 +10,7 @@ export const RoomContainer = styled.div`
   background-color: #313131;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #3958fc;
+  border: 1px solid #a52aca;
   border-radius: 10px;
 
   :hover {
@@ -47,11 +47,23 @@ export const DeleteButton = styled.button`
   }
 `;
 
-export const RoomInfo = styled.div`
+export const RoomsInfo = styled.div`
   display: flex;
   position: absolute;
   bottom: 5px;
   right: 10px;
   font-size: 12px;
   gap: 5px;
+
+  .userTotal {
+    display: flex;
+    gap: 5px;
+    margin-right: 5px;
+  }
+
+  .liveUser {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
 `;

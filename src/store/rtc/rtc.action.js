@@ -2,32 +2,34 @@ import { createAction } from "../../utill/reducer/reducer.config";
 import { RTC_ACTION_TYPE } from "./rtc.type";
 
 const addUserToList = (rtcUserList, newUser) => {
+  console.log("rtc user list", rtcUserList);
   const existingUser = rtcUserList.find(
-    (rtcUser) => rtcUser.user.uid === newUser.uid
+    (rtcUser) => rtcUser.uid === newUser.uid
   );
+  console.log(" existing user ", existingUser);
   if (existingUser) {
     return rtcUserList.map((rtcUser) =>
-      rtcUser.user.uid === newUser.uid ? { ...rtcUser, user: newUser } : rtcUser
+      rtcUser.uid === newUser.uid ? { ...newUser, size: rtcUser.size } : rtcUser
     );
   }
-  return [...rtcUserList, { user: newUser, size: "base" }];
+  return [...rtcUserList, { ...newUser, size: "base" }];
 };
 
 const removeUserFromList = (rtcUserList, userToRemove) => {
   if (!rtcUserList.length) {
     return [];
   }
-  return rtcUserList.filter((rtcUser) => rtcUser.user.uid !== userToRemove.uid);
+  return rtcUserList.filter((rtcUser) => rtcUser.uid !== userToRemove.uid);
 };
 
 const toggleUserSize = (rtcUserList, changeUser) => {
   const checkRtcUser = rtcUserList.find(
-    (rtcUser) => rtcUser.user.uid === changeUser.user.uid
+    (rtcUser) => rtcUser.uid === changeUser.uid
   );
 
   if (checkRtcUser.size === "base") {
     return rtcUserList.map((rtcUser) =>
-      rtcUser.user.uid === changeUser.user.uid
+      rtcUser.uid === changeUser.uid
         ? { ...rtcUser, size: "big" }
         : { ...rtcUser, size: "small" }
     );
@@ -39,7 +41,7 @@ const toggleUserSize = (rtcUserList, changeUser) => {
   }
   if (checkRtcUser.size === "small") {
     return rtcUserList.map((rtcUser) =>
-      rtcUser.user.uid === changeUser.user.uid
+      rtcUser.uid === changeUser.uid
         ? { ...rtcUser, size: "big" }
         : { ...rtcUser, size: "small" }
     );

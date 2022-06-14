@@ -2,6 +2,7 @@ import { USER_ACTION_TYPE } from "./user.type";
 
 const INIT_STATE = {
   currentUser: null,
+  roomInfo: null,
   isLoading: false,
   error: null,
   IsSignUpForm: false,

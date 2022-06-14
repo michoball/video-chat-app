@@ -5,6 +5,7 @@ export const BaseVideoContainer = styled.div`
   position: relative;
   width: 350px;
   height: 250px;
+  min-height: 200px;
   margin: 10px;
   border: 3px solid #a52aca;
   border-radius: 10%;
@@ -35,6 +36,7 @@ export const UserNameTag = styled.div`
 export const LocalVideoContainer = styled(BaseVideoContainer)`
   width: 200px;
   height: 200px;
+  min-height: 200px;
   border-radius: 50%;
   ${UserNameTag} {
     position: absolute;
@@ -47,6 +49,7 @@ export const LocalVideoContainer = styled(BaseVideoContainer)`
 export const SmallVideoContainer = styled(BaseVideoContainer)`
   width: 175px;
   height: 150px;
+  min-height: 150px;
   border-radius: 30%;
   ${UserNameTag} {
     position: absolute;

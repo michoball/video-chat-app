@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { getUserRoomArray } from "../../utill/firebase/firebase.document";
 
-import RoomForm from "../../components/roomForm/RoomForm";
+import RoomForm from "../../components/roomForm/CreateRoomForm";
+import JoinRoomForm from "../../components/roomForm/JoinRoomForm";
 import { LobbyContainer, RoomListContainer, AddRoomBtn } from "./Lobby.styles";
 
 import RoomList from "../../components/roomList/RoomList";
@@ -11,13 +12,12 @@ import { useSelector } from "react-redux";
 function Lobby() {
   const [toggleRoomForm, setToggleRoomForm] = useState(false);
   const [userRooms, setUserRooms] = useState([]);
-
+  const [join, setJoin] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     const userRoom = async (user) => {
       const snapShot = await getUserRoomArray(user);
-      console.log(snapShot.map((room) => room.data()));
       setUserRooms(snapShot);
     };
     if (currentUser) {
@@ -25,10 +25,11 @@ function Lobby() {
     }
   }, [currentUser]);
 
-  console.log(userRooms);
-
   const toggleRoomFormHandelr = () => {
     setToggleRoomForm(!toggleRoomForm);
+  };
+  const toggleJoinRoomFormHandelr = () => {
+    setJoin(!join);
   };
 
   return (
@@ -47,11 +48,15 @@ function Lobby() {
               );
             })}
         </RoomListContainer>
-        <div className="newRoomButton">
-          <AddRoomBtn onClick={toggleRoomFormHandelr}>New Room</AddRoomBtn>
+        <div className="roomBtn" style={{ display: "flex", gap: "30px" }}>
+          <AddRoomBtn className="join" onClick={toggleJoinRoomFormHandelr}>
+            Join the Room
+          </AddRoomBtn>
+          <AddRoomBtn onClick={toggleRoomFormHandelr}>Create Room</AddRoomBtn>
         </div>
       </LobbyContainer>
       {toggleRoomForm && <RoomForm onToggleForm={toggleRoomFormHandelr} />}
+      {join && <JoinRoomForm onToggleForm={toggleJoinRoomFormHandelr} />}
     </>
   );
 }

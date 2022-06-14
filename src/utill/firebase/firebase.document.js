@@ -7,52 +7,60 @@ import {
   getDocs,
   addDoc,
   where,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
 
-export const createandAddRoomDocuments = async (roomId, user) => {
+//방 새로이 만들기
+export const createRoomDocuments = async (roomName, user) => {
   const roomDocRef = collection(db, "rooms");
-  const roomQuery = query(roomDocRef, where("roomName", "==", roomId));
-
-  const roomSnapshot = await getDocs(roomQuery);
-  console.log(user);
   const { email, displayName, id } = user;
 
-  if (roomSnapshot.empty) {
-    console.log("roomSnapShot ", roomSnapshot);
-    try {
-      const newRoom = await addDoc(roomDocRef, {
-        roomName: roomId,
-        userList: [{ email, displayName, id }],
-      });
-      return newRoom;
-    } catch (error) {
-      console.log("error occur from adding room ", error);
-    }
-  } else {
-    try {
-      const newRoomRef = doc(roomDocRef, roomSnapshot.docs[0].id);
-      await setDoc(
-        newRoomRef,
-        {
-          userList: [
-            ...roomSnapshot.docs[0].data().userList,
-            {
-              email,
-              displayName,
-              id,
-            },
-          ],
-        },
-        { merge: true }
-      );
-    } catch (error) {
-      console.log("error occur from updating room ", error);
-    }
+  console.log("roomDocRef ", roomDocRef);
+
+  try {
+    const newRoom = await addDoc(roomDocRef, {
+      roomName: roomName,
+      userList: [{ email, displayName, id }],
+    });
+
+    return newRoom;
+  } catch (error) {
+    console.log("error occur from adding room ", error);
+  }
+};
+
+// 방 id 입력해서 들어가기
+export const findRoomAndAddInfoDocuments = async (roomId, user) => {
+  const { email, displayName, id } = user;
+
+  const roomDocRef = doc(db, "rooms", roomId);
+  const roomSnapshot = await getDoc(roomDocRef);
+
+  console.log(roomSnapshot);
+
+  if (!roomSnapshot.exists()) return alert("Try another room Id");
+  try {
+    await setDoc(
+      roomDocRef,
+      {
+        userList: [
+          ...roomSnapshot.data().userList,
+          {
+            email,
+            displayName,
+            id,
+          },
+        ],
+      },
+      { merge: true }
+    );
+  } catch (error) {
+    console.log("error occur from adding room ", error);
   }
 
-  return roomSnapshot.docs[0];
+  return roomSnapshot.data();
 };
 
 // user 가 있는 방 가져오기
@@ -65,6 +73,21 @@ export const getUserRoomArray = async (user) => {
   );
 
   return myRoomSnapshot;
+};
+
+// user가 방 삭제하기
+
+export const deleteUserRoom = async (roomId, user) => {
+  const roomDocRef = doc(db, "rooms", roomId);
+  const userRoomSnapshot = await getDoc(roomDocRef);
+
+  const newUserList = userRoomSnapshot
+    .data()
+    .userList.filter((roomUser) => roomUser.id !== user.id);
+
+  await updateDoc(roomDocRef, {
+    userList: newUserList,
+  });
 };
 
 // message 업로드 하는 기능 추가 room 안에서 message 교환하니까

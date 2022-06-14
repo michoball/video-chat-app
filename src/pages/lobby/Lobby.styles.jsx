@@ -22,7 +22,7 @@ export const RoomListContainer = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
   margin: 10px auto 20px;
   padding: 20px;
-  border: 1px solid #494949;
+  border: 1px solid #3958fc;
   border-radius: 20px;
   overflow: scroll;
 
@@ -35,8 +35,13 @@ export const RoomListContainer = styled.div`
 `;
 
 export const AddRoomBtn = styled(Button)`
+  width: 150px;
   background-color: #313131 !important;
   border-color: #a52aca !important;
+
+  &.join {
+    border-color: #0abf04 !important;
+  }
 
   :hover {
     background-color: rgba(38, 38, 38, 0.7) !important;

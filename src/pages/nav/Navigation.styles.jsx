@@ -28,7 +28,7 @@ export const LogOutContainer = styled.div`
   span {
     font-size: 14px;
 
-    color: #3958fc;
+    color: #a52aca;
     padding-right: 10px;
   }
 `;

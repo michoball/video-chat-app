@@ -6,10 +6,8 @@ export const MessageCallContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: calc(100vh - 60px);
-  border-left: 1px solid #3958fc;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  box-shadow: -5px 10px 10px rgba(0, 0, 0, 0.3);
+  border-left: 2px solid #3958fc;
+  box-shadow: -1px 1px 3px rgb(57, 88, 252);
 `;
 
 export const MessageConainer = styled.div`
@@ -39,7 +37,7 @@ export const Header = styled.header`
   color: #d0d2d7;
   text-align: center;
   border-bottom: 2px solid #a52aca;
-  background-color: #262626;
+  background-color: #494949;
 `;
 
 export const FormContainer = styled.div`
@@ -49,7 +47,7 @@ export const FormContainer = styled.div`
   height: 10%;
   padding: 10px 20px;
   border-top: 2px solid #a52aca;
-  background-color: #262626;
+  background-color: #494949;
 `;
 
 export const SendButton = styled(Button)`
@@ -68,7 +66,7 @@ export const MessageFormInput = styled.textarea`
   width: 100%;
   resize: none;
   border: none;
-  border-bottom: 3px solid gray;
+  border-bottom: 2px solid #fff;
   background-color: transparent;
   outline: none;
   color: white;

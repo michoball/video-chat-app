@@ -14,8 +14,8 @@ export const ControlsContainer = styled.div`
 
 export const ButtonBox = styled(Button)`
   transition: all 0.2s ease-in-out;
-  width: 60px;
-  height: 50px;
+  width: 50px;
+  height: 40px;
   border-color: #747474;
   &.on {
     background-color: #f23030;
@@ -23,8 +23,8 @@ export const ButtonBox = styled(Button)`
 `;
 
 export const ButtonSpinner = styled(SpinnerContainer)`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1rem;
+  height: 1rem;
   border: 1px solid #fff;
   border-radius: 50%;
   border-top-color: #3958fc;

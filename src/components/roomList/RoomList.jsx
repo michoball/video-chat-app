@@ -1,28 +1,43 @@
-import { RoomContainer, Name, DeleteButton, RoomInfo } from "./RoomList.styles";
+import {
+  RoomContainer,
+  Name,
+  DeleteButton,
+  RoomsInfo,
+} from "./RoomList.styles";
 import { MdPeople } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { BsCircleFill } from "react-icons/bs";
+import { deleteUserRoom } from "../../utill/firebase/firebase.document";
+import { useSelector } from "react-redux";
 
+import { selectCurrentUser } from "../../store/user/user.selector";
 function RoomList({ id, room }) {
-  console.log("room id :", id);
   const { userList, roomName } = room;
+  const currentUser = useSelector(selectCurrentUser);
+
+  console.log(userList);
+
+  const deleteRoomHandler = async () => {
+    await deleteUserRoom(id, currentUser);
+  };
+
   return (
     <RoomContainer>
       <Name>
         <Link to={`/room/${id}`}>{roomName}</Link>
       </Name>
-      <DeleteButton> &#10005;</DeleteButton>
-      <RoomInfo>
-        <div
-          className="userTotal"
-          style={{
-            display: "flex",
-            gap: "5px",
-          }}
-        >
+      <DeleteButton onClick={deleteRoomHandler}> &#10005;</DeleteButton>
+      <RoomsInfo>
+        <div className="userTotal">
           <MdPeople style={{ fontSize: "20px" }} /> {userList.length}
         </div>
-        <div className="liveUser"> online user: 2</div>
-      </RoomInfo>
+        <div className="liveUser" style={{}}>
+          <BsCircleFill
+            style={{ fontSize: "12px", fill: "#0ABF04", alignItem: "center" }}
+          />
+          2
+        </div>
+      </RoomsInfo>
     </RoomContainer>
   );
 }

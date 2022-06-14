@@ -12,7 +12,7 @@ import {
   selectRtcUsers,
 } from "../../store/rtc/rtc.selector";
 
-function VideoCall() {
+function VideoCall({ roomInfo }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [start, setStart] = useState(false);
@@ -27,7 +27,7 @@ function VideoCall() {
         console.log("user-published");
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
-          console.log("new published User : ", user, mediaType);
+          console.log("new published User : ", user, "rtcUser :", rtcUsers);
           dispatch(addRtcUser(rtcUsers, user));
         }
         if (mediaType === "audio") {
@@ -55,8 +55,7 @@ function VideoCall() {
       console.log("VideoCall point", localUser, client);
       init();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localUser, client]);
+  }, [localUser, client, rtcUsers]);
 
   if (isLoading) {
     return <Spinner />;
@@ -64,7 +63,7 @@ function VideoCall() {
   return (
     <Fragment>
       {localUser.tracks && <Controls />}
-      {start && localUser.tracks && <Videos />}
+      {start && localUser.tracks && <Videos roomInfo={roomInfo} />}
     </Fragment>
   );
 }

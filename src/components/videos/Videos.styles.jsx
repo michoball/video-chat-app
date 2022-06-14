@@ -6,6 +6,8 @@ export const VideosContainer = styled.div`
 `;
 
 export const LocalUserVideoContianer = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 0.2;
 `;
 

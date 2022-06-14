@@ -1,4 +1,3 @@
-import { config } from "../../utill/Agora.config";
 import {
   RoomContainer,
   RoomFormContainer,
@@ -10,7 +9,7 @@ import {
 import FormInput from "../../UI/formInput/FormInput";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createandAddRoomDocuments } from "../../utill/firebase/firebase.document";
+import { createRoomDocuments } from "../../utill/firebase/firebase.document";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
@@ -35,8 +34,8 @@ const RoomForm = ({ onToggleForm }) => {
     }
     try {
       setIsLoading(true);
-      const room = await createandAddRoomDocuments(roomId, currentUser);
-      console.log(room);
+      const room = await createRoomDocuments(roomId, currentUser);
+
       roomUid = room.id;
       setIsLoading(false);
     } catch (error) {
@@ -57,17 +56,12 @@ const RoomForm = ({ onToggleForm }) => {
   return (
     <>
       <RoomContainer>
-        <h3 className="heading">Create New Room</h3>
-        <RoomFormContainer onSubmit={roomSubmitHandler}>
-          {config.appId === "" && (
-            <p style={{ color: "red" }}>
-              Please enter your Agora App ID in App.tsx and refresh the page
-            </p>
-          )}
+        <h3>Create New Room</h3>
+        <RoomFormContainer onSubmit={roomSubmitHandler} color={"#a52aca"}>
           <FormInput
             label="RoomName"
             type="text"
-            placeholder="Enter Channel Name"
+            placeholder="Enter Room Name"
             value={roomId}
             onChange={roomIdHandler}
           />

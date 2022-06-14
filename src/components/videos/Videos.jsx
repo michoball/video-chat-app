@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getRoomInfo } from "../../utill/firebase/firebase.document";
+
 import {
   VideosContainer,
   RemoteUserVideoContianer,
@@ -13,8 +17,9 @@ import {
   selectRtcUsers,
   selectRtcBig,
 } from "../../store/rtc/rtc.selector";
+import RoomInfo from "../roomInfo/RoomInfo";
 
-function Videos() {
+function Videos({ roomInfo }) {
   const rtcUsers = useSelector(selectRtcUsers);
   const localUser = useSelector(selectRtcLocalUser);
   const share = useSelector(selectRtcShare);
@@ -31,6 +36,7 @@ function Videos() {
           id={localUser.uid}
           track={localUser.tracks[0]}
         />
+        <RoomInfo roomInfo={roomInfo} />
       </LocalUserVideoContianer>
 
       <ShareOrBigVideoContianer>
@@ -39,9 +45,9 @@ function Videos() {
           <VideoPlayer
             videoType={VIDEO_TYPE_CLASS.share}
             rtcUser={bigSizeVideo}
-            id={bigSizeVideo.user.uid}
-            track={bigSizeVideo.user.videoTrack}
-            key={bigSizeVideo.user.uid}
+            id={bigSizeVideo.uid}
+            track={bigSizeVideo._videoTrack}
+            key={bigSizeVideo.uid}
           />
         )}
         <RemoteUserVideoContianer>
@@ -56,9 +62,9 @@ function Videos() {
                         : VIDEO_TYPE_CLASS.small
                     }
                     rtcUser={rtcUser}
-                    id={rtcUser.user.uid}
-                    track={rtcUser.user.videoTrack}
-                    key={rtcUser.user.uid}
+                    id={rtcUser.uid}
+                    track={rtcUser._videoTrack}
+                    key={rtcUser.uid}
                   />
                 );
               } else return null;
