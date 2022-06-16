@@ -6,8 +6,12 @@ import {
 } from "./RoomInfo.styles";
 
 import { AiOutlineSetting } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { selectRoomInfo } from "../../store/room/room.selector";
 
-const RoomInfo = ({ roomInfo }) => {
+const RoomInfo = () => {
+  const roomInfo = useSelector(selectRoomInfo);
+
   return (
     <RoomInfoContainer>
       <RoomNameHeader>{roomInfo.roomName}</RoomNameHeader>

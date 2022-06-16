@@ -20,7 +20,7 @@ export const HomeForm = styled.div`
   height: 500px;
   border-radius: 5%;
   background-color: #262626;
-  border: 1px solid #0da633;
+  border: 1px solid #3958fc;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 `;
 

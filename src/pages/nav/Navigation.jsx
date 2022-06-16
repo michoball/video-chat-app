@@ -6,8 +6,6 @@ import {
   LogOutContainer,
   NavSpinner,
 } from "./Navigation.styles";
-import { signOutUser } from "../../utill/firebase/firebase.auth";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentUser,
@@ -23,6 +21,7 @@ import {
   clearClientAndChannel,
   clearMessages,
 } from "../../store/rtm/rtm.action";
+import { signOutStart } from "../../store/user/user.action";
 
 function Navigation() {
   const dispatch = useDispatch();
@@ -50,7 +49,7 @@ function Navigation() {
         dispatch(clearClientAndChannel());
         dispatch(clearMessages());
       }
-      signOutUser();
+      dispatch(signOutStart());
       navigate("/");
     }
   };
@@ -83,7 +82,7 @@ function Navigation() {
             </NavLink>
           </LogOutContainer>
         ) : (
-          <NavLink to="/sign-in">Log In First</NavLink>
+          <NavLink to="/auth">Log In First</NavLink>
         )}
       </NavContainer>
       <Outlet />

@@ -69,7 +69,7 @@ function Home() {
             START
           </HomeButton>
         ) : (
-          <HomeButton type="submit" onClick={() => navigate("/sign-in")}>
+          <HomeButton type="submit" onClick={() => navigate("/auth")}>
             LOG IN
           </HomeButton>
         )}

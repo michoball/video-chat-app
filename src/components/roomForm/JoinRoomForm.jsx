@@ -9,20 +9,21 @@ import {
 import FormInput from "../../UI/formInput/FormInput";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { findRoomAndAddInfoDocuments } from "../../utill/firebase/firebase.document";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { findRoomStart } from "../../store/room/room.action";
+import { selectRoomIsLoading } from "../../store/room/room.selector";
 
 const JoinRoomForm = ({ onToggleForm }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [roomId, setRoomId] = useState("");
   const currentUser = useSelector(selectCurrentUser);
+  const roomIsLoading = useSelector(selectRoomIsLoading);
 
   const roomIdHandler = (e) => {
     setRoomId(e.target.value);
   };
-
   const clearRoomId = () => setRoomId("");
 
   const roomSubmitHandler = async (e) => {
@@ -32,14 +33,13 @@ const JoinRoomForm = ({ onToggleForm }) => {
       return;
     }
     try {
-      setIsLoading(true);
-      await findRoomAndAddInfoDocuments(roomId, currentUser);
+      const roomIdCredential = dispatch(findRoomStart(roomId, currentUser));
 
-      setIsLoading(false);
-      navigate(`/room/${roomId}`);
+      if (roomIdCredential) {
+        navigate(`/room/${roomId}`);
+      }
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
     }
     clearRoomId();
   };
@@ -62,7 +62,7 @@ const JoinRoomForm = ({ onToggleForm }) => {
           />
           <ButtonContainer>
             <RoomFormBtn type="submit">
-              {isLoading ? <FormSpinner /> : "Join"}
+              {roomIsLoading ? <FormSpinner /> : "Join"}
             </RoomFormBtn>
             <RoomFormBtn
               className="cancel"

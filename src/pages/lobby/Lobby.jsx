@@ -1,27 +1,25 @@
 import { useState, useEffect } from "react";
-import { getUserRoomArray } from "../../utill/firebase/firebase.document";
-
 import RoomForm from "../../components/roomForm/CreateRoomForm";
 import JoinRoomForm from "../../components/roomForm/JoinRoomForm";
 import { LobbyContainer, RoomListContainer, AddRoomBtn } from "./Lobby.styles";
 
 import RoomList from "../../components/roomList/RoomList";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserRoomStart } from "../../store/room/room.action";
+import { selectUserRoomList } from "../../store/room/room.selector";
 
 function Lobby() {
+  const dispatch = useDispatch();
   const [toggleRoomForm, setToggleRoomForm] = useState(false);
-  const [userRooms, setUserRooms] = useState([]);
   const [join, setJoin] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
+  const userRoomList = useSelector(selectUserRoomList);
 
   useEffect(() => {
-    const userRoom = async (user) => {
-      const snapShot = await getUserRoomArray(user);
-      setUserRooms(snapShot);
-    };
     if (currentUser) {
-      userRoom(currentUser);
+      console.log(currentUser);
+      dispatch(getUserRoomStart(currentUser));
     }
   }, [currentUser]);
 
@@ -37,8 +35,8 @@ function Lobby() {
       <LobbyContainer>
         <h2>where are you want to go ?</h2>
         <RoomListContainer>
-          {userRooms.length > 0 &&
-            userRooms.map((userRoom) => {
+          {userRoomList.length > 0 &&
+            userRoomList.map((userRoom) => {
               return (
                 <RoomList
                   key={userRoom.id}
@@ -50,9 +48,9 @@ function Lobby() {
         </RoomListContainer>
         <div className="roomBtn" style={{ display: "flex", gap: "30px" }}>
           <AddRoomBtn className="join" onClick={toggleJoinRoomFormHandelr}>
-            Join the Room
+            Join
           </AddRoomBtn>
-          <AddRoomBtn onClick={toggleRoomFormHandelr}>Create Room</AddRoomBtn>
+          <AddRoomBtn onClick={toggleRoomFormHandelr}>Create</AddRoomBtn>
         </div>
       </LobbyContainer>
       {toggleRoomForm && <RoomForm onToggleForm={toggleRoomFormHandelr} />}

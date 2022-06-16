@@ -37,10 +37,11 @@ export const RoomListContainer = styled.div`
 export const AddRoomBtn = styled(Button)`
   width: 150px;
   background-color: #313131 !important;
-  border-color: #a52aca !important;
-
+  border: 1px solid #747474;
+  color: #a52aca !important;
+  text-transform: uppercase;
   &.join {
-    border-color: #0abf04 !important;
+    color: #3bd923 !important;
   }
 
   :hover {

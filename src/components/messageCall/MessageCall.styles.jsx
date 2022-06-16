@@ -7,7 +7,7 @@ export const MessageCallContainer = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   border-left: 2px solid #3958fc;
-  box-shadow: -1px 1px 3px rgb(57, 88, 252);
+  /* box-shadow: -1px 1px 3px rgb(57, 88, 252); */
 `;
 
 export const MessageConainer = styled.div`

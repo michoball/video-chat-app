@@ -7,7 +7,7 @@ export const BaseButton = styled.button`
   background-color: #262625;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
   color: whitesmoke;
-  border: 1px solid #3958fc;
+  border: 1px solid #747474;
   display: flex;
   align-items: center;
   justify-content: center;

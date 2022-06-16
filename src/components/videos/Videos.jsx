@@ -1,7 +1,3 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getRoomInfo } from "../../utill/firebase/firebase.document";
-
 import {
   VideosContainer,
   RemoteUserVideoContianer,
@@ -19,7 +15,7 @@ import {
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
 
-function Videos({ roomInfo }) {
+function Videos() {
   const rtcUsers = useSelector(selectRtcUsers);
   const localUser = useSelector(selectRtcLocalUser);
   const share = useSelector(selectRtcShare);
@@ -36,7 +32,7 @@ function Videos({ roomInfo }) {
           id={localUser.uid}
           track={localUser.tracks[0]}
         />
-        <RoomInfo roomInfo={roomInfo} />
+        <RoomInfo />
       </LocalUserVideoContianer>
 
       <ShareOrBigVideoContianer>

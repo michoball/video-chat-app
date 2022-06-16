@@ -49,7 +49,6 @@ function ShareScreen({ localTracks }) {
       await client.publish(screenTrack);
 
       screenTrack.on("track-ended", async () => {
-        console.log("TRACK ENDEDDDDDDD~~~~!!!");
         await client
           .unpublish(screenTrack)
           .then(await client.publish(localTracks));

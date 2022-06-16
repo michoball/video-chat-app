@@ -34,7 +34,7 @@ export const RoomContainer = styled.div`
 
 export const RoomFormContainer = styled(CustomForm)`
   width: 400px;
-  border: 2px solid ${({ color }) => `${color}`};
+  border: 1px solid ${({ color }) => `${color}`};
 `;
 
 export const ButtonContainer = styled.div`
@@ -46,18 +46,20 @@ export const ButtonContainer = styled.div`
 `;
 
 export const RoomFormBtn = styled(Button)`
-  background-color: #313131 !important;
+  background-color: #3958fc !important;
   color: #fff;
   font-weight: bold;
   font-size: 12px;
   text-transform: uppercase;
   box-shadow: unset;
   &.cancel {
-    border-color: #f23030 !important;
-    color: #fff;
+    background-color: #f23030 !important;
+    :hover {
+      background-color: rgba(242, 48, 48, 0.7) !important;
+    }
   }
   :hover {
-    background-color: #1b1b1b !important;
+    background-color: rgba(57, 88, 252, 0.7) !important;
   }
 `;
 

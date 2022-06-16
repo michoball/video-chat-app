@@ -12,7 +12,7 @@ import {
   selectRtcUsers,
 } from "../../store/rtc/rtc.selector";
 
-function VideoCall({ roomInfo }) {
+function VideoCall() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [start, setStart] = useState(false);
@@ -24,7 +24,6 @@ function VideoCall({ roomInfo }) {
     const init = async () => {
       // remote user가 들어오고 나가고 할 때 event handler
       client.on("user-published", async (user, mediaType) => {
-        console.log("user-published");
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
           console.log("new published User : ", user, "rtcUser :", rtcUsers);
@@ -52,7 +51,7 @@ function VideoCall({ roomInfo }) {
     };
 
     if (localUser) {
-      console.log("VideoCall point", localUser, client);
+      console.log("VideoCall point", localUser);
       init();
     }
   }, [localUser, client, rtcUsers]);
@@ -63,7 +62,7 @@ function VideoCall({ roomInfo }) {
   return (
     <Fragment>
       {localUser.tracks && <Controls />}
-      {start && localUser.tracks && <Videos roomInfo={roomInfo} />}
+      {start && localUser.tracks && <Videos />}
     </Fragment>
   );
 }

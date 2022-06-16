@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getRoomInfo } from "../../utill/firebase/firebase.document";
+import { findRoomAndAddInfoDocuments } from "../../utill/firebase/firebase.document";
 
 import {
   config,
@@ -22,28 +22,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { setLocalUser, clearRtcUser } from "../../store/rtc/rtc.action";
 import { setChannel, setRtmClient } from "../../store/rtm/rtm.action";
+import { findRoomStart } from "../../store/room/room.action";
 
 function Room() {
-  const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
-  const { ready, tracks } = MicrophoneAndCameraTracks();
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
+
   const client = useClient();
-
   const { roomId } = useParams();
+  const { ready, tracks } = MicrophoneAndCameraTracks();
 
-  const [roomInfo, setRoomInfo] = useState({});
+  const dispatch = useDispatch();
+
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    const getUserInfo = async (roomUid) => {
-      const roomInfomation = await getRoomInfo(roomUid);
-      console.log(roomInfomation);
-      setRoomInfo(roomInfomation);
-    };
-
-    getUserInfo(roomId);
-  }, []);
+    dispatch(findRoomStart(roomId, currentUser));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, roomId]);
 
   useEffect(() => {
     const init = async (roomName) => {
@@ -113,7 +109,7 @@ function Room() {
   return (
     <RoomContainer>
       <VideoCallContainer>
-        {ready && tracks && <VideoCall roomInfo={roomInfo} />}
+        {ready && tracks && <VideoCall />}
       </VideoCallContainer>
 
       <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>

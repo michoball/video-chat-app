@@ -11,20 +11,6 @@ const rtcReducer = (state = RTC_INIT_STATE, action) => {
 
   switch (type) {
     case RTC_ACTION_TYPE.SET_RTC_USER:
-      // const existingUser = state.rtcUsers.find(
-      //   (rtcUser) => rtcUser.user.uid === payload.user.uid
-      // );
-      // if (existingUser) {
-      //   const newRtcUsers = state.rtcUsers.map((rtcUser) =>
-      //     rtcUser.user.uid === payload.user.uid
-      //       ? { ...rtcUser, user: payload.user }
-      //       : rtcUser
-      //   );
-      //   return {
-      //     ...state,
-      //     rtcUsers: newRtcUsers,
-      //   };
-      // }
       return {
         ...state,
         rtcUsers: payload,

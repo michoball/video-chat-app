@@ -1,13 +1,9 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import FormInput from "../../UI/formInput/FormInput";
-import {
-  signInAuthWithEmailAndPassword,
-  GoogleSignUpWithPopUp,
-} from "../../utill/firebase/firebase.auth";
 import { AuthErrorCodes } from "firebase/auth";
 import FormContainer from "../../UI/formContainer/FormContainer";
 
@@ -17,8 +13,12 @@ import {
   ToggleSignUp,
 } from "./SignIn.styles";
 import Spinner from "../../UI/spinner/spinner";
-
-import { toggleSignForm } from "../../store/user/user.action";
+import { selectIsLoading } from "../../store/user/user.selector";
+import {
+  emailSignInStart,
+  googleSignInStart,
+  toggleSignForm,
+} from "../../store/user/user.action";
 
 const defaultFormField = {
   email: "",
@@ -29,7 +29,8 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector(selectIsLoading);
+
   const [formField, setFormField] = useState(defaultFormField);
 
   const { password, email } = formField;
@@ -47,30 +48,30 @@ const SignIn = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
     try {
-      await signInAuthWithEmailAndPassword(email, password);
+      dispatch(emailSignInStart(email, password));
       resetFormField();
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error) {
       if (error.message === AuthErrorCodes.EMAIL_EXISTS) {
         alert("Input Email is already in used");
       }
       console.log(error);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
     navigate("/");
   };
 
   const googleLogInHandler = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
     try {
-      await GoogleSignUpWithPopUp();
-      setIsLoading(false);
+      dispatch(googleSignInStart());
+      // setIsLoading(false);
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
     navigate("/");
   };

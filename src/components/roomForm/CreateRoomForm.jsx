@@ -10,47 +10,56 @@ import FormInput from "../../UI/formInput/FormInput";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createRoomDocuments } from "../../utill/firebase/firebase.document";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { createRoomStart } from "../../store/room/room.action";
+import {
+  selectRoomInfo,
+  selectRoomIsLoading,
+} from "../../store/room/room.selector";
 
 const RoomForm = ({ onToggleForm }) => {
   // roomId 를 useParams 로 해서 videos.jsx에서 params로 room찾아가기
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [roomId, setRoomId] = useState("");
+  const [roomName, setRoomName] = useState("");
   const currentUser = useSelector(selectCurrentUser);
+  const roomIsLoading = useSelector(selectRoomIsLoading);
+  const roomInfo = useSelector(selectRoomInfo);
 
-  const roomIdHandler = (e) => {
-    setRoomId(e.target.value);
+  const roomNameHandler = (e) => {
+    setRoomName(e.target.value);
   };
 
-  const clearRoomId = () => setRoomId("");
+  const clearRoomName = () => setRoomName("");
 
   const roomSubmitHandler = async (e) => {
     e.preventDefault();
     let roomUid = "";
-    if (roomId === "") {
+    if (roomName === "") {
       return;
     }
     try {
-      setIsLoading(true);
-      const room = await createRoomDocuments(roomId, currentUser);
-
-      roomUid = room.id;
-      setIsLoading(false);
+      dispatch(createRoomStart(roomName, currentUser));
+      // const room = await createRoomDocuments(roomName, currentUser);
+      // roomUid = room.id;
+      showRoomInfo();
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
     }
-    clearRoomId();
+    clearRoomName();
     if (!roomUid) {
       return;
     }
-    navigate(`/room/${roomUid}`);
+    // navigate(`/room/${roomUid}`);
   };
 
   const toggleBackdropHandler = () => {
     onToggleForm();
+  };
+
+  const showRoomInfo = () => {
+    console.log(roomInfo);
   };
 
   return (
@@ -62,12 +71,12 @@ const RoomForm = ({ onToggleForm }) => {
             label="RoomName"
             type="text"
             placeholder="Enter Room Name"
-            value={roomId}
-            onChange={roomIdHandler}
+            value={roomName}
+            onChange={roomNameHandler}
           />
           <ButtonContainer>
             <RoomFormBtn type="submit">
-              {isLoading ? <FormSpinner /> : "Join"}
+              {roomIsLoading ? <FormSpinner /> : "Join"}
             </RoomFormBtn>
             <RoomFormBtn
               className="cancel"

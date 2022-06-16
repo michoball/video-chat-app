@@ -10,7 +10,7 @@ export const RoomContainer = styled.div`
   background-color: #313131;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #a52aca;
+  border: 1px solid #747474;
   border-radius: 10px;
 
   :hover {
