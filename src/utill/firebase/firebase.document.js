@@ -36,28 +36,30 @@ export const createRoomDocuments = async (roomName, user) => {
 };
 
 // 작동이 안되는 중....
-export const addMyRoomToUsersDocuments = async (roomData, user) => {
-  console.log(roomData.data());
+export const addMyRoomToUsersDocuments = async (roomId, user) => {
+  const roomRef = doc(db, "rooms", roomId);
+  const roomSnapshot = await getDoc(roomRef);
+
   const userRef = doc(db, "users", user.id);
-  const myRoomRef = doc(userRef, "myRooms", roomData.id);
+  const myRoomRef = doc(userRef, "myRooms", roomId);
   const myRoomSnapshot = await getDoc(myRoomRef);
+
   console.log("myRoomSnapshot :", myRoomSnapshot);
-  const newRoomData = {
-    roomName: roomData.roomName,
-    roomId: roomData.id,
-    timestamp: roomData.timestamp,
-    userList: roomData.userList,
-  };
+
   try {
     // update 내방 정보
     if (myRoomSnapshot.exists()) {
+      await deleteDoc(myRoomRef);
+    } else {
+      // 내방 없으면
+      const newRoomData = {
+        roomName: roomSnapshot.data().roomName,
+        roomId: roomId,
+        timestamp: roomSnapshot.data().timestamp,
+        userList: roomSnapshot.data().userList,
+      };
+      await setDoc(myRoomRef, newRoomData);
     }
-    // 내방 없으면
-    const newMyRoom = await setDoc(
-      doc(userRef, "myRooms", roomData.id),
-      newRoomData
-    );
-    console.log(newMyRoom);
   } catch (error) {
     console.log(" error occur from add My Room : ", error);
   }
@@ -71,7 +73,7 @@ export const findRoomAndAddInfoDocuments = async (roomId, user) => {
   const roomDocRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomDocRef);
 
-  console.log(roomSnapshot);
+  console.log(roomSnapshot.data());
 
   if (!roomSnapshot.exists()) return alert("Try another room Id");
   try {

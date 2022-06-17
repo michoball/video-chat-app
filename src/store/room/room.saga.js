@@ -35,9 +35,9 @@ export function* newRoomCreate({ payload: { roomName, currentUser } }) {
 
   try {
     const newRoom = yield call(createRoomDocuments, roomName, currentUser);
+
     if (newRoom) {
-      console.log(newRoom.data());
-      // yield call(addMyRoomToUsersDocuments, newRoom.data(), currentUser);
+      yield call(addMyRoomToUsersDocuments, newRoom.id, currentUser);
       yield put(findRoomSuccess(newRoom));
     }
 
@@ -57,7 +57,10 @@ export function* findRoom({ payload: { roomId, currentUser } }) {
       roomId,
       currentUser
     );
-    yield put(findRoomSuccess(RoomData));
+    if (RoomData) {
+      yield call(addMyRoomToUsersDocuments, RoomData.id, currentUser);
+      yield put(findRoomSuccess(RoomData));
+    }
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(findRoomFailed(error));
@@ -65,13 +68,13 @@ export function* findRoom({ payload: { roomId, currentUser } }) {
   }
 }
 
-// 삭제 성공하면 리스트에서 바로 사라지게하기
 export function* deleteRoom({ payload: { roomId, currentUser } }) {
   yield put(roomIsLoading(true));
   try {
     const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
     if (deletedRoomId) {
       yield put(deleteRoomSuccess(deletedRoomId));
+      yield call(addMyRoomToUsersDocuments, deletedRoomId, currentUser);
     }
     yield put(roomIsLoading(false));
   } catch (error) {
