@@ -27,6 +27,9 @@ export const findRoomFailed = (error) => {
 export const deleteRoomStart = (roomId, currentUser) =>
   createAction(ROOM_ACTION_TYPE.DELETE_ROOM_START, { roomId, currentUser });
 
+export const deleteRoomSuccess = (roomId) =>
+  createAction(ROOM_ACTION_TYPE.DELETE_ROOM_SUCCESS, roomId);
+
 export const deleteRoomFailed = (error) =>
   createAction(ROOM_ACTION_TYPE.DELETE_ROOM_FAILED, error);
 

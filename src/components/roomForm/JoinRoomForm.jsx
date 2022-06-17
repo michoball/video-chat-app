@@ -33,10 +33,12 @@ const JoinRoomForm = ({ onToggleForm }) => {
       return;
     }
     try {
-      const roomIdCredential = dispatch(findRoomStart(roomId, currentUser));
+      const roomIdCredential = dispatch(
+        findRoomStart(roomId.trim(), currentUser)
+      );
 
       if (roomIdCredential) {
-        navigate(`/room/${roomId}`);
+        navigate(`/room/${roomId.trim()}`);
       }
     } catch (error) {
       console.log(error);

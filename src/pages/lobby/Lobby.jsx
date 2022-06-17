@@ -18,7 +18,6 @@ function Lobby() {
 
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser);
       dispatch(getUserRoomStart(currentUser));
     }
   }, [currentUser]);
@@ -60,26 +59,3 @@ function Lobby() {
 }
 
 export default Lobby;
-
-/*
-          <RoomContainer>
-            <Name>
-              <a href="/#">영어 수업 방</a>
-            </Name>
-            <DeleteButton> &#10005;</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> totalUser : 2</div>
-              <div className="liveUser"> userIn : 1</div>
-            </RoomInfo>
-          </RoomContainer>
-          <RoomContainer>
-            <Name>
-              <a href="/#">대학교 동기 방</a>
-            </Name>
-            <DeleteButton> &#10005;</DeleteButton>
-            <RoomInfo>
-              <div className="userTotal"> totalUser : 5</div>
-              <div className="liveUser"> userIn : 4</div>
-            </RoomInfo>
-          </RoomContainer>
-          */

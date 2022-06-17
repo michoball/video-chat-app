@@ -26,6 +26,14 @@ const roomReducer = (state = ROOM_INIT_STATE, action) => {
         ...state,
         roomInfo: payload,
       };
+    case ROOM_ACTION_TYPE.DELETE_ROOM_SUCCESS:
+      const newUserRoomList = state.userRoomList.filter(
+        (roomList) => roomList.id !== payload
+      );
+      return {
+        ...state,
+        userRoomList: newUserRoomList,
+      };
     case ROOM_ACTION_TYPE.GET_ROOM_FAILED:
     case ROOM_ACTION_TYPE.FIND_ROOM_FAILED:
     case ROOM_ACTION_TYPE.CREATE_ROOM_FAILED:

@@ -9,6 +9,7 @@ import {
   where,
   updateDoc,
   serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
@@ -18,8 +19,6 @@ export const createRoomDocuments = async (roomName, user) => {
   const roomDocRef = collection(db, "rooms");
   const { email, displayName, id } = user;
 
-  console.log("roomDocRef ", roomDocRef);
-
   try {
     const timestamp = serverTimestamp();
 
@@ -28,20 +27,44 @@ export const createRoomDocuments = async (roomName, user) => {
       timestamp,
       userList: [{ email, displayName, id }],
     });
+    console.log(newRoom);
 
-    return { id: newRoom.id, ...newRoom };
+    return newRoom;
   } catch (error) {
     console.log("error occur from adding room ", error);
   }
 };
 
-// 방 id 입력해서 들어가기
-// export const getRoomInfo = async (roomId) => {
-//   const roomDocRef = doc(db, "rooms", roomId);
-//   const RoomSnapshot = await getDoc(roomDocRef);
+// 작동이 안되는 중....
+export const addMyRoomToUsersDocuments = async (roomData, user) => {
+  console.log(roomData.data());
+  const userRef = doc(db, "users", user.id);
+  const myRoomRef = doc(userRef, "myRooms", roomData.id);
+  const myRoomSnapshot = await getDoc(myRoomRef);
+  console.log("myRoomSnapshot :", myRoomSnapshot);
+  const newRoomData = {
+    roomName: roomData.roomName,
+    roomId: roomData.id,
+    timestamp: roomData.timestamp,
+    userList: roomData.userList,
+  };
+  try {
+    // update 내방 정보
+    if (myRoomSnapshot.exists()) {
+    }
+    // 내방 없으면
+    const newMyRoom = await setDoc(
+      doc(userRef, "myRooms", roomData.id),
+      newRoomData
+    );
+    console.log(newMyRoom);
+  } catch (error) {
+    console.log(" error occur from add My Room : ", error);
+  }
+};
 
-//   return RoomSnapshot.data();
-// }; 랑 합치기
+// 방 id 입력해서 들어가기
+
 export const findRoomAndAddInfoDocuments = async (roomId, user) => {
   const { email, displayName, id } = user;
 
@@ -52,10 +75,10 @@ export const findRoomAndAddInfoDocuments = async (roomId, user) => {
 
   if (!roomSnapshot.exists()) return alert("Try another room Id");
   try {
-    // 합친부분
     if (
       roomSnapshot.data().userList.find((roomUser) => roomUser.id === user.id)
     ) {
+      return { id: roomId, ...roomSnapshot.data() };
     } else {
       await setDoc(
         roomDocRef,
@@ -88,11 +111,16 @@ export const deleteUserRoom = async (roomId, user) => {
     .data()
     .userList.filter((roomUser) => roomUser.id !== user.id);
 
-  await updateDoc(roomDocRef, {
-    userList: newUserList,
-  });
+  if (newUserList.length === 0) {
+    await deleteDoc(roomDocRef);
+  } else {
+    await updateDoc(roomDocRef, {
+      userList: newUserList,
+    });
+  }
+  console.log(userRoomSnapshot.id);
 
-  return userRoomSnapshot.data();
+  return userRoomSnapshot.id;
 };
 
 // user 가 있는 방 가져오기

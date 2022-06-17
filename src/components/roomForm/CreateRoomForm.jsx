@@ -7,7 +7,7 @@ import {
   Backdrop,
 } from "./RoomForm.styles";
 import FormInput from "../../UI/formInput/FormInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createRoomDocuments } from "../../utill/firebase/firebase.document";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,13 @@ const RoomForm = ({ onToggleForm }) => {
   const roomIsLoading = useSelector(selectRoomIsLoading);
   const roomInfo = useSelector(selectRoomInfo);
 
+  useEffect(() => {
+    if (roomInfo.id) {
+      console.log(roomInfo);
+      navigate(`/room/${roomInfo.id}`);
+    }
+  }, [roomInfo]);
+
   const roomNameHandler = (e) => {
     setRoomName(e.target.value);
   };
@@ -35,31 +42,21 @@ const RoomForm = ({ onToggleForm }) => {
 
   const roomSubmitHandler = async (e) => {
     e.preventDefault();
-    let roomUid = "";
+
     if (roomName === "") {
       return;
     }
     try {
-      dispatch(createRoomStart(roomName, currentUser));
-      // const room = await createRoomDocuments(roomName, currentUser);
-      // roomUid = room.id;
-      showRoomInfo();
+      roomName.trim();
+      dispatch(createRoomStart(roomName.trim(), currentUser));
     } catch (error) {
       console.log(error);
     }
     clearRoomName();
-    if (!roomUid) {
-      return;
-    }
-    // navigate(`/room/${roomUid}`);
   };
 
   const toggleBackdropHandler = () => {
     onToggleForm();
-  };
-
-  const showRoomInfo = () => {
-    console.log(roomInfo);
   };
 
   return (

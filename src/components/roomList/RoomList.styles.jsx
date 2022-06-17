@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
 
 export const RoomContainer = styled.div`
   width: 450px;
@@ -19,6 +20,16 @@ export const RoomContainer = styled.div`
   :last-child {
     margin-bottom: 0;
   }
+`;
+
+export const RoomListLoading = styled(SpinnerContainer)`
+  position: absolute;
+  left: 210px;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  border-top-color: #3958fc;
 `;
 
 export const Name = styled.h3`

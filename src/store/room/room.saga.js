@@ -1,5 +1,6 @@
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import {
+  addMyRoomToUsersDocuments,
   createRoomDocuments,
   deleteUserRoom,
   findRoomAndAddInfoDocuments,
@@ -13,6 +14,7 @@ import {
   getUserRoomSuccess,
   getUserRoomFailed,
   roomIsLoading,
+  deleteRoomSuccess,
 } from "./room.action";
 import { ROOM_ACTION_TYPE } from "./room.type";
 
@@ -33,7 +35,12 @@ export function* newRoomCreate({ payload: { roomName, currentUser } }) {
 
   try {
     const newRoom = yield call(createRoomDocuments, roomName, currentUser);
-    yield put(findRoomSuccess(newRoom));
+    if (newRoom) {
+      console.log(newRoom.data());
+      // yield call(addMyRoomToUsersDocuments, newRoom.data(), currentUser);
+      yield put(findRoomSuccess(newRoom));
+    }
+
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(createRoomFailed(error));
@@ -61,10 +68,11 @@ export function* findRoom({ payload: { roomId, currentUser } }) {
 // 삭제 성공하면 리스트에서 바로 사라지게하기
 export function* deleteRoom({ payload: { roomId, currentUser } }) {
   yield put(roomIsLoading(true));
-
   try {
-    yield call(deleteUserRoom, roomId, currentUser);
-    yield call(getRoomList, currentUser);
+    const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
+    if (deletedRoomId) {
+      yield put(deleteRoomSuccess(deletedRoomId));
+    }
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(deleteRoomFailed(error));
