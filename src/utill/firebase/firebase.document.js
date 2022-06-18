@@ -35,47 +35,23 @@ export const createRoomDocuments = async (roomName, user) => {
   }
 };
 
-// 작동이 안되는 중....
-export const addMyRoomToUsersDocuments = async (roomId, user) => {
-  const roomRef = doc(db, "rooms", roomId);
-  const roomSnapshot = await getDoc(roomRef);
-
-  const userRef = doc(db, "users", user.id);
-  const myRoomRef = doc(userRef, "myRooms", roomId);
-  const myRoomSnapshot = await getDoc(myRoomRef);
-
-  console.log("myRoomSnapshot :", myRoomSnapshot);
-
-  try {
-    // update 내방 정보
-    if (myRoomSnapshot.exists()) {
-      await deleteDoc(myRoomRef);
-    } else {
-      // 내방 없으면
-      const newRoomData = {
-        roomName: roomSnapshot.data().roomName,
-        roomId: roomId,
-        timestamp: roomSnapshot.data().timestamp,
-        userList: roomSnapshot.data().userList,
-      };
-      await setDoc(myRoomRef, newRoomData);
-    }
-  } catch (error) {
-    console.log(" error occur from add My Room : ", error);
-  }
-};
-
 // 방 id 입력해서 들어가기
-
-export const findRoomAndAddInfoDocuments = async (roomId, user) => {
+export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
   const { email, displayName, id } = user;
 
   const roomDocRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomDocRef);
 
-  console.log(roomSnapshot.data());
+  if (!roomSnapshot.exists()) {
+    alert("Try another room Id");
+    return;
+  }
 
-  if (!roomSnapshot.exists()) return alert("Try another room Id");
+  if (roomSnapshot.data().userList.length >= 5) {
+    alert("The room you entered is full :/");
+    return;
+  }
+
   try {
     if (
       roomSnapshot.data().userList.find((roomUser) => roomUser.id === user.id)
@@ -120,19 +96,64 @@ export const deleteUserRoom = async (roomId, user) => {
       userList: newUserList,
     });
   }
-  console.log(userRoomSnapshot.id);
+
+  const userRef = doc(db, "users", user.id);
+  const myRoomRef = doc(userRef, "myRooms", roomId);
+  const myRoomSnapshot = await getDoc(myRoomRef);
+
+  if (myRoomSnapshot.exists()) {
+    await deleteDoc(myRoomRef);
+  }
 
   return userRoomSnapshot.id;
 };
 
+export const updateMyRoomToUsersDocuments = async (roomId, user) => {
+  const roomRef = doc(db, "rooms", roomId);
+  const roomSnapshot = await getDoc(roomRef);
+
+  const userRef = doc(db, "users", user.id);
+  const myRoomRef = doc(userRef, "myRooms", roomId);
+  const myRoomSnapshot = await getDoc(myRoomRef);
+
+  console.log("myRoomSnapshot :", myRoomSnapshot);
+
+  try {
+    // update 내방 정보
+    if (myRoomSnapshot.exists()) {
+      return { roomId, ...myRoomSnapshot.data() };
+    } else {
+      // 내방 없으면
+      const newRoomData = {
+        roomName: roomSnapshot.data().roomName,
+        roomId: roomId,
+        timestamp: roomSnapshot.data().timestamp,
+        userList: roomSnapshot.data().userList,
+      };
+      await setDoc(myRoomRef, newRoomData);
+
+      return newRoomData;
+    }
+  } catch (error) {
+    console.log(" error occur from add My Room : ", error);
+  }
+
+  // console.log(myRoomSnapshot.data());
+};
+
 // user 가 있는 방 가져오기
 export const getUserRoomArray = async (user) => {
-  const roomDocRef = collection(db, "rooms");
+  const userRef = doc(db, "users", user.id);
+  const roomDocRef = collection(userRef, "myRooms");
   const userRoomSnapshot = await getDocs(roomDocRef);
 
-  const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
-    roomDoc.data().userList.find((users) => users.id.includes(user.id))
-  );
+  // const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
+  //   roomDoc.data().userList.find((users) => users.id.includes(user.id))
+  // );
+  // userRoomSnapshot.docs.map((userRoom) => console.log(userRoom.data()));
+
+  let myRoomSnapshot = [];
+  userRoomSnapshot.docs.forEach((userRoom) => myRoomSnapshot.push(userRoom));
 
   return myRoomSnapshot;
 };

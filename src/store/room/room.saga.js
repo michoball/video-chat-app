@@ -1,22 +1,34 @@
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import {
-  addMyRoomToUsersDocuments,
+  updateMyRoomToUsersDocuments,
   createRoomDocuments,
   deleteUserRoom,
-  findRoomAndAddInfoDocuments,
+  joinRoomAndAddInfoDocuments,
   getUserRoomArray,
 } from "../../utill/firebase/firebase.document";
 import {
   createRoomFailed,
-  findRoomSuccess,
+  joinRoomSuccess,
   deleteRoomFailed,
-  findRoomFailed,
+  joinRoomFailed,
   getUserRoomSuccess,
   getUserRoomFailed,
   roomIsLoading,
   deleteRoomSuccess,
+  joinRoomStart,
 } from "./room.action";
 import { ROOM_ACTION_TYPE } from "./room.type";
+
+export function* updateUserRoom(room, user) {
+  try {
+    const myRoom = yield call(updateMyRoomToUsersDocuments, room.id, user);
+    yield put(joinRoomSuccess(myRoom));
+    yield put(roomIsLoading(false));
+  } catch (error) {
+    yield put(joinRoomFailed(error));
+    yield put(roomIsLoading(false));
+  }
+}
 
 export function* getRoomList({ payload: user }) {
   yield put(roomIsLoading(true));
@@ -30,17 +42,12 @@ export function* getRoomList({ payload: user }) {
   }
 }
 
-export function* newRoomCreate({ payload: { roomName, currentUser } }) {
+export function* createRoom({ payload: { roomName, currentUser } }) {
   yield put(roomIsLoading(true));
 
   try {
     const newRoom = yield call(createRoomDocuments, roomName, currentUser);
-
-    if (newRoom) {
-      yield call(addMyRoomToUsersDocuments, newRoom.id, currentUser);
-      yield put(findRoomSuccess(newRoom));
-    }
-
+    yield put(joinRoomStart(newRoom.id, currentUser));
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(createRoomFailed(error));
@@ -48,22 +55,22 @@ export function* newRoomCreate({ payload: { roomName, currentUser } }) {
   }
 }
 
-export function* findRoom({ payload: { roomId, currentUser } }) {
+// 방에 입장할 때마다 해야함
+export function* joinRoom({ payload: { roomId, currentUser } }) {
   yield put(roomIsLoading(true));
 
   try {
-    const RoomData = yield call(
-      findRoomAndAddInfoDocuments,
+    const roomData = yield call(
+      joinRoomAndAddInfoDocuments,
       roomId,
       currentUser
     );
-    if (RoomData) {
-      yield call(addMyRoomToUsersDocuments, RoomData.id, currentUser);
-      yield put(findRoomSuccess(RoomData));
+    console.log("ROOM DATA~ ~~~ ", roomData);
+    if (roomData) {
+      yield call(updateUserRoom, roomData, currentUser);
     }
-    yield put(roomIsLoading(false));
   } catch (error) {
-    yield put(findRoomFailed(error));
+    yield put(joinRoomFailed(error));
     yield put(roomIsLoading(false));
   }
 }
@@ -74,7 +81,6 @@ export function* deleteRoom({ payload: { roomId, currentUser } }) {
     const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
     if (deletedRoomId) {
       yield put(deleteRoomSuccess(deletedRoomId));
-      yield call(addMyRoomToUsersDocuments, deletedRoomId, currentUser);
     }
     yield put(roomIsLoading(false));
   } catch (error) {
@@ -88,11 +94,11 @@ export function* onGetUserRoomList() {
 }
 
 export function* onCreateRoomStart() {
-  yield takeLatest(ROOM_ACTION_TYPE.CREATE_ROOM_START, newRoomCreate);
+  yield takeLatest(ROOM_ACTION_TYPE.CREATE_ROOM_START, createRoom);
 }
 
-export function* onFindRoomStart() {
-  yield takeLatest(ROOM_ACTION_TYPE.FIND_ROOM_START, findRoom);
+export function* onJoinRoomStart() {
+  yield takeLatest(ROOM_ACTION_TYPE.JOIN_ROOM_START, joinRoom);
 }
 
 export function* onDeleteRoomStart() {
@@ -102,7 +108,7 @@ export function* onDeleteRoomStart() {
 export function* roomSagas() {
   yield all([
     call(onCreateRoomStart),
-    call(onFindRoomStart),
+    call(onJoinRoomStart),
     call(onDeleteRoomStart),
     call(onGetUserRoomList),
   ]);

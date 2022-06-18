@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { setLocalUser, clearRtcUser } from "../../store/rtc/rtc.action";
 import { setChannel, setRtmClient } from "../../store/rtm/rtm.action";
-import { findRoomStart } from "../../store/room/room.action";
+import { joinRoomStart } from "../../store/room/room.action";
 
 function Room() {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +37,7 @@ function Room() {
   const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    dispatch(findRoomStart(roomId, currentUser));
+    dispatch(joinRoomStart(roomId, currentUser));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, roomId]);
 

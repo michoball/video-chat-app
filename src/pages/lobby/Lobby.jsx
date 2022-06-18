@@ -6,7 +6,7 @@ import { LobbyContainer, RoomListContainer, AddRoomBtn } from "./Lobby.styles";
 import RoomList from "../../components/roomList/RoomList";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserRoomStart } from "../../store/room/room.action";
+import { clearRoomInfo, getUserRoomStart } from "../../store/room/room.action";
 import { selectUserRoomList } from "../../store/room/room.selector";
 
 function Lobby() {
@@ -18,6 +18,7 @@ function Lobby() {
 
   useEffect(() => {
     if (currentUser) {
+      dispatch(clearRoomInfo());
       dispatch(getUserRoomStart(currentUser));
     }
   }, [currentUser]);

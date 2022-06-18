@@ -28,9 +28,9 @@ const RoomForm = ({ onToggleForm }) => {
   const roomInfo = useSelector(selectRoomInfo);
 
   useEffect(() => {
-    if (roomInfo.id) {
+    if (roomInfo.roomId) {
       console.log(roomInfo);
-      navigate(`/room/${roomInfo.id}`);
+      navigate(`/room/${roomInfo.roomId}`);
     }
   }, [roomInfo]);
 
@@ -73,7 +73,7 @@ const RoomForm = ({ onToggleForm }) => {
           />
           <ButtonContainer>
             <RoomFormBtn type="submit">
-              {roomIsLoading ? <FormSpinner /> : "Join"}
+              {roomIsLoading ? <FormSpinner /> : "Create"}
             </RoomFormBtn>
             <RoomFormBtn
               className="cancel"

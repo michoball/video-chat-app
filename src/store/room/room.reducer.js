@@ -21,7 +21,8 @@ const roomReducer = (state = ROOM_INIT_STATE, action) => {
         ...state,
         userRoomList: payload,
       };
-    case ROOM_ACTION_TYPE.FIND_ROOM_SUCCESS:
+    case ROOM_ACTION_TYPE.JOIN_ROOM_SUCCESS:
+      console.log(payload);
       return {
         ...state,
         roomInfo: payload,
@@ -34,8 +35,13 @@ const roomReducer = (state = ROOM_INIT_STATE, action) => {
         ...state,
         userRoomList: newUserRoomList,
       };
+    case ROOM_ACTION_TYPE.CLEAR_ROOM_INFO:
+      return {
+        ...state,
+        roomInfo: {},
+      };
     case ROOM_ACTION_TYPE.GET_ROOM_FAILED:
-    case ROOM_ACTION_TYPE.FIND_ROOM_FAILED:
+    case ROOM_ACTION_TYPE.JOIN_ROOM_FAILED:
     case ROOM_ACTION_TYPE.CREATE_ROOM_FAILED:
     case ROOM_ACTION_TYPE.DELETE_ROOM_FAILED:
       return {

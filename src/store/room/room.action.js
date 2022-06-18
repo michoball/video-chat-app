@@ -12,14 +12,14 @@ export const getUserRoomSuccess = (roomList) =>
 
 // --------------------------------------------------------------------//
 
-export const findRoomStart = (roomId, currentUser) =>
-  createAction(ROOM_ACTION_TYPE.FIND_ROOM_START, { roomId, currentUser });
+export const joinRoomStart = (roomId, currentUser) =>
+  createAction(ROOM_ACTION_TYPE.JOIN_ROOM_START, { roomId, currentUser });
 
-export const findRoomSuccess = (newRoom) =>
-  createAction(ROOM_ACTION_TYPE.FIND_ROOM_SUCCESS, newRoom);
+export const joinRoomSuccess = (newRoom) =>
+  createAction(ROOM_ACTION_TYPE.JOIN_ROOM_SUCCESS, newRoom);
 
-export const findRoomFailed = (error) => {
-  createAction(ROOM_ACTION_TYPE.FIND_ROOM_FAILED, error);
+export const joinRoomFailed = (error) => {
+  createAction(ROOM_ACTION_TYPE.JOIN_ROOM_FAILED, error);
 };
 
 // --------------------------------------------------------------------//
@@ -45,3 +45,6 @@ export const createRoomFailed = (error) => {
 
 export const roomIsLoading = (bool) =>
   createAction(ROOM_ACTION_TYPE.ROOM_ISLOADING, bool);
+
+export const clearRoomInfo = () =>
+  createAction(ROOM_ACTION_TYPE.CLEAR_ROOM_INFO);

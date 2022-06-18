@@ -7,12 +7,15 @@ import {
   Backdrop,
 } from "./RoomForm.styles";
 import FormInput from "../../UI/formInput/FormInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { findRoomStart } from "../../store/room/room.action";
-import { selectRoomIsLoading } from "../../store/room/room.selector";
+import { joinRoomStart } from "../../store/room/room.action";
+import {
+  selectRoomInfo,
+  selectRoomIsLoading,
+} from "../../store/room/room.selector";
 
 const JoinRoomForm = ({ onToggleForm }) => {
   const dispatch = useDispatch();
@@ -20,6 +23,14 @@ const JoinRoomForm = ({ onToggleForm }) => {
   const [roomId, setRoomId] = useState("");
   const currentUser = useSelector(selectCurrentUser);
   const roomIsLoading = useSelector(selectRoomIsLoading);
+  const roomInfo = useSelector(selectRoomInfo);
+
+  useEffect(() => {
+    if (roomInfo.roomId) {
+      console.log(roomInfo);
+      navigate(`/room/${roomInfo.roomId}`);
+    }
+  }, [roomInfo]);
 
   const roomIdHandler = (e) => {
     setRoomId(e.target.value);
@@ -33,13 +44,7 @@ const JoinRoomForm = ({ onToggleForm }) => {
       return;
     }
     try {
-      const roomIdCredential = dispatch(
-        findRoomStart(roomId.trim(), currentUser)
-      );
-
-      if (roomIdCredential) {
-        navigate(`/room/${roomId.trim()}`);
-      }
+      dispatch(joinRoomStart(roomId.trim(), currentUser));
     } catch (error) {
       console.log(error);
     }
