@@ -2,11 +2,9 @@ import { createAction } from "../../utill/reducer/reducer.config";
 import { RTC_ACTION_TYPE } from "./rtc.type";
 
 const addUserToList = (rtcUserList, newUser) => {
-  console.log("rtc user list", rtcUserList);
   const existingUser = rtcUserList.find(
     (rtcUser) => rtcUser.uid === newUser.uid
   );
-  console.log(" existing user ", existingUser);
   if (existingUser) {
     return rtcUserList.map((rtcUser) =>
       rtcUser.uid === newUser.uid ? { ...newUser, size: rtcUser.size } : rtcUser
@@ -75,9 +73,10 @@ export const setLocalUser = (user) => {
   return createAction(RTC_ACTION_TYPE.SET_LOCAL_USER, { ...user });
 };
 
-export const addRtcUser = (rtcUsers, userToAdd) => {
-  const newUserList = addUserToList(rtcUsers, userToAdd);
-  return createAction(RTC_ACTION_TYPE.SET_RTC_USER, newUserList);
+export const addRtcUser = (userToAdd) => {
+  const newUserList = { ...userToAdd, size: "base" };
+  // addUserToList(userToAdd);
+  return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, newUserList);
 };
 
 export const removeRtcUser = (rtcUsers, userToRemove) => {

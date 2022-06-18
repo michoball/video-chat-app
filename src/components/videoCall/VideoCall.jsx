@@ -20,6 +20,8 @@ function VideoCall() {
   const rtcUsers = useSelector(selectRtcUsers);
   const client = useClient();
 
+  console.log(rtcUsers);
+
   useEffect(() => {
     const init = async () => {
       // remote user가 들어오고 나가고 할 때 event handler
@@ -27,7 +29,7 @@ function VideoCall() {
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
           console.log("new published User : ", user, "rtcUser :", rtcUsers);
-          dispatch(addRtcUser(rtcUsers, user));
+          dispatch(addRtcUser(user));
         }
         if (mediaType === "audio") {
           user.audioTrack?.play();
@@ -52,7 +54,7 @@ function VideoCall() {
 
     if (localUser) {
       console.log("VideoCall point", localUser);
-      init();
+      init(localUser);
     }
   }, [localUser, client, rtcUsers]);
 

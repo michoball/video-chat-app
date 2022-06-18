@@ -17,13 +17,7 @@ export const selectRtmMessages = createSelector(
   (rtm) => rtm.messages
 );
 
-// export const selectCartCount = createSelector([selectCartItems], (cartItems) =>
-//   cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0)
-// );
-
-// export const selectCartTotal = createSelector([selectCartItems], (cartItems) =>
-//   cartItems.reduce(
-//     (total, cartItem) => total + cartItem.quantity * cartItem.price,
-//     0
-//   )
-// );
+export const selectRtmUsers = createSelector(
+  [selectRtmReducer],
+  (rtm) => rtm.rtmUsers
+);

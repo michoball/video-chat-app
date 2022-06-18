@@ -17,10 +17,7 @@ import {
   selectRtmChannel,
   selectRtmClient,
 } from "../../store/rtm/rtm.selector";
-import {
-  clearClientAndChannel,
-  clearMessages,
-} from "../../store/rtm/rtm.action";
+import { clearAll } from "../../store/rtm/rtm.action";
 import { signOutStart } from "../../store/user/user.action";
 
 function Navigation() {
@@ -46,8 +43,7 @@ function Navigation() {
       if ((rtmClient && channel) !== null) {
         await channel.leave();
         await rtmClient.logout();
-        dispatch(clearClientAndChannel());
-        dispatch(clearMessages());
+        dispatch(clearAll());
       }
       dispatch(signOutStart());
       navigate("/");

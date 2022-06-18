@@ -30,6 +30,8 @@ function Lobby() {
     setJoin(!join);
   };
 
+  console.log(userRoomList);
+
   return (
     <>
       <LobbyContainer>

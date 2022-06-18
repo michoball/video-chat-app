@@ -37,7 +37,9 @@ function Room() {
   const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    dispatch(joinRoomStart(roomId, currentUser));
+    if (currentUser && roomId) {
+      dispatch(joinRoomStart(roomId, currentUser));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, roomId]);
 
@@ -87,7 +89,7 @@ function Room() {
         console.log(`Room UseEffect has Error!!! : ${error}`);
       }
     };
-    if (ready && tracks && client) {
+    if (ready && tracks && client && currentUser) {
       console.log("Room starting point", roomId, client);
       init(roomId);
     }

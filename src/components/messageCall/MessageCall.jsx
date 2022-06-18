@@ -18,11 +18,13 @@ import {
   selectRtmChannel,
   selectRtmMessages,
   selectRtmClient,
+  selectRtmUsers,
 } from "../../store/rtm/rtm.selector";
 import {
-  clearClientAndChannel,
-  clearMessages,
   addMessages,
+  clearAll,
+  addRtmUser,
+  removeRtmUser,
 } from "../../store/rtm/rtm.action";
 
 function MessageCall() {
@@ -30,16 +32,7 @@ function MessageCall() {
   const channel = useSelector(selectRtmChannel);
   const rtmClient = useSelector(selectRtmClient);
   const messages = useSelector(selectRtmMessages);
-
-  // const {
-  //   channel,
-  //   rtmClient,
-  //   clearMessages,
-  //   clearClientAndChannel,
-  //   messages,
-  //   addMessages,
-  // } = useContext(RtmContext);
-
+  const rtmUsers = useSelector(selectRtmUsers);
   const currentUser = useSelector(selectCurrentUser);
 
   const messageRef = useRef("");
@@ -56,7 +49,10 @@ function MessageCall() {
         const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
           "name",
         ]);
-        // addRtmUser(MemberId, name);
+
+        const userList = await channel.getMembers();
+        console.log(userList);
+        dispatch(addRtmUser(rtmUsers, MemberId, name));
         const botMessageData = {
           type: "chat",
           from: MESSAGE_TYPE.bot,
@@ -78,6 +74,8 @@ function MessageCall() {
           displayName: "Bot 🤖",
         };
         dispatch(addMessages(botMessageData));
+        dispatch(removeRtmUser(rtmUsers, MemberId));
+
         console.log("leaving", MemberId);
       });
 
@@ -152,8 +150,7 @@ function MessageCall() {
     await channel.leave();
     await rtmClient.logout();
 
-    dispatch(clearMessages());
-    dispatch(clearClientAndChannel());
+    dispatch(clearAll());
 
     console.log("rtm User Out~!!!!!!!!!");
   };

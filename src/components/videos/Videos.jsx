@@ -14,14 +14,23 @@ import {
   selectRtcBig,
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
+import { selectRtmUsers } from "../../store/rtm/rtm.selector";
 
 function Videos() {
   const rtcUsers = useSelector(selectRtcUsers);
   const localUser = useSelector(selectRtcLocalUser);
   const share = useSelector(selectRtcShare);
   const bigSizeVideo = useSelector(selectRtcBig);
+  const rtmUsers = useSelector(selectRtmUsers);
 
   console.log("videos Rtc Users List : ", rtcUsers);
+  console.log("videos rtmUsers :", rtmUsers);
+
+  if (rtmUsers) {
+    rtmUsers.forEach((rtmUser) => {
+      return console.log(Object.values(rtmUser));
+    });
+  }
 
   return (
     <VideosContainer id="videos">
