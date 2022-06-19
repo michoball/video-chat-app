@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 import MessageContent, { MESSAGE_TYPE } from "../message/MessageContent";
 import { SendingIcon } from "../../UI/Icons";
@@ -34,7 +34,6 @@ function MessageCall() {
   const messages = useSelector(selectRtmMessages);
   const rtmUsers = useSelector(selectRtmUsers);
   const currentUser = useSelector(selectCurrentUser);
-
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
 
@@ -42,31 +41,41 @@ function MessageCall() {
     scrollToBottom();
   }, [messages]);
 
+  // const getRtmMember = async (id, name) => {
+  //   const userList = await channel.getMembers();
+
+  //   userList.map(async (userId) => {
+  //     const { name } = await rtmClient.getUserAttributesByKeys(userId, [
+  //       "name",
+  //     ]);
+  //     dispatch(addRtmUser(rtmUsers, userId, name));
+  //   });
+  // };
+
   useEffect(() => {
     const init = async (channel) => {
+      // const user = await getRtmMember(channel);
+      // console.log(user);
       channel.on("MemberJoined", async (MemberId) => {
         console.log(" New Member Id : ", MemberId);
         const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
           "name",
         ]);
 
-        const userList = await channel.getMembers();
-        console.log(userList);
-        dispatch(addRtmUser(rtmUsers, MemberId, name));
-        const botMessageData = {
-          type: "chat",
-          from: MESSAGE_TYPE.bot,
-          message: `New Member Joined "${name}" `,
-          displayName: "Bot 🤖",
-        };
-        dispatch(addMessages(botMessageData));
-
+        if (name) {
+          const botMessageData = {
+            type: "chat",
+            from: MESSAGE_TYPE.bot,
+            message: `New Member Joined "${name}" `,
+            displayName: "Bot 🤖",
+          };
+          dispatch(addMessages(botMessageData));
+          // dispatch(addRtmUser(MemberId, name));
+        }
         console.log("NEW Member Joined~!!", MemberId, name);
       });
 
       channel.on("MemberLeft", async (MemberId) => {
-        // 이미 나갔다고 나간 맴버의 id로는 name attributes를 가져올수 없다고 함
-
         const botMessageData = {
           type: "chat",
           from: MESSAGE_TYPE.bot,
@@ -74,7 +83,6 @@ function MessageCall() {
           displayName: "Bot 🤖",
         };
         dispatch(addMessages(botMessageData));
-        dispatch(removeRtmUser(rtmUsers, MemberId));
 
         console.log("leaving", MemberId);
       });
@@ -103,7 +111,7 @@ function MessageCall() {
       init(channel);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel, rtmClient]);
+  }, [channel, rtmUsers, rtmClient, dispatch]);
 
   const scrollToBottom = () => {
     endfMessagesRef.current.scrollIntoView({

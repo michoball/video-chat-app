@@ -29,6 +29,7 @@ function VideoCall() {
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
           console.log("new published User : ", user, "rtcUser :", rtcUsers);
+
           dispatch(addRtcUser(user));
         }
         if (mediaType === "audio") {
@@ -56,6 +57,7 @@ function VideoCall() {
       console.log("VideoCall point", localUser);
       init(localUser);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localUser, client, rtcUsers]);
 
   if (isLoading) {

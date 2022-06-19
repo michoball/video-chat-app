@@ -4,14 +4,9 @@ import {
   RoomUserList,
   RoomSettings,
 } from "./RoomInfo.styles";
-
 import { AiOutlineSetting } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { selectRoomInfo } from "../../store/room/room.selector";
 
-const RoomInfo = () => {
-  const roomInfo = useSelector(selectRoomInfo);
-
+const RoomInfo = ({ roomInfo }) => {
   return (
     <RoomInfoContainer>
       <RoomNameHeader>{roomInfo.roomName}</RoomNameHeader>

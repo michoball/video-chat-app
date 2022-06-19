@@ -1,22 +1,19 @@
 import { createAction } from "../../utill/reducer/reducer.config";
 import { RTC_ACTION_TYPE } from "./rtc.type";
 
-const addUserToList = (rtcUserList, newUser) => {
-  const existingUser = rtcUserList.find(
-    (rtcUser) => rtcUser.uid === newUser.uid
-  );
+const addUserList = (rtcUserList, userToAdd) => {
+  const existingUser = rtcUserList?.find((user) => user.uid === userToAdd.uid);
+
   if (existingUser) {
-    return rtcUserList.map((rtcUser) =>
-      rtcUser.uid === newUser.uid ? { ...newUser, size: rtcUser.size } : rtcUser
+    return rtcUserList.map((user) =>
+      user.uid === userToAdd.uid ? { ...userToAdd, size: user.size } : user
     );
   }
-  return [...rtcUserList, { ...newUser, size: "base" }];
+
+  return [...rtcUserList, { userToAdd }];
 };
 
 const removeUserFromList = (rtcUserList, userToRemove) => {
-  if (!rtcUserList.length) {
-    return [];
-  }
   return rtcUserList.filter((rtcUser) => rtcUser.uid !== userToRemove.uid);
 };
 
@@ -75,11 +72,11 @@ export const setLocalUser = (user) => {
 
 export const addRtcUser = (userToAdd) => {
   const newUserList = { ...userToAdd, size: "base" };
-  // addUserToList(userToAdd);
+  // const newUserList = addUserList(rtcUsers, userToAdd);
   return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, newUserList);
 };
 
-export const removeRtcUser = (rtcUsers, userToRemove) => {
-  const newUserList = removeUserFromList(rtcUsers, userToRemove);
+export const removeRtcUser = (rtcUserList, userToRemove) => {
+  const newUserList = removeUserFromList(rtcUserList, userToRemove);
   return createAction(RTC_ACTION_TYPE.SET_RTC_USER, newUserList);
 };

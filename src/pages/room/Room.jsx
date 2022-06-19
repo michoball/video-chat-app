@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { findRoomAndAddInfoDocuments } from "../../utill/firebase/firebase.document";
-
 import {
   config,
   useClient,
@@ -27,6 +25,7 @@ import { joinRoomStart } from "../../store/room/room.action";
 function Room() {
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
+  // const [myChannel, setMyChannel] = useState(null);
 
   const client = useClient();
   const { roomId } = useParams();
@@ -64,6 +63,7 @@ function Room() {
         // 내 displayName 넣기
         await RTMclient.addOrUpdateLocalUserAttributes({
           name: currentUser.displayName,
+          userId: currentUser.id,
         });
         // roomName 방에 채널을 만들기
         const rtmChannel = RTMclient.createChannel(roomName);
@@ -78,9 +78,9 @@ function Room() {
 
           dispatch(setLocalUser(localUser));
           console.log(localUser);
-          // addRtmUser(clientUid, currentUser.displayName);
-          dispatch(setChannel(rtmChannel));
 
+          dispatch(setChannel(rtmChannel));
+          // setMyChannel(rtmChannel);
           dispatch(setRtmClient(RTMclient));
           setStart(true);
         }
@@ -100,13 +100,13 @@ function Room() {
     return <Spinner />;
   }
 
-  window.addEventListener("popstate", async () => {
+  window.onpopstate = async () => {
     tracks[0].close();
     tracks[1].close();
     await client.leave();
     client.removeAllListeners();
     dispatch(clearRtcUser());
-  });
+  };
 
   return (
     <RoomContainer>

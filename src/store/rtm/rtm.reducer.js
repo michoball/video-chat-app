@@ -23,9 +23,19 @@ const rtmReducer = (state = RTM_INIT_STATE, action) => {
         messages: state.messages.concat({ ...payload, id: messageuid }),
       };
     case RTM_ACTION_TYPE.SET_RTM_USER:
+      // const existingUser = state.rtmUsers?.find(
+      //   (user) => user.id === payload.id
+      // );
+
+      // if (existingUser) {
+      //   return state.rtmUsers.map((user) =>
+      //     user.id === payload.id ? { ...payload } : user
+      //   );
+      // }
+
       return {
         ...state,
-        rtmUsers: payload,
+        rtmUsers: state.rtmUsers.concat(payload),
       };
     case RTM_ACTION_TYPE.SET_CHANNEL:
       return {

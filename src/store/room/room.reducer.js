@@ -2,7 +2,7 @@ import { ROOM_ACTION_TYPE } from "./room.type";
 
 const ROOM_INIT_STATE = {
   userRoomList: [],
-  roomInfo: {},
+  roomInfo: null,
   roomLoading: false,
   error: null,
 };
@@ -38,7 +38,7 @@ const roomReducer = (state = ROOM_INIT_STATE, action) => {
     case ROOM_ACTION_TYPE.CLEAR_ROOM_INFO:
       return {
         ...state,
-        roomInfo: {},
+        roomInfo: null,
       };
     case ROOM_ACTION_TYPE.GET_ROOM_FAILED:
     case ROOM_ACTION_TYPE.JOIN_ROOM_FAILED:

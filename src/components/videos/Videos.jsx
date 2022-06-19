@@ -15,22 +15,17 @@ import {
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
 import { selectRtmUsers } from "../../store/rtm/rtm.selector";
+import { selectRoomInfo } from "../../store/room/room.selector";
 
 function Videos() {
   const rtcUsers = useSelector(selectRtcUsers);
   const localUser = useSelector(selectRtcLocalUser);
   const share = useSelector(selectRtcShare);
   const bigSizeVideo = useSelector(selectRtcBig);
-  const rtmUsers = useSelector(selectRtmUsers);
+
+  const roomInfo = useSelector(selectRoomInfo);
 
   console.log("videos Rtc Users List : ", rtcUsers);
-  console.log("videos rtmUsers :", rtmUsers);
-
-  if (rtmUsers) {
-    rtmUsers.forEach((rtmUser) => {
-      return console.log(Object.values(rtmUser));
-    });
-  }
 
   return (
     <VideosContainer id="videos">
@@ -41,7 +36,7 @@ function Videos() {
           id={localUser.uid}
           track={localUser.tracks[0]}
         />
-        <RoomInfo />
+        {roomInfo && <RoomInfo roomInfo={roomInfo} />}
       </LocalUserVideoContianer>
 
       <ShareOrBigVideoContianer>

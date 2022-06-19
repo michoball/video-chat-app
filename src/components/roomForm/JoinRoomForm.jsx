@@ -26,7 +26,7 @@ const JoinRoomForm = ({ onToggleForm }) => {
   const roomInfo = useSelector(selectRoomInfo);
 
   useEffect(() => {
-    if (roomInfo.roomId) {
+    if (roomInfo) {
       console.log(roomInfo);
       navigate(`/room/${roomInfo.roomId}`);
     }
