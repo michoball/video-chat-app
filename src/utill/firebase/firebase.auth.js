@@ -68,6 +68,7 @@ export const getCurrentUser = () => {
       auth,
       (userAuth) => {
         unsubscribe();
+        localStorage.setItem("user", JSON.stringify(userAuth));
         resolve(userAuth);
       },
       reject

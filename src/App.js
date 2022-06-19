@@ -12,11 +12,11 @@ import { useDispatch } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(checkUserSession());
+  useEffect(() => {
+    dispatch(checkUserSession());
 
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Routes>
