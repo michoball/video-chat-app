@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 import MessageContent, { MESSAGE_TYPE } from "../message/MessageContent";
 import { SendingIcon } from "../../UI/Icons";
@@ -18,70 +18,64 @@ import {
   selectRtmChannel,
   selectRtmMessages,
   selectRtmClient,
-  selectRtmUsers,
 } from "../../store/rtm/rtm.selector";
-import {
-  addMessages,
-  clearAll,
-  addRtmUser,
-  removeRtmUser,
-} from "../../store/rtm/rtm.action";
+import { addMessages, clearAll, addRtmUser } from "../../store/rtm/rtm.action";
 
 function MessageCall() {
   const dispatch = useDispatch();
   const channel = useSelector(selectRtmChannel);
   const rtmClient = useSelector(selectRtmClient);
   const messages = useSelector(selectRtmMessages);
-  const rtmUsers = useSelector(selectRtmUsers);
   const currentUser = useSelector(selectCurrentUser);
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
+
+  const scrollToBottom = () => {
+    endfMessagesRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // const getRtmMember = async (id, name) => {
-  //   const userList = await channel.getMembers();
-
-  //   userList.map(async (userId) => {
-  //     const { name } = await rtmClient.getUserAttributesByKeys(userId, [
-  //       "name",
-  //     ]);
-  //     dispatch(addRtmUser(rtmUsers, userId, name));
-  //   });
-  // };
+  const makeBotMessage = (userState, name = "") => {
+    if (userState === "join") {
+      return {
+        type: "chat",
+        from: MESSAGE_TYPE.bot,
+        message: `New Member Joined "${name}" `,
+        displayName: "Bot 🤖",
+      };
+    }
+    if (userState === "left") {
+      return {
+        type: "chat",
+        from: MESSAGE_TYPE.bot,
+        message: `Member left `,
+        displayName: "Bot 🤖",
+      };
+    }
+  };
 
   useEffect(() => {
     const init = async (channel) => {
-      // const user = await getRtmMember(channel);
-      // console.log(user);
       channel.on("MemberJoined", async (MemberId) => {
-        console.log(" New Member Id : ", MemberId);
         const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
           "name",
         ]);
 
-        if (name) {
-          const botMessageData = {
-            type: "chat",
-            from: MESSAGE_TYPE.bot,
-            message: `New Member Joined "${name}" `,
-            displayName: "Bot 🤖",
-          };
-          dispatch(addMessages(botMessageData));
-          // dispatch(addRtmUser(MemberId, name));
-        }
+        const botMessageData = makeBotMessage("join", name);
+        dispatch(addMessages(botMessageData));
+        dispatch(addRtmUser(MemberId, name));
+
         console.log("NEW Member Joined~!!", MemberId, name);
       });
 
       channel.on("MemberLeft", async (MemberId) => {
-        const botMessageData = {
-          type: "chat",
-          from: MESSAGE_TYPE.bot,
-          message: `Member left `,
-          displayName: "Bot 🤖",
-        };
+        const botMessageData = makeBotMessage("left");
         dispatch(addMessages(botMessageData));
 
         console.log("leaving", MemberId);
@@ -110,15 +104,7 @@ function MessageCall() {
       console.log("rtmClient : ", rtmClient);
       init(channel);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel, rtmUsers, rtmClient, dispatch]);
-
-  const scrollToBottom = () => {
-    endfMessagesRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
+  }, [channel, rtmClient, dispatch]);
 
   const messageSendHandler = async () => {
     if (messageRef.current.value === "") {

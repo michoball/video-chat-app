@@ -63,7 +63,6 @@ function Room() {
         // 내 displayName 넣기
         await RTMclient.addOrUpdateLocalUserAttributes({
           name: currentUser.displayName,
-          userId: currentUser.id,
         });
         // roomName 방에 채널을 만들기
         const rtmChannel = RTMclient.createChannel(roomName);

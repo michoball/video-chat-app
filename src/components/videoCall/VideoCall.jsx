@@ -27,6 +27,7 @@ function VideoCall() {
       // remote user가 들어오고 나가고 할 때 event handler
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
+
         if (mediaType === "video") {
           console.log("new published User : ", user, "rtcUser :", rtcUsers);
 
