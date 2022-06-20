@@ -4,7 +4,8 @@ import {
   RoomUserList,
   RoomSettings,
 } from "./RoomInfo.styles";
-import { AiOutlineSetting } from "react-icons/ai";
+
+import Setting from "../setting/Setting";
 
 const RoomInfo = ({ roomInfo }) => {
   return (
@@ -18,12 +19,7 @@ const RoomInfo = ({ roomInfo }) => {
         </ul>
       </RoomUserList>
       <RoomSettings>
-        <AiOutlineSetting
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            console.log("setting");
-          }}
-        />
+        <Setting />
       </RoomSettings>
     </RoomInfoContainer>
   );

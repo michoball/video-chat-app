@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Mukta:wght@400;600;700&display=swap");
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyles = createGlobalStyle`
 
 body {
   margin: 0;
   background-color: #1b1b1b;
 
   font-family: "Mukta", sans-serif;
-  /* font-family: "Kdam Thmor Pro", sans-serif; */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -25,3 +25,4 @@ a {
   box-sizing: border-box;
   color: white;
 }
+`;

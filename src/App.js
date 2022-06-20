@@ -10,6 +10,9 @@ import { useEffect } from "react";
 import { checkUserSession } from "./store/user/user.action";
 import { useDispatch } from "react-redux";
 
+import { GlobalStyles } from "./global.styles";
+import { AppThemeProvider } from "./UI/Theme.config";
+
 function App() {
   const dispatch = useDispatch();
   // useEffect(() => {
@@ -19,16 +22,19 @@ function App() {
   // }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<Navigation />}>
-        <Route index element={<Home />} />
-        <Route path="/auth" element={<Authentication />} />
-        <Route path="/" element={<PrivateRoute />}>
-          <Route path="lobby" element={<Lobby />} />
-          <Route path="room/:roomId" element={<Room />} />
+    <AppThemeProvider>
+      <GlobalStyles />
+      <Routes>
+        <Route path="/" element={<Navigation />}>
+          <Route index element={<Home />} />
+          <Route path="/auth" element={<Authentication />} />
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="lobby" element={<Lobby />} />
+            <Route path="room/:roomId" element={<Room />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </AppThemeProvider>
   );
 }
 

@@ -14,8 +14,9 @@ import {
   selectRtcBig,
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
-import { selectRtmUsers } from "../../store/rtm/rtm.selector";
+import { selectRtmChannel, selectRtmUsers } from "../../store/rtm/rtm.selector";
 import { selectRoomInfo } from "../../store/room/room.selector";
+import { useEffect } from "react";
 
 function Videos() {
   const rtcUsers = useSelector(selectRtcUsers);
@@ -24,8 +25,19 @@ function Videos() {
   const bigSizeVideo = useSelector(selectRtcBig);
 
   const roomInfo = useSelector(selectRoomInfo);
+  const channel = useSelector(selectRtmChannel);
+  const rtmUsers = useSelector(selectRtmUsers);
 
-  console.log("videos Rtc Users List : ", rtcUsers);
+  useEffect(() => {
+    const init = async () => {
+      const user = await channel.getMembers();
+      console.log(user);
+    };
+    if (rtcUsers && channel) {
+      init();
+    }
+  }, [rtcUsers, channel]);
+  // console.log("videos Rtc Users List : ", rtcUsers);
 
   return (
     <VideosContainer id="videos">

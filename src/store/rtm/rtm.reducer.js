@@ -23,6 +23,12 @@ const rtmReducer = (state = RTM_INIT_STATE, action) => {
         messages: state.messages.concat({ ...payload, id: messageuid }),
       };
     case RTM_ACTION_TYPE.SET_RTM_USER:
+      if (!state.rtmUsers) {
+        return {
+          ...state,
+          rtmUsers: [payload],
+        };
+      }
       return {
         ...state,
         rtmUsers: [...state.rtmUsers, payload],
