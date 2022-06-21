@@ -4,30 +4,51 @@ import {
   IconContainer,
   ColorCircle,
 } from "./Setting.styles";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
-import { BsCircleFill } from "react-icons/bs";
+
 import { BiEdit } from "react-icons/bi";
+import { ColorContext, COLOR_TYPE_TABLE } from "../../context/color.context";
 
 function Setting() {
   const [setting, setSetting] = useState(false);
-
+  const { colorPicker } = useContext(ColorContext);
   const toggleSettingHandler = () => {
     setSetting(!setting);
   };
 
+  const colorChangeHandler = (color) => {
+    colorPicker(color);
+  };
+
   return (
-    <SettingContainer onClick={toggleSettingHandler}>
-      <IconContainer className={setting ? "on" : ""}>
+    <SettingContainer>
+      <IconContainer
+        onClick={toggleSettingHandler}
+        className={setting ? "on" : ""}
+      >
         <AiOutlineSetting style={{ width: "25px", height: "25px" }} />
       </IconContainer>
       <ItemContainer className={setting ? "on" : ""}>
-        <ColorCircle color={"#0ABF04"} />
-        <ColorCircle color={"#a52aca"} />
-        <ColorCircle color={"#F28705"} />
+        <ColorCircle
+          onClick={colorChangeHandler.bind(null, COLOR_TYPE_TABLE.green)}
+          color={COLOR_TYPE_TABLE.green}
+        />
+        <ColorCircle
+          onClick={colorChangeHandler.bind(null, COLOR_TYPE_TABLE.purple)}
+          color={COLOR_TYPE_TABLE.purple}
+        />
+        <ColorCircle
+          onClick={colorChangeHandler.bind(null, COLOR_TYPE_TABLE.orange)}
+          color={COLOR_TYPE_TABLE.orange}
+        />
+        <ColorCircle
+          onClick={colorChangeHandler.bind(null, COLOR_TYPE_TABLE.white)}
+          color={COLOR_TYPE_TABLE.white}
+        />
         <BiEdit
           style={{
-            marginLeft: "10px",
+            marginLeft: "5px",
           }}
         />
       </ItemContainer>

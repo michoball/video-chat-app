@@ -7,7 +7,7 @@ export const BaseVideoContainer = styled.div`
   height: 250px;
   min-height: 200px;
   margin: 10px;
-  border: 3px solid #a52aca;
+  border: 3px solid ${(props) => props.theme.lineColor};
   border-radius: 10%;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
   overflow: hidden;

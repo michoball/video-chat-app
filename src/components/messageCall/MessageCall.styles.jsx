@@ -6,7 +6,7 @@ export const MessageCallContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: calc(100vh - 60px);
-  border-left: 2px solid #3958fc;
+  border-left: 2px solid ${(props) => props.theme.lineColor};
   /* box-shadow: -1px 1px 3px rgb(57, 88, 252); */
 `;
 
@@ -36,7 +36,7 @@ export const Header = styled.header`
   font-weight: bold;
   color: #d0d2d7;
   text-align: center;
-  border-bottom: 2px solid #a52aca;
+  border-bottom: 2px solid #747474;
   background-color: #494949;
 `;
 
@@ -46,14 +46,14 @@ export const FormContainer = styled.div`
   justify-content: center;
   height: 10%;
   padding: 10px 20px;
-  border-top: 2px solid #a52aca;
+  border-top: 2px solid #747474;
   background-color: #494949;
 `;
 
 export const SendButton = styled(Button)`
   width: 40px;
   height: 30px;
-  border-color: #a52aca !important;
+  border-color: ${(props) => props.theme.lineColor} !important;
   svg {
     font-size: 0.5rem;
   }

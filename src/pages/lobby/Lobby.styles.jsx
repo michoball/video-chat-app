@@ -22,7 +22,7 @@ export const RoomListContainer = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
   margin: 10px auto 20px;
   padding: 20px;
-  border: 1px solid #3958fc;
+  border: 1px solid ${(props) => props.theme.lineColor};
   border-radius: 20px;
   overflow: scroll;
 

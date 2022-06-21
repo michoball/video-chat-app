@@ -1,4 +1,4 @@
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 
 export const RoomInfoContainer = styled.section`
   margin-top: auto;
@@ -14,7 +14,7 @@ export const RoomInfoContainer = styled.section`
 
 export const RoomNameHeader = styled.header`
   background-color: #494949;
-  border-bottom: 2px solid #a52aca;
+  border-bottom: 2px solid ${(props) => props.theme.lineColor};
 
   padding: 10px;
   text-align: center;
@@ -38,5 +38,5 @@ export const RoomSettings = styled.div`
   background-color: #494949;
   padding: 5px 10px;
   text-align: center;
-  border-top: 2px solid ${(props) => props.theme.lineColor.base};
+  border-top: 2px solid ${(props) => props.theme.lineColor};
 `;

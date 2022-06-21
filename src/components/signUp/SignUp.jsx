@@ -129,7 +129,7 @@ const SignUp = () => {
         <ButtonContainer>
           <Button
             style={{ width: "300px" }}
-            variant="outlined"
+            variant="contained"
             color="secondary"
             size="large"
             type="submit"

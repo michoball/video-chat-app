@@ -10,7 +10,7 @@ export const NavContainer = styled.div`
   width: 100%;
   background-color: #262626;
   /* box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); */
-  border-bottom: 1px solid #747474;
+  border-bottom: 1px solid ${(props) => props.theme.lineColor};
   padding: 15px 30px;
   h1 {
     color: #d0d2d7;
@@ -28,7 +28,7 @@ export const LogOutContainer = styled.div`
   span {
     font-size: 14px;
 
-    color: #a52aca;
+    color: ${(props) => props.theme.lineColor};
     padding-right: 10px;
   }
 `;

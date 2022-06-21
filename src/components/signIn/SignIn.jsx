@@ -110,7 +110,7 @@ const SignIn = () => {
 
         <ButtonContainer>
           <Button
-            variant="outlined"
+            variant="contained"
             color="secondary"
             type="submit"
             size="large"
@@ -118,7 +118,7 @@ const SignIn = () => {
             <span> submit</span>
           </Button>
           <Button
-            variant="outlined"
+            variant="contained"
             color="primary"
             type="submit"
             size="large"

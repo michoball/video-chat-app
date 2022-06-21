@@ -46,6 +46,7 @@ export const Message = styled.div`
 export const MyContainer = styled(MessageContainer)`
   span {
     text-align: end;
+    color: ${(props) => props.theme.lineColor};
   }
 `;
 

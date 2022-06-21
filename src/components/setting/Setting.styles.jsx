@@ -26,7 +26,7 @@ export const ItemContainer = styled.div`
   width: 0;
   align-items: center;
   transition: all 1s ease;
-  gap: 10px;
+  gap: 5px;
 
   &.on {
     opacity: 1;
