@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
+import { BiEdit } from "react-icons/bi";
 
 export const RoomContainer = styled.div`
   width: 450px;
@@ -44,17 +45,50 @@ export const Name = styled.h3`
   }
 `;
 
-export const DeleteButton = styled.button`
+export const SettingContainer = styled.div`
   position: absolute;
   top: 5px;
   right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    width: 25px;
+    padding: 0;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+export const EditButton = styled.button`
   background-color: transparent;
-  color: #f23030;
   font-weight: bold;
   border: none;
   cursor: pointer;
-  :hover {
-    color: #e88383;
+
+  svg {
+    fill: #3057f2;
+    :hover {
+      fill: #7d95f6;
+    }
+  }
+`;
+
+export const DeleteButton = styled.button`
+  background-color: transparent;
+
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  svg {
+    fill: #f23030;
+
+    :hover {
+      fill: #e88383;
+    }
   }
 `;
 

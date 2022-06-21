@@ -33,6 +33,7 @@ const roomReducer = (state = ROOM_INIT_STATE, action) => {
       );
       return {
         ...state,
+        roomLoading: false,
         userRoomList: newUserRoomList,
       };
     case ROOM_ACTION_TYPE.CLEAR_ROOM_INFO:

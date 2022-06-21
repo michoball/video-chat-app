@@ -15,7 +15,7 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 import { createRoomStart } from "../../store/room/room.action";
 import {
   selectRoomInfo,
-  selectRoomIsLoading,
+  selectRoomLoading,
 } from "../../store/room/room.selector";
 
 const RoomForm = ({ onToggleForm }) => {
@@ -24,11 +24,11 @@ const RoomForm = ({ onToggleForm }) => {
   const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const currentUser = useSelector(selectCurrentUser);
-  const roomIsLoading = useSelector(selectRoomIsLoading);
+  const roomLoading = useSelector(selectRoomLoading);
   const roomInfo = useSelector(selectRoomInfo);
 
   useEffect(() => {
-    if (roomInfo.roomId) {
+    if (roomInfo) {
       console.log(roomInfo);
       navigate(`/room/${roomInfo.roomId}`);
     }
@@ -73,7 +73,7 @@ const RoomForm = ({ onToggleForm }) => {
           />
           <ButtonContainer>
             <RoomFormBtn type="submit">
-              {roomIsLoading ? <FormSpinner /> : "Create"}
+              {roomLoading ? <FormSpinner /> : "Create"}
             </RoomFormBtn>
             <RoomFormBtn
               className="cancel"

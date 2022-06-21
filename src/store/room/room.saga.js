@@ -77,12 +77,12 @@ export function* joinRoom({ payload: { roomId, currentUser } }) {
 
 export function* deleteRoom({ payload: { roomId, currentUser } }) {
   yield put(roomIsLoading(true));
+
   try {
     const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
     if (deletedRoomId) {
       yield put(deleteRoomSuccess(deletedRoomId));
     }
-    yield put(roomIsLoading(false));
   } catch (error) {
     yield put(deleteRoomFailed(error));
     yield put(roomIsLoading(false));

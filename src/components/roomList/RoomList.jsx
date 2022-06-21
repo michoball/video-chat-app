@@ -3,21 +3,25 @@ import {
   Name,
   DeleteButton,
   RoomsInfo,
+  EditButton,
   RoomListLoading,
+  SettingContainer,
 } from "./RoomList.styles";
+import { BiEdit } from "react-icons/bi";
 import { MdPeople } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { selectRoomIsLoading } from "../../store/room/room.selector";
+import { selectRoomLoading } from "../../store/room/room.selector";
 import { deleteRoomStart } from "../../store/room/room.action";
 
 function RoomList({ id, room }) {
   const dispatch = useDispatch();
   const { userList, roomName } = room;
   const currentUser = useSelector(selectCurrentUser);
-  const roomIsLoading = useSelector(selectRoomIsLoading);
+  const roomLoading = useSelector(selectRoomLoading);
 
   const deleteRoomHandler = () => {
     dispatch(deleteRoomStart(id, currentUser));
@@ -25,7 +29,7 @@ function RoomList({ id, room }) {
 
   return (
     <RoomContainer>
-      {roomIsLoading ? (
+      {roomLoading ? (
         <>
           <RoomListLoading />
         </>
@@ -34,7 +38,15 @@ function RoomList({ id, room }) {
           <Name>
             <Link to={`/room/${id}`}>{roomName}</Link>
           </Name>
-          <DeleteButton onClick={deleteRoomHandler}> &#10005;</DeleteButton>
+          <SettingContainer>
+            <EditButton>
+              <BiEdit />
+            </EditButton>
+            <DeleteButton onClick={deleteRoomHandler}>
+              <IoClose />
+            </DeleteButton>
+          </SettingContainer>
+
           <RoomsInfo>
             <div className="userTotal">
               <MdPeople style={{ fontSize: "20px" }} /> {userList.length}

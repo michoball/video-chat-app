@@ -14,7 +14,7 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 import { joinRoomStart } from "../../store/room/room.action";
 import {
   selectRoomInfo,
-  selectRoomIsLoading,
+  selectRoomLoading,
 } from "../../store/room/room.selector";
 
 const JoinRoomForm = ({ onToggleForm }) => {
@@ -22,7 +22,7 @@ const JoinRoomForm = ({ onToggleForm }) => {
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState("");
   const currentUser = useSelector(selectCurrentUser);
-  const roomIsLoading = useSelector(selectRoomIsLoading);
+  const roomLoading = useSelector(selectRoomLoading);
   const roomInfo = useSelector(selectRoomInfo);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const JoinRoomForm = ({ onToggleForm }) => {
           />
           <ButtonContainer>
             <RoomFormBtn type="submit">
-              {roomIsLoading ? <FormSpinner /> : "Join"}
+              {roomLoading ? <FormSpinner /> : "Join"}
             </RoomFormBtn>
             <RoomFormBtn
               className="cancel"

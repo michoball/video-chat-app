@@ -25,7 +25,10 @@ export const joinRoomFailed = (error) => {
 // --------------------------------------------------------------------//
 
 export const deleteRoomStart = (roomId, currentUser) =>
-  createAction(ROOM_ACTION_TYPE.DELETE_ROOM_START, { roomId, currentUser });
+  createAction(ROOM_ACTION_TYPE.DELETE_ROOM_START, {
+    roomId,
+    currentUser,
+  });
 
 export const deleteRoomSuccess = (roomId) =>
   createAction(ROOM_ACTION_TYPE.DELETE_ROOM_SUCCESS, roomId);

@@ -11,6 +11,7 @@ export const COLOR_TYPE_TABLE = {
   green: "#0ABF04",
   orange: "#F28705",
   white: "#fff",
+  blue: "#3958fc",
 };
 
 export const ColorProvider = ({ children }) => {

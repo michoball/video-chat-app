@@ -7,7 +7,6 @@ import {
 import { useContext, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 
-import { BiEdit } from "react-icons/bi";
 import { ColorContext, COLOR_TYPE_TABLE } from "../../context/color.context";
 
 function Setting() {
@@ -46,10 +45,9 @@ function Setting() {
           onClick={colorChangeHandler.bind(null, COLOR_TYPE_TABLE.white)}
           color={COLOR_TYPE_TABLE.white}
         />
-        <BiEdit
-          style={{
-            marginLeft: "5px",
-          }}
+        <ColorCircle
+          onClick={colorChangeHandler.bind(null, COLOR_TYPE_TABLE.blue)}
+          color={COLOR_TYPE_TABLE.blue}
         />
       </ItemContainer>
     </SettingContainer>
