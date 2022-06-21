@@ -29,6 +29,8 @@ export const userReducer = (state = INIT_STATE, action) => {
         currentUser: payload,
       };
     case USER_ACTION_TYPE.SIGN_OUT_SUCCESS:
+      localStorage.removeItem("user");
+      localStorage.removeItem("Theme-color");
       return {
         ...state,
         currentUser: null,

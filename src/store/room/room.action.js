@@ -38,8 +38,8 @@ export const deleteRoomFailed = (error) =>
 
 // --------------------------------------------------------------------//
 
-export const createRoomStart = (roomName, currentUser) =>
-  createAction(ROOM_ACTION_TYPE.CREATE_ROOM_START, { roomName, currentUser });
+export const createRoomStart = (roomName, user) =>
+  createAction(ROOM_ACTION_TYPE.CREATE_ROOM_START, { roomName, user });
 
 export const createRoomFailed = (error) => {
   createAction(ROOM_ACTION_TYPE.CREATE_ROOM_FAILED, error);

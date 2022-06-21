@@ -22,7 +22,7 @@ import { ROOM_ACTION_TYPE } from "./room.type";
 export function* updateUserRoom(room, user) {
   try {
     const myRoom = yield call(updateMyRoomToUsersDocuments, room.id, user);
-    yield put(joinRoomSuccess(myRoom));
+    yield put(joinRoomSuccess(myRoom, user));
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(joinRoomFailed(error));
@@ -42,12 +42,12 @@ export function* getRoomList({ payload: user }) {
   }
 }
 
-export function* createRoom({ payload: { roomName, currentUser } }) {
+export function* createRoom({ payload: { roomName, user } }) {
   yield put(roomIsLoading(true));
 
   try {
-    const newRoom = yield call(createRoomDocuments, roomName, currentUser);
-    yield put(joinRoomStart(newRoom.id, currentUser));
+    const newRoom = yield call(createRoomDocuments, roomName, user);
+    yield put(joinRoomStart(newRoom.id, user));
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(createRoomFailed(error));
@@ -57,7 +57,7 @@ export function* createRoom({ payload: { roomName, currentUser } }) {
 
 // 방에 입장할 때마다 해야함
 export function* joinRoom({ payload: { roomId, currentUser } }) {
-  yield put(roomIsLoading(true));
+  // yield put(roomIsLoading(true));
 
   try {
     const roomData = yield call(

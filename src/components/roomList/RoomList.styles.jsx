@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
-import { BiEdit } from "react-icons/bi";
 
 export const RoomContainer = styled.div`
   width: 450px;
@@ -33,15 +32,24 @@ export const RoomListLoading = styled(SpinnerContainer)`
   border-top-color: #3958fc;
 `;
 
-export const Name = styled.h3`
+export const Name = styled.form`
   position: absolute;
   left: 20px;
   margin-top: -20px;
   font-size: 20px;
   letter-spacing: 0.5px;
+  color: white;
+`;
 
-  a {
-    color: white;
+export const EditName = styled.input`
+  background-color: transparent;
+  width: 100px;
+  font-size: 18px;
+  border: none;
+
+  &.edit {
+    background-color: rgba(116, 116, 116, 0.5);
+    border-radius: 5px;
   }
 `;
 

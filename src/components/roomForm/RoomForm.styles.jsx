@@ -68,5 +68,5 @@ export const FormSpinner = styled(SpinnerContainer)`
   height: 25px;
   border: 2px solid #fff;
   border-radius: 50%;
-  border-top-color: #0abf04;
+  border-top-color: #a52aca;
 `;

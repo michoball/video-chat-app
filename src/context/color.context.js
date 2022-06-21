@@ -15,7 +15,7 @@ export const COLOR_TYPE_TABLE = {
 };
 
 export const ColorProvider = ({ children }) => {
-  const [color, setColor] = useState(COLOR_TYPE_TABLE.purple);
+  const [color, setColor] = useState(COLOR_TYPE_TABLE.blue);
 
   const colorPicker = (colorValue) => {
     localStorage.setItem("Theme-color", JSON.stringify(colorValue));
@@ -25,7 +25,6 @@ export const ColorProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem("Theme-color")) {
       const initialColor = JSON.parse(localStorage.getItem("Theme-color"));
-      console.log(initialColor);
       setColor(initialColor);
     }
   }, []);

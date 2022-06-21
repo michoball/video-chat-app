@@ -21,7 +21,7 @@ function Lobby() {
       dispatch(clearRoomInfo());
       dispatch(getUserRoomStart(currentUser));
     }
-  }, [currentUser]);
+  }, []);
 
   const toggleRoomFormHandelr = () => {
     setToggleRoomForm(!toggleRoomForm);

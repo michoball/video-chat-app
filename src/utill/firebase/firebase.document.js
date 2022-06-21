@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
+import { auth } from "./firebase.auth";
 
 //방 새로이 만들기
 export const createRoomDocuments = async (roomName, user) => {
@@ -124,6 +125,22 @@ export const updateMyRoomToUsersDocuments = async (roomId, user) => {
     return newRoomData;
   } catch (error) {
     console.log(" error occur from add My Room : ", error);
+  }
+};
+
+//방이름 편집하기
+export const UpdateUserRoomName = async (roomId, newroomName) => {
+  const userRef = doc(db, "users", auth.currentUser.uid);
+  const userRoomRef = doc(userRef, "myRooms", roomId);
+
+  const updateRoomSnapshot = await getDoc(userRoomRef);
+
+  try {
+    await updateDoc(userRoomRef, {
+      roomName: newroomName,
+    });
+  } catch (error) {
+    console.log(" error occur from update room Name~~!!", error);
   }
 };
 
