@@ -60,21 +60,32 @@ export const DeleteButton = styled.button`
 
 export const RoomsInfo = styled.div`
   display: flex;
+
+  align-items: center;
   position: absolute;
   bottom: 5px;
   right: 10px;
-  font-size: 12px;
+  font-size: 14px;
   gap: 5px;
 
   .userTotal {
     display: flex;
+    align-items: center;
     gap: 5px;
-    margin-right: 5px;
   }
 
-  .liveUser {
-    display: flex;
-    gap: 5px;
-    align-items: center;
+  .userName {
+    ul {
+      margin-left: 5px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    ul li {
+      font-size: 10px;
+      margin-right: 3px;
+    }
   }
 `;

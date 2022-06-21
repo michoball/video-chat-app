@@ -7,7 +7,6 @@ import {
 } from "./RoomList.styles";
 import { MdPeople } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { BsCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -40,15 +39,21 @@ function RoomList({ id, room }) {
             <div className="userTotal">
               <MdPeople style={{ fontSize: "20px" }} /> {userList.length}
             </div>
-            <div className="liveUser" style={{}}>
-              <BsCircleFill
-                style={{
-                  fontSize: "12px",
-                  fill: "#0ABF04",
-                  alignItem: "center",
-                }}
-              />
-              2
+            <div className="userName">
+              <ul>
+                {userList
+                  .filter((_, idx) => idx < 3)
+                  .map((user) => {
+                    return (
+                      <li key={user.id}>
+                        {user.displayName.length > 7
+                          ? user.displayName.slice(0, 7)
+                          : user.displayName}
+                      </li>
+                    );
+                  })}
+                {userList.length > 3 ? "..." : ""}
+              </ul>
             </div>
           </RoomsInfo>
         </>
