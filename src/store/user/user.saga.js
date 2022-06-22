@@ -99,15 +99,18 @@ export function* signUp({ payload: { email, password, displayName } }) {
       email,
       password
     );
-    yield put(signUpSuccess(user, { displayName }));
+    yield put(signUpSuccess(user, displayName));
   } catch (error) {
+    if (error.message === AuthErrorCodes.EMAIL_EXISTS) {
+      alert("Input Email is already in used");
+    }
     yield put(signUpFailed(error));
     yield put(setIsLoading(false));
   }
 }
 
-export function* signInAfterSingUp({ payload: { user, addInfo } }) {
-  yield call(getSnapShotFromUserAuth, user, addInfo);
+export function* signInAfterSingUp({ payload: { user, displayName } }) {
+  yield call(getSnapShotFromUserAuth, user, displayName);
 }
 
 export function* signOut() {
@@ -144,7 +147,7 @@ export function* onSignOutStart() {
 
 export function* userSagas() {
   yield all([
-    // call(onCheckUserSession),
+    call(onCheckUserSession),
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(onSignUpStart),

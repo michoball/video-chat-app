@@ -1,10 +1,9 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import FormInput from "../../UI/formInput/FormInput";
-import { AuthErrorCodes } from "firebase/auth";
 import FormContainer from "../../UI/formContainer/FormContainer";
 
 import {
@@ -13,7 +12,10 @@ import {
   ToggleSignUp,
 } from "./SignIn.styles";
 import Spinner from "../../UI/spinner/spinner";
-import { selectIsLoading } from "../../store/user/user.selector";
+import {
+  selectCurrentUser,
+  selectIsLoading,
+} from "../../store/user/user.selector";
 import {
   emailSignInStart,
   googleSignInStart,
@@ -30,10 +32,16 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const isLoading = useSelector(selectIsLoading);
-
+  const currentUser = useSelector(selectCurrentUser);
   const [formField, setFormField] = useState(defaultFormField);
 
   const { password, email } = formField;
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   const onChangeHandler = (e) => {
     setFormField({
@@ -51,23 +59,10 @@ const SignIn = () => {
 
     dispatch(emailSignInStart(email, password));
     resetFormField();
-
-    navigate("/");
   };
 
   const googleLogInHandler = async () => {
-    try {
-      dispatch(googleSignInStart());
-    } catch (error) {
-      if (
-        error.message === AuthErrorCodes.INVALID_OAUTH_CLIENT_ID ||
-        AuthErrorCodes.INVALID_OAUTH_PROVIDER
-      ) {
-        alert("Check your Google Account");
-      }
-      console.log(error);
-    }
-    navigate("/");
+    dispatch(googleSignInStart());
   };
 
   const toggleSignUpFormHandler = () => {
