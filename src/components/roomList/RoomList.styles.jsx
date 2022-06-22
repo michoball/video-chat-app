@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
 
 export const RoomContainer = styled.div`
-  width: 450px;
+  width: 100%;
   height: 80px;
   display: flex;
   position: relative;
@@ -10,7 +10,7 @@ export const RoomContainer = styled.div`
   align-items: center;
   background-color: #313131;
   padding: 10px;
-  margin-bottom: 10px;
+  margin: auto 0 10px;
   border: 1px solid #747474;
   border-radius: 10px;
 
@@ -20,16 +20,6 @@ export const RoomContainer = styled.div`
   :last-child {
     margin-bottom: 0;
   }
-`;
-
-export const RoomListLoading = styled(SpinnerContainer)`
-  position: absolute;
-  left: 210px;
-  width: 35px;
-  height: 35px;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  border-top-color: #3958fc;
 `;
 
 export const Name = styled.form`
@@ -130,4 +120,12 @@ export const RoomsInfo = styled.div`
       margin-right: 3px;
     }
   }
+`;
+
+export const RoomListLoading = styled(SpinnerContainer)`
+  width: 20px;
+  height: 20px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  border-top-color: #3958fc;
 `;

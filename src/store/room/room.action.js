@@ -41,13 +41,23 @@ export const deleteRoomFailed = (error) =>
 export const createRoomStart = (roomName, user) =>
   createAction(ROOM_ACTION_TYPE.CREATE_ROOM_START, { roomName, user });
 
-export const createRoomFailed = (error) => {
+export const createRoomFailed = (error) =>
   createAction(ROOM_ACTION_TYPE.CREATE_ROOM_FAILED, error);
-};
+
 // --------------------------------------------------------------------//
 
 export const roomIsLoading = (bool) =>
   createAction(ROOM_ACTION_TYPE.ROOM_ISLOADING, bool);
 
-export const clearRoomInfo = () =>
-  createAction(ROOM_ACTION_TYPE.CLEAR_ROOM_INFO);
+export const clearUserRoom = () =>
+  createAction(ROOM_ACTION_TYPE.CLEAR_USER_ROOM);
+// --------------------------------------------------------------------//
+
+export const updateUserRoomNameStart = (roomId, newName) =>
+  createAction(ROOM_ACTION_TYPE.UPDATE_USER_ROOMNAME_START, {
+    roomId,
+    newName,
+  });
+
+export const updateUserRoomNameFailed = (error) =>
+  createAction(ROOM_ACTION_TYPE.UPDATE_USER_ROOMNAME_FAILED, error);

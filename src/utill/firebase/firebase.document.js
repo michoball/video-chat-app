@@ -39,7 +39,6 @@ export const createRoomDocuments = async (roomName, user) => {
 // 방 id 입력해서 들어가기
 export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
   const { email, displayName, id } = user;
-
   const roomDocRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomDocRef);
 
@@ -49,9 +48,7 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
   }
 
   try {
-    if (
-      roomSnapshot.data().userList.find((roomUser) => roomUser.id === user.id)
-    ) {
+    if (roomSnapshot.data().userList.find((roomUser) => roomUser.id === id)) {
       return { id: roomId, ...roomSnapshot.data() };
     } else if (roomSnapshot.data().userList.length >= 5) {
       alert("The room you entered is full :/");
@@ -106,11 +103,11 @@ export const deleteUserRoom = async (roomId, user) => {
   return userRoomSnapshot.id;
 };
 
-export const updateMyRoomToUsersDocuments = async (roomId, user) => {
+export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
   const roomRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomRef);
 
-  const userRef = doc(db, "users", user.id);
+  const userRef = doc(db, "users", currentUser.id);
   const myRoomRef = doc(userRef, "myRooms", roomId);
 
   try {
@@ -129,15 +126,13 @@ export const updateMyRoomToUsersDocuments = async (roomId, user) => {
 };
 
 //방이름 편집하기
-export const UpdateUserRoomName = async (roomId, newroomName) => {
+export const UpdateUserRoomName = async (roomId, newRoomName) => {
   const userRef = doc(db, "users", auth.currentUser.uid);
   const userRoomRef = doc(userRef, "myRooms", roomId);
 
-  const updateRoomSnapshot = await getDoc(userRoomRef);
-
   try {
     await updateDoc(userRoomRef, {
-      roomName: newroomName,
+      roomName: newRoomName,
     });
   } catch (error) {
     console.log(" error occur from update room Name~~!!", error);
@@ -153,10 +148,12 @@ export const getUserRoomArray = async (user) => {
   // const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
   //   roomDoc.data().userList.find((users) => users.id.includes(user.id))
   // );
-  // userRoomSnapshot.docs.map((userRoom) => console.log(userRoom.data()));
+  userRoomSnapshot.docs.map((userRoom) => console.log(userRoom.data()));
 
   let myRoomSnapshot = [];
-  userRoomSnapshot.docs.forEach((userRoom) => myRoomSnapshot.push(userRoom));
+  userRoomSnapshot.docs.forEach((userRoom) =>
+    myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
+  );
 
   return myRoomSnapshot;
 };

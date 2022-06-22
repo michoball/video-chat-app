@@ -1,6 +1,6 @@
 import { all, put, call, takeLatest } from "redux-saga/effects";
 import { USER_ACTION_TYPE } from "./user.type";
-
+import { AuthErrorCodes } from "firebase/auth";
 import {
   createUserDocumentFromAuth,
   createUserAuthWithEmailAndPassword,
@@ -57,6 +57,12 @@ export function* signInWithGoogle() {
     const { user } = yield call(GoogleSignUpWithPopUp);
     yield call(getSnapShotFromUserAuth, user);
   } catch (error) {
+    if (
+      error.message === AuthErrorCodes.INVALID_OAUTH_CLIENT_ID ||
+      AuthErrorCodes.INVALID_OAUTH_PROVIDER
+    ) {
+      alert("Check your Google Account");
+    }
     yield put(signInFailed(error));
     yield put(setIsLoading(false));
   }
@@ -73,6 +79,12 @@ export function* signInWithEmail({ payload: { email, password } }) {
     );
     yield call(getSnapShotFromUserAuth, user);
   } catch (error) {
+    if (
+      error.message === AuthErrorCodes.EMAIL_EXISTS ||
+      AuthErrorCodes.INVALID_PASSWORD
+    ) {
+      alert("Check your Email or Password");
+    }
     yield put(signInFailed(error));
     yield put(setIsLoading(false));
   }

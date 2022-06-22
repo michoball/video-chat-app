@@ -49,29 +49,23 @@ const SignIn = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    try {
-      dispatch(emailSignInStart(email, password));
-      resetFormField();
-      // setIsLoading(false);
-    } catch (error) {
-      if (error.message === AuthErrorCodes.EMAIL_EXISTS) {
-        alert("Input Email is already in used");
-      }
-      console.log(error);
-      // setIsLoading(false);
-    }
+    dispatch(emailSignInStart(email, password));
+    resetFormField();
+
     navigate("/");
   };
 
   const googleLogInHandler = async () => {
-    // setIsLoading(true);
-
     try {
       dispatch(googleSignInStart());
-      // setIsLoading(false);
     } catch (error) {
+      if (
+        error.message === AuthErrorCodes.INVALID_OAUTH_CLIENT_ID ||
+        AuthErrorCodes.INVALID_OAUTH_PROVIDER
+      ) {
+        alert("Check your Google Account");
+      }
       console.log(error);
-      // setIsLoading(false);
     }
     navigate("/");
   };

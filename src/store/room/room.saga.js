@@ -5,6 +5,7 @@ import {
   deleteUserRoom,
   joinRoomAndAddInfoDocuments,
   getUserRoomArray,
+  UpdateUserRoomName,
 } from "../../utill/firebase/firebase.document";
 import {
   createRoomFailed,
@@ -16,13 +17,19 @@ import {
   roomIsLoading,
   deleteRoomSuccess,
   joinRoomStart,
+  updateUserRoomNameFailed,
+  updateUserRoomNameSuccess,
 } from "./room.action";
 import { ROOM_ACTION_TYPE } from "./room.type";
 
-export function* updateUserRoom(room, user) {
+export function* updateUserRoom(room, currentUser) {
   try {
-    const myRoom = yield call(updateMyRoomToUsersDocuments, room.id, user);
-    yield put(joinRoomSuccess(myRoom, user));
+    const myRoom = yield call(
+      updateMyRoomToUsersDocuments,
+      room.id,
+      currentUser
+    );
+    yield put(joinRoomSuccess(myRoom));
     yield put(roomIsLoading(false));
   } catch (error) {
     yield put(joinRoomFailed(error));
@@ -82,10 +89,19 @@ export function* deleteRoom({ payload: { roomId, currentUser } }) {
     const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
     if (deletedRoomId) {
       yield put(deleteRoomSuccess(deletedRoomId));
+      yield put(roomIsLoading(false));
     }
   } catch (error) {
     yield put(deleteRoomFailed(error));
     yield put(roomIsLoading(false));
+  }
+}
+
+export function* updateRoomName({ payload: { roomId, newName } }) {
+  try {
+    yield call(UpdateUserRoomName, roomId, newName);
+  } catch (error) {
+    yield put(updateUserRoomNameFailed(error));
   }
 }
 
@@ -105,11 +121,16 @@ export function* onDeleteRoomStart() {
   yield takeLatest(ROOM_ACTION_TYPE.DELETE_ROOM_START, deleteRoom);
 }
 
+export function* onUpdateRoomStart() {
+  yield takeLatest(ROOM_ACTION_TYPE.UPDATE_USER_ROOMNAME_START, updateRoomName);
+}
+
 export function* roomSagas() {
   yield all([
     call(onCreateRoomStart),
     call(onJoinRoomStart),
     call(onDeleteRoomStart),
     call(onGetUserRoomList),
+    call(onUpdateRoomStart),
   ]);
 }
