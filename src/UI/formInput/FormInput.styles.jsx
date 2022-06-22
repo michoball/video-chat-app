@@ -14,9 +14,7 @@ export const Input = styled.input`
   background-color: transparent;
   outline: none;
   color: white;
-  ::placeholder {
-    color: white;
-  }
+
   :-webkit-autofill,
   :-webkit-autofill:hover,
   :-webkit-autofill:focus,

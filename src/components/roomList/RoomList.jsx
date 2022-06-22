@@ -7,6 +7,8 @@ import {
   RoomListLoading,
   SettingContainer,
   EditName,
+  RoomNameListContainer,
+  ClickSpot,
 } from "./RoomList.styles";
 import { BiEdit } from "react-icons/bi";
 import { BsCheck2Square } from "react-icons/bs";
@@ -61,13 +63,7 @@ function RoomList({ id, room }) {
 
   return (
     <RoomContainer>
-      <div
-        style={{
-          width: "300px",
-          height: "50px",
-          cursor: "pointer",
-          marginLeft: "100px",
-        }}
+      <ClickSpot
         onClick={() => {
           navigate(`/room/${id}`);
         }}
@@ -107,7 +103,7 @@ function RoomList({ id, room }) {
         <div className="userTotal">
           <MdPeople style={{ fontSize: "20px" }} /> {userList.length}
         </div>
-        <div className="userName">
+        <RoomNameListContainer>
           <ul>
             {userList
               .filter((_, idx) => idx < 3)
@@ -122,7 +118,7 @@ function RoomList({ id, room }) {
               })}
             {userList.length > 3 ? "..." : ""}
           </ul>
-        </div>
+        </RoomNameListContainer>
       </RoomsInfo>
     </RoomContainer>
   );

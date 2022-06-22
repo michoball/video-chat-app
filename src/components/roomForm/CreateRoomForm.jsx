@@ -5,11 +5,10 @@ import {
   FormSpinner,
   RoomFormBtn,
   Backdrop,
+  RoomFormInput,
 } from "./RoomForm.styles";
-import FormInput from "../../UI/formInput/FormInput";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createRoomDocuments } from "../../utill/firebase/firebase.document";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { createRoomStart } from "../../store/room/room.action";
@@ -62,10 +61,10 @@ const RoomForm = ({ onToggleForm }) => {
   return (
     <>
       <RoomContainer>
-        <h3>Create New Room</h3>
+        <h3>Create</h3>
         <RoomFormContainer onSubmit={roomSubmitHandler} color={"#a52aca"}>
-          <FormInput
-            label="RoomName"
+          <p>Enter the New Room name</p>
+          <RoomFormInput
             type="text"
             placeholder="Enter Room Name"
             value={roomName}

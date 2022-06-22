@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
 import { CustomForm } from "../../UI/formContainer/FormContainer.styles";
+import FormInput from "../../UI/formInput/FormInput";
 import Button from "../../UI/button/Button";
 
 export const Backdrop = styled.div`
@@ -24,6 +25,7 @@ export const RoomContainer = styled.div`
   justify-content: center;
   align-items: center;
   h3 {
+    text-transform: uppercase;
     color: #fff;
     font-size: 40px;
     margin-bottom: 20px;
@@ -33,13 +35,27 @@ export const RoomContainer = styled.div`
 `;
 
 export const RoomFormContainer = styled(CustomForm)`
+  justify-content: space-between;
   width: 400px;
+  height: 250px;
   border: 1px solid ${({ color }) => `${color}`};
+
+  p {
+    text-align: center;
+    font-size: 30px;
+  }
+`;
+
+export const RoomFormInput = styled(FormInput)`
+  text-align: center;
+  height: 50px;
+  ::placeholder {
+    text-align: center;
+  }
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   margin-top: 5px;
   gap: 1rem;

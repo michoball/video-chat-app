@@ -14,12 +14,12 @@ import { GlobalStyles } from "./global.styles";
 import { AppThemeProvider } from "./UI/Theme.config";
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(checkUserSession());
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(checkUserSession());
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <AppThemeProvider>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { SpinnerContainer } from "../../UI/spinner/spinner.styles";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export const NavContainer = styled.div`
   display: flex;
@@ -9,7 +10,6 @@ export const NavContainer = styled.div`
   height: 60px;
   width: 100%;
   background-color: #262626;
-  /* box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); */
   border-bottom: 1px solid ${(props) => props.theme.lineColor};
   padding: 15px 30px;
   h1 {
@@ -46,4 +46,12 @@ export const NavSpinner = styled(SpinnerContainer)`
   border: 1px solid #fff;
   border-radius: 50%;
   border-top-color: #3958fc;
+`;
+
+export const HambergerMenu = styled(GiHamburgerMenu)`
+  display: none;
+  cursor: pointer;
+  @media screen and (max-width: 1000px) {
+    display: block;
+  }
 `;

@@ -43,6 +43,13 @@ export const EditName = styled.input`
   }
 `;
 
+export const ClickSpot = styled.div`
+  width: 100%;
+  height: 60px;
+  margin-left: 50px;
+  cursor: pointer;
+`;
+
 export const SettingContainer = styled.div`
   position: absolute;
   top: 5px;
@@ -105,20 +112,20 @@ export const RoomsInfo = styled.div`
     align-items: center;
     gap: 5px;
   }
+`;
 
-  .userName {
-    ul {
-      margin-left: 5px;
-      list-style: none;
-      display: flex;
-      align-items: center;
-      padding: 0;
-    }
+export const RoomNameListContainer = styled.div`
+  ul {
+    margin-left: 5px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
 
-    ul li {
-      font-size: 10px;
-      margin-right: 3px;
-    }
+  ul li {
+    font-size: 10px;
+    margin-right: 3px;
   }
 `;
 

@@ -5,6 +5,7 @@ import {
   NavLink,
   LogOutContainer,
   NavSpinner,
+  HambergerMenu,
 } from "./Navigation.styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,6 +20,7 @@ import {
 } from "../../store/rtm/rtm.selector";
 import { clearAll } from "../../store/rtm/rtm.action";
 import { signOutStart } from "../../store/user/user.action";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 function Navigation() {
   const dispatch = useDispatch();
@@ -76,6 +78,7 @@ function Navigation() {
             <NavLink as="span" onClick={signOutHandler}>
               Log Out
             </NavLink>
+            <HambergerMenu />
           </LogOutContainer>
         ) : (
           <NavLink to="/auth">Log In First</NavLink>

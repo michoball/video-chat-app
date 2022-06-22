@@ -5,8 +5,9 @@ import {
   FormSpinner,
   RoomFormBtn,
   Backdrop,
+  RoomFormInput,
 } from "./RoomForm.styles";
-import FormInput from "../../UI/formInput/FormInput";
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,10 +59,10 @@ const JoinRoomForm = ({ onToggleForm }) => {
   return (
     <>
       <RoomContainer>
-        <h3>Join the Room</h3>
+        <h3>Join</h3>
         <RoomFormContainer onSubmit={roomSubmitHandler} color={"#0ABF04"}>
-          <FormInput
-            label="Room Id"
+          <p>Enter the Room ID</p>
+          <RoomFormInput
             type="text"
             placeholder="Enter Room Id"
             value={roomId}
