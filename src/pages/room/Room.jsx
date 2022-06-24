@@ -11,6 +11,7 @@ import {
   VideoCallContainer,
   RoomContainer,
   MessageCallContainer,
+  MessageIcon,
 } from "./Room.style";
 import MessageCall from "../../components/messageCall/MessageCall";
 import Spinner from "../../UI/spinner/spinner";
@@ -114,6 +115,7 @@ function Room() {
       </VideoCallContainer>
 
       <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>
+      <MessageIcon />
     </RoomContainer>
   );
 }

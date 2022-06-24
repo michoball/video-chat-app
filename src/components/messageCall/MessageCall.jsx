@@ -11,6 +11,7 @@ import {
   EndOfMessage,
   MessageFormInput,
   SendButton,
+  ToggleCollapse,
 } from "./MessageCall.styles";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -19,6 +20,7 @@ import {
   selectRtmMessages,
   selectRtmClient,
 } from "../../store/rtm/rtm.selector";
+
 import { addMessages, clearAll, addRtmUser } from "../../store/rtm/rtm.action";
 
 function MessageCall() {
@@ -162,6 +164,7 @@ function MessageCall() {
       </MessageConainer>
 
       <FormContainer>
+        <ToggleCollapse />
         <MessageFormInput
           type="text"
           id="input"

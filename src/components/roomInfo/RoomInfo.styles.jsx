@@ -1,15 +1,23 @@
 import styled from "styled-components";
 
 export const RoomInfoContainer = styled.section`
+  margin: 10px auto;
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 200px;
   height: 250px;
   background-color: #747474;
   border: 1px solid #3958fc;
   border-radius: 5%;
   overflow: hidden;
+
+  transition: width 0.3s ease-in-out;
+
+  @media screen and (max-width: 1024px) {
+    width: 150px;
+    margin-top: 50px;
+  }
 `;
 
 export const RoomNameHeader = styled.header`
@@ -18,13 +26,13 @@ export const RoomNameHeader = styled.header`
 
   padding: 10px;
   text-align: center;
-  flex: 0.1;
+  height: 50px;
 `;
 
 export const RoomUserList = styled.div`
-  flex: 0.8;
+  height: 160px;
   background-color: #1b1b1b;
-  padding: 10px 20px;
+  padding: 15px 0;
   ul {
     list-style: none;
   }
@@ -33,8 +41,7 @@ export const RoomUserList = styled.div`
 export const RoomSettings = styled.div`
   display: flex;
   align-items: center;
-  flex: 0.1;
-  height: 30px;
+  height: 40px;
   background-color: #494949;
   padding: 5px 10px;
   text-align: center;

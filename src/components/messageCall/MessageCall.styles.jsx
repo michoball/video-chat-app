@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "../../UI/button/Button";
+import { IoIosArrowForward } from "react-icons/io";
 
 export const MessageCallContainer = styled.div`
   display: flex;
@@ -7,13 +8,15 @@ export const MessageCallContainer = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   border-left: 2px solid ${(props) => props.theme.lineColor};
-  /* box-shadow: -1px 1px 3px rgb(57, 88, 252); */
+  @media screen and (max-width: 1200px) {
+    border-left: none;
+  }
 `;
 
 export const MessageConainer = styled.div`
   overflow: scroll;
   height: 82%;
-  background-color: #1b1b1b;
+  background-color: transparent;
 
   //스크롤 가리기
   ::-webkit-scrollbar {
@@ -38,20 +41,31 @@ export const Header = styled.header`
   text-align: center;
   border-bottom: 2px solid #747474;
   background-color: #494949;
+  transition: all 0.3s ease;
+
+  @media screen and (max-width: 1200px) {
+    transition: all 0.3s ease;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+  }
 `;
 
 export const FormContainer = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
-  justify-content: center;
   height: 10%;
   padding: 10px 20px;
   border-top: 2px solid #747474;
   background-color: #494949;
+  border-left: 2px solid ${(props) => props.theme.lineColor};
 `;
 
 export const SendButton = styled(Button)`
-  width: 40px;
+  position: absolute;
+  right: 10px;
+  width: 35px;
   height: 30px;
   border-color: ${(props) => props.theme.lineColor} !important;
   svg {
@@ -59,11 +73,23 @@ export const SendButton = styled(Button)`
   }
 `;
 
+export const ToggleCollapse = styled(IoIosArrowForward)`
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 100%;
+  border-right: 1px solid #fff;
+  background-color: #262625;
+  @media screen and (max-width: 1000px) {
+    display: block;
+  }
+`;
+
 export const MessageFormInput = styled.textarea`
-  display: block;
   font-size: 12px;
-  margin-right: 10px;
-  width: 100%;
+  margin-left: 5px;
+  width: calc(100% - 40px);
   resize: none;
   border: none;
   border-bottom: 2px solid #fff;

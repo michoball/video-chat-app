@@ -8,6 +8,9 @@ export const SettingContainer = styled.div`
   align-items: center;
   gap: 20px;
   cursor: pointer;
+  @media screen and (max-width: 1000px) {
+    gap: 10px;
+  }
 `;
 
 export const IconContainer = styled.div`
@@ -17,6 +20,9 @@ export const IconContainer = styled.div`
   transform: translateX(10px);
   &.on {
     transform: rotateZ(-180deg);
+  }
+  @media screen and (max-width: 1000px) {
+    transform: translateX(5px);
   }
 `;
 

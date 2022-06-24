@@ -12,11 +12,36 @@ export const BaseVideoContainer = styled.div`
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
   overflow: hidden;
   cursor: pointer;
+
+  transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+
+  @media screen and (max-width: 1200px) {
+    width: 300px;
+    height: 250px;
+    min-height: 150px;
+    border-radius: 10%;
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 250px;
+    height: 200px;
+    min-height: 150px;
+    border-radius: 10%;
+  }
 `;
 
 export const ShareVideoContainer = styled(BaseVideoContainer)`
   width: 700px;
   height: 550px;
+
+  @media screen and (max-width: 1200px) {
+    width: 600px;
+    height: 400px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 500px;
+    height: 400px;
+  }
 `;
 
 export const UserNameTag = styled.div`
@@ -34,6 +59,8 @@ export const UserNameTag = styled.div`
 `;
 
 export const LocalVideoContainer = styled(BaseVideoContainer)`
+  margin: 10px;
+
   width: 200px;
   height: 200px;
   min-height: 200px;
@@ -44,9 +71,20 @@ export const LocalVideoContainer = styled(BaseVideoContainer)`
     right: 50%;
     transform: translateX(50%);
   }
+
+  transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+
+  @media screen and (max-width: 1024px) {
+    width: 150px;
+    height: 150px;
+    min-height: 150px;
+    border-radius: 30%;
+  }
 `;
 
 export const SmallVideoContainer = styled(BaseVideoContainer)`
+  margin: auto 10px;
+
   width: 175px;
   height: 150px;
   min-height: 150px;
@@ -56,6 +94,18 @@ export const SmallVideoContainer = styled(BaseVideoContainer)`
     bottom: 10px;
     right: 50%;
     transform: translateX(50%);
+  }
+
+  @media screen and (max-width: 1200px) {
+    margin: 10px auto;
+    width: 150px;
+    height: 125px;
+    min-height: 100px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 125px;
+    height: 100px;
+    min-height: 75px;
   }
 `;
 
