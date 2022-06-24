@@ -20,8 +20,6 @@ function VideoCall() {
   const rtcUsers = useSelector(selectRtcUsers);
   const client = useClient();
 
-  console.log(rtcUsers);
-
   useEffect(() => {
     const init = async () => {
       // remote user가 들어오고 나가고 할 때 event handler

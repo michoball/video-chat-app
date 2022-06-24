@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Button from "../../UI/button/Button";
-import { IoIosArrowForward } from "react-icons/io";
 
 export const MessageCallContainer = styled.div`
   display: flex;
@@ -15,7 +14,7 @@ export const MessageCallContainer = styled.div`
 
 export const MessageConainer = styled.div`
   overflow: scroll;
-  height: 82%;
+  height: calc(100% - 110px);
   background-color: transparent;
 
   //스크롤 가리기
@@ -33,7 +32,7 @@ export const EndOfMessage = styled.div`
 
 export const Header = styled.header`
   width: 100%;
-  height: 8%;
+  height: 50px;
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
@@ -55,11 +54,14 @@ export const FormContainer = styled.div`
   display: flex;
   position: relative;
   align-items: center;
-  height: 10%;
+  height: 60px;
   padding: 10px 20px;
   border-top: 2px solid #747474;
   background-color: #494949;
-  border-left: 2px solid ${(props) => props.theme.lineColor};
+
+  @media screen and (max-width: 1200px) {
+    border-left: 2px solid ${(props) => props.theme.lineColor};
+  }
 `;
 
 export const SendButton = styled(Button)`
@@ -70,19 +72,6 @@ export const SendButton = styled(Button)`
   border-color: ${(props) => props.theme.lineColor} !important;
   svg {
     font-size: 0.5rem;
-  }
-`;
-
-export const ToggleCollapse = styled(IoIosArrowForward)`
-  display: none;
-  position: absolute;
-  left: 0;
-  width: 20px;
-  height: 100%;
-  border-right: 1px solid #fff;
-  background-color: #262625;
-  @media screen and (max-width: 1000px) {
-    display: block;
   }
 `;
 

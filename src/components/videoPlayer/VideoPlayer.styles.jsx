@@ -3,8 +3,8 @@ import { AgoraVideoPlayer } from "agora-rtc-react";
 
 export const BaseVideoContainer = styled.div`
   position: relative;
-  width: 350px;
-  height: 250px;
+  width: 450px;
+  height: 275px;
   min-height: 200px;
   margin: 10px;
   border: 3px solid ${(props) => props.theme.lineColor};
@@ -15,6 +15,12 @@ export const BaseVideoContainer = styled.div`
 
   transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
 
+  @media screen and (max-width: 1400px) {
+    width: 350px;
+    height: 250px;
+    min-height: 200px;
+    border-radius: 10%;
+  }
   @media screen and (max-width: 1200px) {
     width: 300px;
     height: 250px;

@@ -13,6 +13,7 @@ export const LocalUserVideoContianer = styled.div`
 
 export const ShareOrBigVideoContianer = styled.div`
   display: flex;
+
   @media screen and (max-width: 1200px) {
     display: flex;
     flex-direction: column;
@@ -21,5 +22,6 @@ export const ShareOrBigVideoContianer = styled.div`
 
 export const RemoteUserVideoContianer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 2fr);
+  grid-gap: 1vw;
 `;

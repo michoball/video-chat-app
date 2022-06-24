@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   config,
@@ -12,6 +12,7 @@ import {
   RoomContainer,
   MessageCallContainer,
   MessageIcon,
+  ToggleCollapse,
 } from "./Room.style";
 import MessageCall from "../../components/messageCall/MessageCall";
 import Spinner from "../../UI/spinner/spinner";
@@ -26,8 +27,8 @@ import { joinRoomStart } from "../../store/room/room.action";
 function Room() {
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
-  // const [myChannel, setMyChannel] = useState(null);
-
+  const [messageShow, setMessageShow] = useState(false);
+  const messageRef = useRef();
   const client = useClient();
   const { roomId } = useParams();
   const { ready, tracks } = MicrophoneAndCameraTracks();
@@ -114,8 +115,26 @@ function Room() {
         {ready && tracks && <VideoCall />}
       </VideoCallContainer>
 
-      <MessageCallContainer>{start && <MessageCall />}</MessageCallContainer>
-      <MessageIcon />
+      {start && (
+        <>
+          <MessageCallContainer
+            className={messageShow ? "show" : "hide"}
+            ref={messageRef}
+          >
+            <ToggleCollapse
+              onClick={(e) => {
+                setMessageShow(false);
+              }}
+            />
+            <MessageCall />
+          </MessageCallContainer>
+          <MessageIcon
+            onClick={(e) => {
+              setMessageShow(true);
+            }}
+          />
+        </>
+      )}
     </RoomContainer>
   );
 }
