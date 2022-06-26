@@ -6,7 +6,6 @@ import {
   query,
   getDocs,
   addDoc,
-  where,
   updateDoc,
   serverTimestamp,
   deleteDoc,
@@ -153,8 +152,6 @@ export const getUserRoomArray = async (user) => {
   const roomQuery = query(roomDocRef, orderBy("timestamp"));
 
   const roomQuerySnapshot = await getDocs(roomQuery);
-
-  // const userRoomSnapshot = await getDocs(roomDocRef);
 
   // const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
   //   roomDoc.data().userList.find((users) => users.id.includes(user.id))
