@@ -10,6 +10,7 @@ import {
   updateDoc,
   serverTimestamp,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
@@ -149,21 +150,22 @@ export const UpdateUserRoomName = async (roomId, newRoomName) => {
 export const getUserRoomArray = async (user) => {
   const userRef = doc(db, "users", user.id);
   const roomDocRef = collection(userRef, "myRooms");
-  const userRoomSnapshot = await getDocs(roomDocRef);
+  const roomQuery = query(roomDocRef, orderBy("timestamp"));
+
+  const roomQuerySnapshot = await getDocs(roomQuery);
+
+  // const userRoomSnapshot = await getDocs(roomDocRef);
 
   // const myRoomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
   //   roomDoc.data().userList.find((users) => users.id.includes(user.id))
   // );
-  userRoomSnapshot.docs.map((userRoom) => console.log(userRoom.data()));
 
   let myRoomSnapshot = [];
-  userRoomSnapshot.docs.forEach((userRoom) =>
+  roomQuerySnapshot.docs.forEach((userRoom) =>
     myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
   );
 
   return myRoomSnapshot;
 };
 
-// message 업로드 하는 기능 추가 room 안에서 message 교환하니까
-// useparam으로 room id 가져와서 doc(db, "rooms", roomid)로 들어가서
-// update message 하든 addDoc을 하던
+// message 업로드 하는 기능 추가 ?
