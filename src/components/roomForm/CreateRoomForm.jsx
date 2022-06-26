@@ -28,10 +28,9 @@ const RoomForm = ({ onToggleForm }) => {
 
   useEffect(() => {
     if (roomInfo) {
-      console.log(roomInfo);
       navigate(`/room/${roomInfo.roomId}`);
     }
-  }, [roomInfo]);
+  }, [roomInfo, navigate]);
 
   const roomNameHandler = (e) => {
     setRoomName(e.target.value);

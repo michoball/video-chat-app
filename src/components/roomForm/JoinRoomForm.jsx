@@ -28,10 +28,9 @@ const JoinRoomForm = ({ onToggleForm }) => {
 
   useEffect(() => {
     if (roomInfo) {
-      console.log(roomInfo);
       navigate(`/room/${roomInfo.roomId}`);
     }
-  }, [roomInfo]);
+  }, [roomInfo, navigate]);
 
   const roomIdHandler = (e) => {
     setRoomId(e.target.value);

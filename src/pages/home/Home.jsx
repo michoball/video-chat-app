@@ -29,9 +29,6 @@ function Home() {
   const rtmClient = useSelector(selectRtmClient);
   const channel = useSelector(selectRtmChannel);
   const navigate = useNavigate();
-  if (currentUser) {
-    console.log(currentUser);
-  }
 
   useEffect(() => {
     const checkLocalUserSession = async () => {

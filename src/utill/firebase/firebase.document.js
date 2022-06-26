@@ -49,7 +49,10 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
 
   try {
     if (roomSnapshot.data().userList.find((roomUser) => roomUser.id === id)) {
-      return { id: roomId, ...roomSnapshot.data() };
+      return {
+        id: roomId,
+        ...roomSnapshot.data(),
+      };
     } else if (roomSnapshot.data().userList.length >= 5) {
       alert("The room you entered is full :/");
       return null;
@@ -109,10 +112,13 @@ export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
 
   const userRef = doc(db, "users", currentUser.id);
   const myRoomRef = doc(userRef, "myRooms", roomId);
+  const myRoomSnapshot = await getDoc(myRoomRef);
 
   try {
     const newRoomData = {
-      roomName: roomSnapshot.data().roomName,
+      roomName: myRoomSnapshot
+        ? myRoomSnapshot.data().roomName
+        : roomSnapshot.data().roomName,
       roomId: roomId,
       timestamp: roomSnapshot.data().timestamp,
       userList: roomSnapshot.data().userList,

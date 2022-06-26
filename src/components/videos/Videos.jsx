@@ -14,7 +14,7 @@ import {
   selectRtcBig,
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
-import { selectRtmChannel, selectRtmUsers } from "../../store/rtm/rtm.selector";
+import { selectRtmChannel } from "../../store/rtm/rtm.selector";
 import { selectRoomInfo } from "../../store/room/room.selector";
 import { useEffect } from "react";
 
@@ -26,7 +26,6 @@ function Videos() {
 
   const roomInfo = useSelector(selectRoomInfo);
   const channel = useSelector(selectRtmChannel);
-  const rtmUsers = useSelector(selectRtmUsers);
 
   useEffect(() => {
     const init = async () => {
@@ -37,7 +36,6 @@ function Videos() {
       init();
     }
   }, [rtcUsers, channel]);
-  // console.log("videos Rtc Users List : ", rtcUsers);
 
   return (
     <VideosContainer id="videos">
@@ -81,30 +79,6 @@ function Videos() {
                 );
               } else return null;
             })}
-          <VideoPlayer
-            videoType={"base"}
-            id={24357452147}
-            key={2678254}
-            rtcUser={{ hasVideo: false, uid: 7777548 }}
-          />
-          <VideoPlayer
-            videoType={"base"}
-            id={243571152147}
-            key={2678456}
-            rtcUser={{ hasVideo: false, uid: 77378548 }}
-          />
-          <VideoPlayer
-            videoType={"base"}
-            id={79486}
-            key={26746434}
-            rtcUser={{ hasVideo: false, uid: 56685 }}
-          />
-          <VideoPlayer
-            videoType={"base"}
-            id={79116}
-            key={2674132434}
-            rtcUser={{ hasVideo: false, uid: 536677785 }}
-          />
         </RemoteUserVideoContianer>
       </ShareOrBigVideoContianer>
     </VideosContainer>

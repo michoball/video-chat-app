@@ -101,8 +101,7 @@ function MessageCall() {
     };
 
     if (channel && rtmClient) {
-      console.log("starting Message point", channel);
-      console.log("rtmClient : ", rtmClient);
+      console.log("starting Message point", channel, "rtmClient : ", rtmClient);
       init(channel);
     }
   }, [channel, rtmClient, dispatch]);
@@ -146,8 +145,6 @@ function MessageCall() {
     await rtmClient.logout();
 
     dispatch(clearAll());
-
-    console.log("rtm User Out~!!!!!!!!!");
   };
 
   return (
