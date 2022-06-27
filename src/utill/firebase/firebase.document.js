@@ -114,9 +114,11 @@ export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
   const myRoomRef = doc(userRef, "myRooms", roomId);
   const myRoomSnapshot = await getDoc(myRoomRef);
 
+  console.log(myRoomSnapshot);
+
   try {
     const newRoomData = {
-      roomName: myRoomSnapshot
+      roomName: myRoomSnapshot.exists()
         ? myRoomSnapshot.data().roomName
         : roomSnapshot.data().roomName,
       roomId: roomId,

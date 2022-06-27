@@ -18,7 +18,6 @@ import {
   deleteRoomSuccess,
   joinRoomStart,
   updateUserRoomNameFailed,
-  updateUserRoomNameSuccess,
 } from "./room.action";
 import { ROOM_ACTION_TYPE } from "./room.type";
 
