@@ -48,11 +48,11 @@ function VideoPlayer({ rtcUser, track, videoType }) {
       }
     >
       {track || rtcUser.hasVideo ? <Video videoTrack={track} /> : <CamIcon />}
-      {rtcUser && (
+      {/* {rtcUser && (
         <UserNameTag>
           {String(rtcUser.uid || rtcUser.user.uid).slice(4)}
         </UserNameTag>
-      )}
+      )} */}
     </CustomVideoContainer>
   );
 }

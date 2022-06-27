@@ -48,7 +48,7 @@ export const MessageCallContainer = styled.section`
     }
 
     66% {
-      transform: translateX(-10%) scaleX(1.1);
+      transform: translateX(-20px) scaleX(1.1);
     }
     100% {
       transform: translateX(0) scaleX(1);
@@ -60,11 +60,12 @@ export const MessageCallContainer = styled.section`
       transform: translateX(0) scaleX(1);
     }
     33% {
-      transform: translateX(-10%) scaleX(1.1);
+      transform: translateX(-20px) scaleX(1.1);
     }
 
     100% {
       transform: translateX(100%) scaleX(0);
+      width: 0%;
     }
   }
 `;

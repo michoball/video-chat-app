@@ -27,7 +27,7 @@ import { joinRoomStart } from "../../store/room/room.action";
 function Room() {
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
-  const [messageShow, setMessageShow] = useState(false);
+  const [messageShow, setMessageShow] = useState(true);
   const messageRef = useRef();
   const client = useClient();
   const { roomId } = useParams();

@@ -34,7 +34,7 @@ export const Name = styled.form`
 export const EditName = styled.input`
   background-color: transparent;
   width: 100px;
-  font-size: 18px;
+  font-size: 16px;
   border: none;
 
   &.edit {
