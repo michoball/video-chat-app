@@ -49,8 +49,6 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(process.env.REACT_APP_AGORA_RTC_APP_ID_KEY);
-
   return (
     <HomeContainer>
       <HomeForm>

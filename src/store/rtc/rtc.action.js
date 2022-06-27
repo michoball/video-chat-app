@@ -47,15 +47,7 @@ export const toggleBig = (rtcUsers, user) => {
   const newUserList = toggleUserSize(rtcUsers, user);
   return createAction(RTC_ACTION_TYPE.SET_RTC_USER, newUserList);
 };
-// export const logOutRtc = async () => {
-//   if (localUser) {
-//     localUser.tracks[0].close();
-//     localUser.tracks[1].close();
-//     await localUser.user.leave();
-//     localUser.user.removeAllListeners();
-//     clearRtcUser();
-//   }
-// };
+
 export const clearRtcUser = () => createAction(RTC_ACTION_TYPE.CLEAR_RTC_USER);
 
 export const toggleShare = (rtcUsers, bool) => {
@@ -65,14 +57,12 @@ export const toggleShare = (rtcUsers, bool) => {
   return createAction(RTC_ACTION_TYPE.TOGGLE_RTC_SHARE, { bool, newRtcUsers });
 };
 
-// 얘들은  saga 쓸법한데~~~
 export const setLocalUser = (user) => {
   return createAction(RTC_ACTION_TYPE.SET_LOCAL_USER, { ...user });
 };
 
 export const addRtcUser = (userToAdd) => {
   const newUserList = { ...userToAdd, size: "base" };
-  // const newUserList = addUserList(rtcUsers, userToAdd);
   return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, newUserList);
 };
 

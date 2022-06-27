@@ -63,15 +63,12 @@ export function* createRoom({ payload: { roomName, user } }) {
 
 // 방에 입장할 때마다 해야함
 export function* joinRoom({ payload: { roomId, currentUser } }) {
-  // yield put(roomIsLoading(true));
-
   try {
     const roomData = yield call(
       joinRoomAndAddInfoDocuments,
       roomId,
       currentUser
     );
-    console.log("ROOM DATA~ ~~~ ", roomData);
     if (roomData) {
       yield call(updateUserRoom, roomData, currentUser);
     }

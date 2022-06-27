@@ -78,10 +78,7 @@ function Room() {
           };
 
           dispatch(setLocalUser(localUser));
-          console.log(localUser);
-
           dispatch(setChannel(rtmChannel));
-          // setMyChannel(rtmChannel);
           dispatch(setRtmClient(RTMclient));
           setStart(true);
         }

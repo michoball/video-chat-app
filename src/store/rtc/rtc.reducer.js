@@ -29,14 +29,7 @@ const rtcReducer = (state = RTC_INIT_STATE, action) => {
         ...state,
         rtcUsers: state.rtcUsers.concat(payload),
       };
-    // case RTC_ACTION_TYPE.REMOVE_RTC_USER:
-    //   return {
-    //     ...state,
-    //     rtcUsers:
-    //       state.rtcUsers.length > 1
-    //         ? state.rtcUsers.filter((rtcUser) => rtcUser.uid !== payload.uid)
-    //         : [],
-    //   };
+
     case RTC_ACTION_TYPE.SET_RTC_USER:
       return {
         ...state,
