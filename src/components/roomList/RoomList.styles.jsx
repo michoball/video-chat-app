@@ -26,14 +26,16 @@ export const Name = styled.form`
   position: absolute;
   left: 20px;
   margin-top: -20px;
-  font-size: 20px;
+  font-size: 16px;
+  overflow-x: auto;
+  width: 300px;
   letter-spacing: 0.5px;
   color: white;
 `;
 
 export const EditName = styled.input`
   background-color: transparent;
-  width: 100px;
+  width: 100%;
   font-size: 16px;
   border: none;
 
