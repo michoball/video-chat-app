@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+📸 VIDEO CHAT ROOM (1.5 month)
+=================
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+ <img src="https://user-images.githubusercontent.com/79836148/176141888-bd85687d-0a49-4074-9a00-769c76eeca5c.png" width="700px" height="450px" title="video chat app" alt="video chat app 메인 이미지"></img><br/>
 
-## Available Scripts
 
-In the project directory, you can run:
+멀리사는 친구들과 얼굴보고 재미있는 영상이나 사진보며 웃고 떠들고 싶어서 만든 App  
+친구들과 소규모 화상채팅을 위한 소박한 공간!  
+바로가기 [Go to the App](video-chat-app-neon.vercel.app)
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 😄소개 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* 최대 5명이서만 방에 접속하여 영상 및 메시지 교환  
+* 선택한 친구얼굴 크게보기 기능 
+* 화면 공유기능을 통해 같이 보고 싶은 영상이나 이미지 공유
+* 로비에서 나의 방 리스트 보고 새로운 방을 만들거나 방에 참여하기!
+* 방안에서 앱 전체 메인 테마 색깔 설정 그리고 방 아이디 카피해서 보내기 기능
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 기술스택
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"><img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=MUI&logoColor=white"><br/>
+ <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"><img src="https://img.shields.io/badge/Redux_Saga-999999?style=for-the-badge&logo=Redux-Saga&logoColor=white"><br/> 
+ <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### Agora SDK 
+<img src="https://user-images.githubusercontent.com/79836148/176159030-a82929c0-1cdf-4d39-86fa-5141bc6eaf0a.png" width="300px" height="100px" title="agora 로고" alt="agora"></img>   
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+해외 유명 소셜 미디어 clubhouse에서 실시간 음성채팅을 위해 사용된 서비스    
+Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용하여 화상 채팅과 메시지 채팅기능을 넣었습니다.   
+둘러보기 [Agora](https://www.agora.io/en/)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
