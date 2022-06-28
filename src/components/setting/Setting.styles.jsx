@@ -22,7 +22,7 @@ export const IconContainer = styled.div`
     transform: rotateZ(-180deg);
   }
   @media screen and (max-width: 1000px) {
-    transform: translateX(5px);
+    transform: translateX(3px);
   }
 `;
 

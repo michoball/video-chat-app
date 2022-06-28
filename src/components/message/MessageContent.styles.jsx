@@ -39,8 +39,9 @@ export const Message = styled.div`
   max-width: 60%;
   font-weight: bold;
   color: white;
-  white-space: pre;
+  white-space: pre-line;
   letter-spacing: 0.75px;
+  word-break: break-all;
 `;
 
 export const MyContainer = styled(MessageContainer)`
