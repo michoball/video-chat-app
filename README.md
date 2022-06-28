@@ -14,13 +14,14 @@
 # 😄소개 
 
 * 최대 5명이서만 방에 접속하여 영상 및 메시지 교환  
+* 방에 인원 입장 및 퇴장시 봇 메세지 기능 
 * 선택한 친구얼굴 크게보기 기능 
 * 화면 공유기능을 통해 같이 보고 싶은 영상이나 이미지 공유
 * 로비에서 나의 방 리스트 보고 새로운 방을 만들거나 방에 참여하기!
 * 방안에서 앱 전체 메인 테마 색깔 설정 그리고 방 아이디 카피해서 보내기 기능
 
 
-# 기술스택
+# 🤖기술스택
 
 
  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"><img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=MUI&logoColor=white"><br/>
