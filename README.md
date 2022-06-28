@@ -7,7 +7,7 @@
 
 멀리사는 친구들과 얼굴보고 재미있는 영상이나 사진보며 웃고 떠들고 싶어서 만든 App  
 친구들과 소규모 화상채팅을 위한 소박한 공간!  
-바로가기 [Go to the App](video-chat-app-neon.vercel.app)
+바로가기 [Go to the App](https://video-chat-app-neon.vercel.app/)
 
 </div>
 
