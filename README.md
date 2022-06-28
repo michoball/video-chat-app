@@ -1,4 +1,4 @@
-📸 VIDEO CHAT ROOM (1.5 month)
+📸 VIDEO CHAT ROOM
 =================
 
 <div align="center">
