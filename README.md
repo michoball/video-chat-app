@@ -48,6 +48,79 @@ Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용�
 
 # 주요 특징
 
+#### Local user 화면, Remote user 화면, Share 화면과 봇, Local 사용자 그리고 remote사용자 메세지에 따른 다른 *UI 적용 간편화*를 고려한    
+#### Message Content & Video Player 컴포넌트 코드
+ 
+ > 각 상황에 맞는 TYPE을 지정,  prop으로 들어온 type에 맞는 style을 반환해주는 **getType** 코드 적용
+ 
+ > VideoPlayer.jsx Code Snippet   
+ ```jsx
+ export const VIDEO_TYPE_CLASS = {
+  base: "base",
+  local: "local",
+  share: "share",
+  small: "small",
+};
+
+const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
+  ({
+    [VIDEO_TYPE_CLASS.base]: share ? SmallVideoContainer : BaseVideoContainer,
+    [VIDEO_TYPE_CLASS.local]: LocalVideoContainer,
+    [VIDEO_TYPE_CLASS.share]: ShareVideoContainer,
+    [VIDEO_TYPE_CLASS.small]: SmallVideoContainer,
+  }[VideoType]);
+
+function VideoPlayer({ rtcUser, track, videoType }) {
+
+  const CustomVideoContainer = getVideoType(videoType, share);
+
+  return (
+    <CustomVideoContainer
+      onClick={
+        !share && videoType !== VIDEO_TYPE_CLASS.local
+          ? toggleSizeHandler
+          : undefined}>
+      {track || rtcUser.hasVideo ? <Video videoTrack={track} /> : <CamIcon />}
+    </CustomVideoContainer>
+  );
+}
+
+export default VideoPlayer;
+ ```
+ 
+  > MessageContent.jsx Code Snippet   
+  ```jsx
+  export const MESSAGE_TYPE = { me: "me", other: "other", bot: "bot",}; 
+
+const getMessageType = (from) =>
+  ({
+    [MESSAGE_TYPE.me]: MyMessage,
+    [MESSAGE_TYPE.other]: OtherMessage,
+    [MESSAGE_TYPE.bot]: BotMessage,
+  }[from]);
+
+const getContainerType = (from) =>
+  ({
+    [MESSAGE_TYPE.me]: MyContainer,
+    [MESSAGE_TYPE.other]: MessageContainer,
+    [MESSAGE_TYPE.bot]: BotContainer,
+  }[from]);
+
+function MessageContent({ message }) {
+  const { from, displayName } = message;
+  const CustomContainer = getContainerType(from);
+  const CustomMessage = getMessageType(from);
+
+  return (
+    <CustomContainer>
+      <span>{displayName && displayName}</span>
+      <CustomMessage>{message.message}</CustomMessage>
+    </CustomContainer>
+  );
+}
+
+export default MessageContent; 
+ ```
 
 
 
