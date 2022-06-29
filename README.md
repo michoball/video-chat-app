@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+📸 VIDEO CHAT ROOM
+=================
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+ <img src="https://user-images.githubusercontent.com/79836148/176141888-bd85687d-0a49-4074-9a00-769c76eeca5c.png" width="700px" height="450px" title="video chat app" alt="video chat app 메인 이미지"></img><br/>
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+바로가기 [Go to the App](https://video-chat-app-neon.vercel.app/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+</div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# 😄 소개 
+친구들과 소규모 화상채팅을 위한 소박한 공간!   
+멀리사는 친구들과 얼굴보고 재미있는 영상이나 사진보며 웃고 떠들고 싶어서 만든 App  
+<br/>
+코로나가 한창 심할 때 친구들과 만나지는 못하고 아쉬운대로 줌을 이용하여 비대면 만남을 가진경험을 바탕으로 개발   
+친한친구끼리 서로 화면을 켜고 수다떨고 같이 재미있는 영상을 보며 놀 수 있는 창구를 마련하고 싶어 만들어보았습니다.
 
-### `npm test`
+# 🤖 기술스택
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+ <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"><img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=MUI&logoColor=white"><br/>
+ <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"><img src="https://img.shields.io/badge/Redux_Saga-999999?style=for-the-badge&logo=Redux-Saga&logoColor=white"><br/> 
+ <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Agora SDK 
+<img src="https://user-images.githubusercontent.com/79836148/176159030-a82929c0-1cdf-4d39-86fa-5141bc6eaf0a.png" width="300px" height="100px" title="agora 로고" alt="agora"></img>   
 
-### `npm run eject`
+해외 유명 소셜 미디어 clubhouse에서 실시간 음성채팅을 위해 사용된 서비스    
+Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용하여 화상 채팅과 메시지 채팅기능 추가     
+둘러보기 [Agora](https://www.agora.io/en/)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# 💻 기능   
+| 기능 | 세부 내용 | 시연 모습 |
+|:--:|:--|:--:|
+| 유저 로그인 | - 기본적인 email, password 로그인과 google OAuth 로그인 지원 <br/>    - 로그인에서 회원가입 페이지전환  | |
+| Agora SDK를 활용한 화상 채팅 & 실시간 메세지 교환| - Agora SDK의 rtc-sdk 와 rtm sdk를 활용하여 video call 과 message call 파트를 생성 | |
+| Room 안에서 유저들 화면 big size 조정 기능 | - 각 유저들의 화면 클릭 시 big 사이즈로 전환<br/> - Big 사이즈 유저 이외에는 small 사이즈가 됨<br/> ||
+| Room 안 영상 컨트롤러 기능 지원 | - 유저가 컨트롤러의 각 기능들 클릭시 음소거, 화면 끄기, 화면 공유, 방 나가기 기능 지원| |
+| Lobby에서 간단한 Room CRUD 기능 지원 | - Join 으로 새로운 Room 아이디 입력 후 입장<br/> -Create 로 새로운 Room 이름으로 생성<br/> - 편집 버튼으로 Room 이름 편집(나에게만)<br/> - 삭제 버튼으로 Room 삭제 ( 다른 유저들은 그대로 잔류, 유저가 없을 시 DB에서 완전 삭제 ||
+| Setting 버튼으로 메인 테마 색 변경 & Room Id 복사 기능 | ⚙️ 버튼 클릭시 App 테마 색 변경 가능<br/>  📄 버튼으로 현재 Room Id 카피| | 
+| 반응형 채팅방 | 화면 사이즈에 따른 반응형 video & message 사이즈 조정 | |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# 주요 특징
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# 추가 개선사항
 
-### Analyzing the Bundle Size
+ - TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
+ - 방에 참여한 유저들 이름 tag를 video에 붙이기
+ - message 말고 다른 종류의 파일주고 받는기능 
+ - 유저 avatar 추가
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
