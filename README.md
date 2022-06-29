@@ -46,7 +46,7 @@ Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용�
 | 반응형 채팅방 | 화면 사이즈에 따른 반응형 video & message 사이즈 조정 | |
 
 
-# 주요 특징
+# 🛠️ 주요 특징
 
 #### Local user 화면, Remote user 화면, Share 화면과 봇, Local 사용자 그리고 remote사용자 메세지에 따른 다른 *UI 적용 간편화*를 고려한    
 #### Message Content & Video Player 컴포넌트 코드
@@ -54,7 +54,7 @@ Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용�
  > 각 상황에 맞는 TYPE을 지정,  prop으로 들어온 type에 맞는 style을 반환해주는 **getType** 코드 적용
  
  > VideoPlayer.jsx Code Snippet   
- ```jsx
+ ```js
  export const VIDEO_TYPE_CLASS = {
   base: "base",
   local: "local",
@@ -75,60 +75,60 @@ function VideoPlayer({ rtcUser, track, videoType }) {
   const CustomVideoContainer = getVideoType(videoType, share);
 
   return (
-    <CustomVideoContainer
-      onClick={
-        !share && videoType !== VIDEO_TYPE_CLASS.local
-          ? toggleSizeHandler
-          : undefined}>
-      {track || rtcUser.hasVideo ? <Video videoTrack={track} /> : <CamIcon />}
+    <CustomVideoContainer>
+      { video 재생을 위한 코드 }
     </CustomVideoContainer>
   );
 }
 
 export default VideoPlayer;
  ```
- 
-  > MessageContent.jsx Code Snippet   
-  ```jsx
-  export const MESSAGE_TYPE = { me: "me", other: "other", bot: "bot",}; 
 
-const getMessageType = (from) =>
-  ({
-    [MESSAGE_TYPE.me]: MyMessage,
-    [MESSAGE_TYPE.other]: OtherMessage,
-    [MESSAGE_TYPE.bot]: BotMessage,
-  }[from]);
+#### firebase Auth의 관찰자를 이용 유저의 login 세션을 관리
+ > firebase/auth의 onAuthStateChanged 관찰자를 이용 유저의 로그인 로그아웃 상태를 관리   
+ > 초기 관찰자 사용모습 firebase.auth.js & userContext.js Code Snippet   
 
-const getContainerType = (from) =>
-  ({
-    [MESSAGE_TYPE.me]: MyContainer,
-    [MESSAGE_TYPE.other]: MessageContainer,
-    [MESSAGE_TYPE.bot]: BotContainer,
-  }[from]);
-
-function MessageContent({ message }) {
-  const { from, displayName } = message;
-  const CustomContainer = getContainerType(from);
-  const CustomMessage = getMessageType(from);
-
-  return (
-    <CustomContainer>
-      <span>{displayName && displayName}</span>
-      <CustomMessage>{message.message}</CustomMessage>
-    </CustomContainer>
-  );
-}
-
-export default MessageContent; 
+ ```js
+ // firebase.auth
+ export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+ ```
+  ```js
+ // userContext 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener(async (user) => {
+      let userAuth = null;
+      if (user) {
+        const userSnapshot = await createUserDocumentFromAuth(user);
+        userAuth = { id: userSnapshot.id, ...userSnapshot.data() };
+      }
+      setCurrentUser(userAuth);
+    });
+    return unsubscribe;
+  }, []);
+ ```
+ > redux-saga 사용 후 모습 firebase.auth.js Snippet   
+ > 유저 auth 상태관리를 위해 위 비동기 함수를 합침
+ ```js
+ // firebase.auth
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};
  ```
 
 
+# 📝 추가 개선사항
 
-
-# 추가 개선사항
-
- - TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
- - 방에 참여한 유저들 이름 tag를 video에 붙이기
- - message 말고 다른 종류의 파일주고 받는기능 
- - 유저 avatar 추가
+ - [ ] TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
+ - [ ] 방에 참여한 유저들 이름 tag를 video에 붙이기
+ - [ ] message 말고 다른 종류의 파일주고 받는기능 
+ - [ ] 유저 avatar 추가
 
