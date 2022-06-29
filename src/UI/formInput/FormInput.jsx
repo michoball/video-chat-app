@@ -3,7 +3,6 @@ import { Input, FormInputContainer, FromInputLabel } from "./FormInput.styles";
 
 const FormInput = React.forwardRef((props, ref) => {
   const { label, ...otherProps } = props;
-  // const inputRef = useRef();
   return (
     <FormInputContainer>
       <FromInputLabel htmlFor={label}>{label && label}</FromInputLabel>

@@ -1,8 +1,11 @@
 import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
+
+// 아고라 정보
 export const config = {
   appId: process.env.REACT_APP_AGORA_RTC_APP_ID_KEY,
   token: null,
 };
+
 export const useClient = createClient({ mode: "rtc", codec: "vp8" });
 
 export const MicrophoneAndCameraTracks = createMicrophoneAndCameraTracks(

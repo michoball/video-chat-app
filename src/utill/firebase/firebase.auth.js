@@ -16,6 +16,8 @@ provider.setCustomParameters({
   prompt: "select_account",
 });
 
+// 유저 로그인 시 users collection에 생성하기
+// 기존 유저일 시 스킵
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   if (!userAuth) return;
 
@@ -45,23 +47,27 @@ export const GoogleSignUpWithPopUp = async () => {
   return await signInWithPopup(auth, provider);
 };
 
+// 유저 생성
 export const createUserAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
+// 유저 로그인
 export const signInAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
+// 유저 로그아웃
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback) =>
-  onAuthStateChanged(auth, callback);
+// export const onAuthStateChangedListener = (callback) =>
+//   onAuthStateChanged(auth, callback);
 
+// 유저 상태변화 관찰( 로그인, 아웃시)
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(

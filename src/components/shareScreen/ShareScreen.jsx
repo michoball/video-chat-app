@@ -8,6 +8,7 @@ import { AgoraRTCErrorCode } from "agora-rtc-react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRtcUsers, selectRtcShare } from "../../store/rtc/rtc.selector";
 import { toggleShare } from "../../store/rtc/rtc.action";
+import { Fragment } from "react";
 
 function ShareScreen({ localTracks }) {
   const client = useClient();
@@ -17,6 +18,7 @@ function ShareScreen({ localTracks }) {
 
   const [screenTrack, setScreenTrack] = useState(null);
 
+  // 화면공유 트랙 만들어서 screenTrack state에 넣기
   useEffect(() => {
     const init = async () => {
       try {
@@ -34,6 +36,7 @@ function ShareScreen({ localTracks }) {
           setScreenTrack(screenShareVideoTrack);
         }
       } catch (error) {
+        // 공유 취소시 행동
         if (error.code === AgoraRTCErrorCode.PERMISSION_DENIED) {
           alert(`Share Screen Failed ${error.code}`);
           dispatch(toggleShare(rtcUsers, false));
@@ -44,6 +47,7 @@ function ShareScreen({ localTracks }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 화면 공유시 내화면 공유화면으로 전환 & 공유종료 시 다시 내화면 공유
   useEffect(() => {
     const init = async () => {
       await client.publish(screenTrack);
@@ -66,13 +70,13 @@ function ShareScreen({ localTracks }) {
   }, [client, screenTrack, share, localTracks, toggleShare, rtcUsers]);
 
   return (
-    <div>
+    <Fragment>
       {screenTrack ? (
         <VideoPlayer videoType={VIDEO_TYPE_CLASS.share} track={screenTrack} />
       ) : (
         <CamIcon />
       )}
-    </div>
+    </Fragment>
   );
 }
 

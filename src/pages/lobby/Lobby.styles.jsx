@@ -11,7 +11,6 @@ export const LobbyContainer = styled.div`
   color: whitesmoke;
   h2 {
     text-transform: uppercase;
-    /* text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6); */
   }
 `;
 
@@ -47,4 +46,9 @@ export const AddRoomBtn = styled(Button)`
   :hover {
     background-color: rgba(38, 38, 38, 0.7) !important;
   }
+`;
+
+export const RoomBtnContainer = styled.div`
+  display: flex;
+  gap: 30px;
 `;

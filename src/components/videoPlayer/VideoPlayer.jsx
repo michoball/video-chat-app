@@ -4,7 +4,6 @@ import { toggleBig } from "../../store/rtc/rtc.action";
 
 import {
   Video,
-  UserNameTag,
   BaseVideoContainer,
   SmallVideoContainer,
   ShareVideoContainer,
@@ -29,7 +28,6 @@ const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
 
 function VideoPlayer({ rtcUser, track, videoType }) {
   const dispatch = useDispatch();
-
   const rtcUsers = useSelector(selectRtcUsers);
   const share = useSelector(selectRtcShare);
 
@@ -48,11 +46,6 @@ function VideoPlayer({ rtcUser, track, videoType }) {
       }
     >
       {track || rtcUser.hasVideo ? <Video videoTrack={track} /> : <CamIcon />}
-      {/* {rtcUser && (
-        <UserNameTag>
-          {String(rtcUser.uid || rtcUser.user.uid).slice(4)}
-        </UserNameTag>
-      )} */}
     </CustomVideoContainer>
   );
 }

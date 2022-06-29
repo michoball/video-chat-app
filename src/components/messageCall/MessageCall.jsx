@@ -31,6 +31,7 @@ function MessageCall() {
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
 
+  // 채팅 화면 계속 밑으로 향하게 하는 기능
   const scrollToBottom = () => {
     endfMessagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -42,6 +43,7 @@ function MessageCall() {
     scrollToBottom();
   }, [messages]);
 
+  // 봇 메세지 만드는 기능 ( join 과 left )
   const makeBotMessage = (userState, name = "") => {
     if (userState === "join") {
       return {

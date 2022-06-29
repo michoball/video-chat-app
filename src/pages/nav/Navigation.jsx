@@ -30,6 +30,7 @@ function Navigation() {
   const rtmClient = useSelector(selectRtmClient);
   const channel = useSelector(selectRtmChannel);
 
+  // Room 안에서 로그아웃 시 redux에서 모든 세션종료및 유저 정보 삭제
   const signOutHandler = async () => {
     let signOutConfirm = window.confirm("Do you really want to log out?");
     if (signOutConfirm) {

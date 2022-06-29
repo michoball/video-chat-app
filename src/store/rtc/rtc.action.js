@@ -1,18 +1,6 @@
 import { createAction } from "../../utill/reducer/reducer.config";
 import { RTC_ACTION_TYPE } from "./rtc.type";
 
-const addUserList = (rtcUserList, userToAdd) => {
-  const existingUser = rtcUserList?.find((user) => user.uid === userToAdd.uid);
-
-  if (existingUser) {
-    return rtcUserList.map((user) =>
-      user.uid === userToAdd.uid ? { ...userToAdd, size: user.size } : user
-    );
-  }
-
-  return [...rtcUserList, { userToAdd }];
-};
-
 const removeUserFromList = (rtcUserList, userToRemove) => {
   return rtcUserList.filter((rtcUser) => rtcUser.uid !== userToRemove.uid);
 };
@@ -43,12 +31,18 @@ const toggleUserSize = (rtcUserList, changeUser) => {
   }
 };
 
+// --------------------------------------------------------------------//
+
+export const setLocalUser = (user) => {
+  return createAction(RTC_ACTION_TYPE.SET_LOCAL_USER, { ...user });
+};
+
+// --------------------------------------------------------------------//
+
 export const toggleBig = (rtcUsers, user) => {
   const newUserList = toggleUserSize(rtcUsers, user);
   return createAction(RTC_ACTION_TYPE.SET_RTC_USER, newUserList);
 };
-
-export const clearRtcUser = () => createAction(RTC_ACTION_TYPE.CLEAR_RTC_USER);
 
 export const toggleShare = (rtcUsers, bool) => {
   const newRtcUsers = bool
@@ -57,9 +51,7 @@ export const toggleShare = (rtcUsers, bool) => {
   return createAction(RTC_ACTION_TYPE.TOGGLE_RTC_SHARE, { bool, newRtcUsers });
 };
 
-export const setLocalUser = (user) => {
-  return createAction(RTC_ACTION_TYPE.SET_LOCAL_USER, { ...user });
-};
+// --------------------------------------------------------------------//
 
 export const addRtcUser = (userToAdd) => {
   const newUserList = { ...userToAdd, size: "base" };
@@ -70,3 +62,5 @@ export const removeRtcUser = (rtcUserList, userToRemove) => {
   const newUserList = removeUserFromList(rtcUserList, userToRemove);
   return createAction(RTC_ACTION_TYPE.SET_RTC_USER, newUserList);
 };
+
+export const clearRtcUser = () => createAction(RTC_ACTION_TYPE.CLEAR_RTC_USER);

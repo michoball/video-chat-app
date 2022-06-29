@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import RoomForm from "../../components/roomForm/CreateRoomForm";
 import JoinRoomForm from "../../components/roomForm/JoinRoomForm";
-import { LobbyContainer, RoomListContainer, AddRoomBtn } from "./Lobby.styles";
+import {
+  LobbyContainer,
+  RoomListContainer,
+  AddRoomBtn,
+  RoomBtnContainer,
+} from "./Lobby.styles";
 import Spinner from "../../UI/spinner/spinner";
 
 import RoomList from "../../components/roomList/RoomList";
@@ -21,6 +26,7 @@ function Lobby() {
   const userRoomList = useSelector(selectUserRoomList);
   const roomLoading = useSelector(selectRoomLoading);
 
+  // 유저 Room 정보 초기화
   useEffect(() => {
     if (currentUser) {
       dispatch(clearUserRoom());
@@ -51,12 +57,12 @@ function Lobby() {
             })
           )}
         </RoomListContainer>
-        <div className="roomBtn" style={{ display: "flex", gap: "30px" }}>
+        <RoomBtnContainer>
           <AddRoomBtn className="join" onClick={toggleJoinRoomFormHandelr}>
             Join
           </AddRoomBtn>
           <AddRoomBtn onClick={toggleRoomFormHandelr}>Create</AddRoomBtn>
-        </div>
+        </RoomBtnContainer>
       </LobbyContainer>
       {toggleRoomForm && <RoomForm onToggleForm={toggleRoomFormHandelr} />}
       {join && <JoinRoomForm onToggleForm={toggleJoinRoomFormHandelr} />}

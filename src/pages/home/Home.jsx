@@ -30,6 +30,7 @@ function Home() {
   const channel = useSelector(selectRtmChannel);
   const navigate = useNavigate();
 
+  // rtc와 rtm에 유저가 남아있을시 유저 세션 종료 및 정보 삭제
   useEffect(() => {
     const checkLocalUserSession = async () => {
       if (localUser.user) {

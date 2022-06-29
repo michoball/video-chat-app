@@ -21,6 +21,7 @@ import {
 } from "./room.action";
 import { ROOM_ACTION_TYPE } from "./room.type";
 
+// 방정보 Update
 export function* updateUserRoom(room, currentUser) {
   try {
     const myRoom = yield call(
@@ -36,6 +37,7 @@ export function* updateUserRoom(room, currentUser) {
   }
 }
 
+// user의 myRooms collection에 있는 방들 가져오기
 export function* getRoomList({ payload: user }) {
   yield put(roomIsLoading(true));
   try {
@@ -48,6 +50,7 @@ export function* getRoomList({ payload: user }) {
   }
 }
 
+// 방 생성하기
 export function* createRoom({ payload: { roomName, user } }) {
   yield put(roomIsLoading(true));
 
@@ -61,7 +64,7 @@ export function* createRoom({ payload: { roomName, user } }) {
   }
 }
 
-// 방에 입장할 때마다 해야함
+// 기존 rooms collection에 있는 방에 입장
 export function* joinRoom({ payload: { roomId, currentUser } }) {
   try {
     const roomData = yield call(
@@ -78,6 +81,7 @@ export function* joinRoom({ payload: { roomId, currentUser } }) {
   }
 }
 
+// 방 삭제, firebase myRooms collection에서도 삭제
 export function* deleteRoom({ payload: { roomId, currentUser } }) {
   yield put(roomIsLoading(true));
 
@@ -93,6 +97,7 @@ export function* deleteRoom({ payload: { roomId, currentUser } }) {
   }
 }
 
+// myRooms 에 있는 방 이름만 편집 (rooms에 있는 방 이름은 그대로 )
 export function* updateRoomName({ payload: { roomId, newName } }) {
   try {
     yield call(UpdateUserRoomName, roomId, newName);
@@ -100,6 +105,8 @@ export function* updateRoomName({ payload: { roomId, newName } }) {
     yield put(updateUserRoomNameFailed(error));
   }
 }
+
+// --------------------------------------------------------------------//
 
 export function* onGetUserRoomList() {
   yield takeLatest(ROOM_ACTION_TYPE.GET_ROOM_START, getRoomList);

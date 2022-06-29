@@ -106,6 +106,7 @@ export const deleteUserRoom = async (roomId, user) => {
   return userRoomSnapshot.id;
 };
 
+// 방 정보 유저의 myRooms collection에 update하기
 export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
   const roomRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomRef);

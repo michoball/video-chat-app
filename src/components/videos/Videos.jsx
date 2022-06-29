@@ -14,9 +14,7 @@ import {
   selectRtcBig,
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
-import { selectRtmChannel } from "../../store/rtm/rtm.selector";
 import { selectRoomInfo } from "../../store/room/room.selector";
-import { useEffect } from "react";
 
 function Videos() {
   const rtcUsers = useSelector(selectRtcUsers);
@@ -25,18 +23,8 @@ function Videos() {
   const bigSizeVideo = useSelector(selectRtcBig);
 
   const roomInfo = useSelector(selectRoomInfo);
-  const channel = useSelector(selectRtmChannel);
 
-  useEffect(() => {
-    const init = async () => {
-      const user = await channel.getMembers();
-      console.log(user);
-    };
-    if (rtcUsers && channel) {
-      init();
-    }
-  }, [rtcUsers, channel]);
-
+  // selector 로 들어온 user video size와 local 인지 remote User인지에 따라서 container 구분
   return (
     <VideosContainer id="videos">
       <LocalUserVideoContianer>

@@ -25,15 +25,18 @@ import { setChannel, setRtmClient } from "../../store/rtm/rtm.action";
 import { joinRoomStart } from "../../store/room/room.action";
 
 function Room() {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
   const [messageShow, setMessageShow] = useState(true);
+
   const messageRef = useRef();
+
   const client = useClient();
+
   const { roomId } = useParams();
   const { ready, tracks } = MicrophoneAndCameraTracks();
-
-  const dispatch = useDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
 
@@ -98,6 +101,7 @@ function Room() {
     return <Spinner />;
   }
 
+  // 방 입장후 뒤로가기 시
   window.onpopstate = async () => {
     tracks[0].close();
     tracks[1].close();

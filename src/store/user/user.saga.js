@@ -19,6 +19,7 @@ import {
   signUpSuccess,
 } from "./user.action";
 
+// 유저 정보 firebase users collection에 저장
 export function* getSnapShotFromUserAuth(userAuth, addInfo) {
   try {
     const userSnapshot = yield call(
@@ -34,6 +35,7 @@ export function* getSnapShotFromUserAuth(userAuth, addInfo) {
   }
 }
 
+// 유저 세션 체크
 export function* isAuthenticated() {
   yield put(setIsLoading(true));
 
@@ -50,6 +52,7 @@ export function* isAuthenticated() {
   }
 }
 
+// 구글 로그인
 export function* signInWithGoogle() {
   yield put(setIsLoading(true));
 
@@ -68,6 +71,7 @@ export function* signInWithGoogle() {
   }
 }
 
+// 이메일 비번 로그인
 export function* signInWithEmail({ payload: { email, password } }) {
   yield put(setIsLoading(true));
 
@@ -90,6 +94,7 @@ export function* signInWithEmail({ payload: { email, password } }) {
   }
 }
 
+// 회원가입
 export function* signUp({ payload: { email, password, displayName } }) {
   yield put(setIsLoading(true));
 
@@ -109,10 +114,12 @@ export function* signUp({ payload: { email, password, displayName } }) {
   }
 }
 
+// 회원가입후 로그인
 export function* signInAfterSingUp({ payload: { user, displayName } }) {
   yield call(getSnapShotFromUserAuth, user, displayName);
 }
 
+// 로그아웃
 export function* signOut() {
   try {
     yield call(signOutUser);
@@ -121,6 +128,8 @@ export function* signOut() {
     yield put(signOutFailed(error));
   }
 }
+
+// --------------------------------------------------------------------//
 
 export function* onCheckUserSession() {
   yield takeLatest(USER_ACTION_TYPE.CHECK_USER_SESSION, isAuthenticated);
