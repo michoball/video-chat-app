@@ -30,24 +30,27 @@
 <img src="https://user-images.githubusercontent.com/79836148/176159030-a82929c0-1cdf-4d39-86fa-5141bc6eaf0a.png" width="300px" height="100px" title="agora 로고" alt="agora"></img>   
 
 해외 유명 소셜 미디어 clubhouse에서 실시간 음성채팅을 위해 사용된 서비스    
-Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용하여 화상 채팅과 메시지 채팅기능 추가
+Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용하여 화상 채팅과 메시지 채팅기능 추가     
 둘러보기 [Agora](https://www.agora.io/en/)
 
 
 # 💻 기능   
+| 기능 | 세부 내용 | 시연 모습 |
+|:--:|:--|:--:|
+| 유저 로그인 | - 기본적인 email, password 로그인과 google OAuth 로그인 지원 <br/>    - 로그인에서 회원가입 페이지전환  | |
+| Agora SDK를 활용한 화상 채팅 & 실시간 메세지 교환| - Agora SDK의 rtc-sdk 와 rtm sdk를 활용하여 video call 과 message call 파트를 생성 | |
+| Room 안에서 유저들 화면 big size 조정 기능 | - 각 유저들의 화면 클릭 시 big 사이즈로 전환<br/> - Big 사이즈 유저 이외에는 small 사이즈가 됨<br/> ||
+| Room 안 영상 컨트롤러 기능 지원 | - 유저가 컨트롤러의 각 기능들 클릭시 음소거, 화면 끄기, 화면 공유, 방 나가기 기능 지원| |
+| Lobby에서 간단한 Room CRUD 기능 지원 | - Join 으로 새로운 Room 아이디 입력 후 입장<br/> -Create 로 새로운 Room 이름으로 생성<br/> - 편집 버튼으로 Room 이름 편집(나에게만)<br/> - 삭제 버튼으로 Room 삭제 ( 다른 유저들은 그대로 잔류, 유저가 없을 시 DB에서 완전 삭제 ||
+| Setting 버튼으로 메인 테마 색 변경 & Room Id 복사 기능 | ⚙️ 버튼 클릭시 App 테마 색 변경 가능<br/>  📄 버튼으로 현재 Room Id 카피| | 
+| 반응형 채팅방 | 화면 사이즈에 따른 반응형 video & message 사이즈 조정 | |
 
-* 최대 5명이서만 방에 접속하여 영상 및 메시지 교환 !   
-  > 소규모 대화방인 만큼 입장할 수 있는 인원 제한 기능   
-* 방에 인원 입장 및 퇴장시 봇 메세지 기능 !
-* 선택한 친구얼굴 크게보기 기능 
-* 화면 공유기능을 통해 같이 보고 싶은 영상이나 이미지 공유 !
-* 로비에서 나의 대화 방 리스트 보고 새로운 방을 만들거나 방에 참여하기!
-* 방안에서 앱 전체 메인 테마 색깔 설정 그리고 방 아이디 카피해서 보내기 기능 !
-* 반응형 video & message 창 
 
 # 아키텍쳐 
 
-# 추가 개선사힝
+
+
+# 추가 개선사항
 
  - TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
  - 방에 참여한 유저들 이름 tag를 video에 붙이기
