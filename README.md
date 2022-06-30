@@ -38,17 +38,19 @@ Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용�
 # 💻 기능   
 
 | 기능 | 세부 내용 | 시연 모습 |
-|:--:|:--|:--:|
-| 유저 로그인 | - 기본적인 email, password 로그인과 google OAuth 로그인 지원 <br/>    - 로그인에서 회원가입 페이지전환  |<img src="https://user-images.githubusercontent.com/79836148/176622200-a179ce90-447c-4264-9216-c713db84ff28.gif" width="70%" height="70%" /> |
-| Lobby에서 간단한 Room CRUD 기능 지원 | - Join 으로 새로운 Room 아이디 입력 후 입장<br/> -Create 로 새로운 Room 이름으로 생성<br/> - 편집 버튼으로 Room 이름 편집(나에게만)<br/> - 삭제 버튼으로 Room 삭제 ( 다른 유저들은 그대로 잔류, 유저가 없을 시 DB에서 완전 삭제 |<img src="https://user-images.githubusercontent.com/79836148/176622316-3cba81d9-db82-4014-9672-715a432f394c.gif" width="80%" height="80%" />|
-| Agora SDK를 활용한 화상 채팅 & 실시간 메세지 교환| - Agora SDK의 rtc-sdk 와 rtm sdk를 활용하여 video call 과 message call 파트를 생성 | |
-| Room 안에서 유저들 화면 big size 조정 기능 | - 각 유저들의 화면 클릭 시 big 사이즈로 전환<br/> - Big 사이즈 유저 이외에는 small 사이즈가 됨<br/> ||
-| Setting 버튼으로 메인 테마 색 변경 & Room Id 복사 기능 | ⚙️ 버튼 클릭시 App 테마 색 변경 가능<br/>  📄 버튼으로 현재 Room Id 카피|<img src="https://user-images.githubusercontent.com/79836148/176622375-3ff4beb8-cd1b-4c7b-ad40-764019c5882c.gif" width="80%" height="80%" /> | 
-| Room 안 영상 컨트롤러 기능 지원 | - 유저가 컨트롤러의 각 기능들 클릭시 음소거, 화면 끄기, 화면 공유, 방 나가기 기능 지원|<img src="https://user-images.githubusercontent.com/79836148/176622258-ce645368-e9b6-4e09-989e-36bf340fb4da.gif" width="70%" height="70%" /> |
-| 반응형 채팅방 | 화면 사이즈에 따른 반응형 video & message 사이즈 조정 | |
+|:--:|:--:|:--:|
+| 유저 로그인 | - 기본적인 email, password 로그인과 google OAuth 로그인 지원 <br/>    - 로그인에서 회원가입 페이지전환  |<img src="https://user-images.githubusercontent.com/79836148/176622200-a179ce90-447c-4264-9216-c713db84ff28.gif" width="60%" height="60%" /> |
+| Lobby에서 간단한 Room CRUD 기능 지원 | - Join 으로 새로운 Room 아이디 입력 후 입장<br/> -Create 로 새로운 Room 이름으로 생성<br/> - 편집 버튼으로 Room 이름 편집(나에게만)<br/> - 삭제 버튼으로 Room 삭제 ( 다른 유저들은 그대로 잔류, 유저가 없을 시 DB에서 완전 삭제 |<img src="https://user-images.githubusercontent.com/79836148/176622316-3cba81d9-db82-4014-9672-715a432f394c.gif" width="60%" height="60%" />|
+| Agora SDK를 활용한 화상 채팅 & 실시간 메세지 교환| - Agora SDK의 rtc-sdk 와 rtm sdk를 활용하여 video call 과 message call 파트를 생성 |<img src="https://user-images.githubusercontent.com/79836148/176708551-46dd381c-0ca0-4b01-8cb0-673ea545ede8.gif" width="60%" height="60%" /> |
+| Room 안에서 유저들 화면 big size 조정 기능 | - 각 유저들의 화면 클릭 시 big 사이즈로 전환<br/> - Big 사이즈 유저 이외에는 small 사이즈가 됨<br/> |<img src="https://user-images.githubusercontent.com/79836148/176708023-d8825b60-6314-41e2-bb68-7075a44bef77.gif" width="60%" height="60%" />|
+| Setting 버튼으로 메인 테마 색 변경 & Room Id 복사 기능 | ⚙️ 버튼 클릭시 App 테마 색 변경 가능<br/>  📄 버튼으로 현재 Room Id 카피|<img src="https://user-images.githubusercontent.com/79836148/176622375-3ff4beb8-cd1b-4c7b-ad40-764019c5882c.gif" width="60%" height="60%" /> | 
+| Room 안 영상 컨트롤러 기능 지원 | - 유저가 컨트롤러의 각 기능들 클릭시 음소거, 화면 끄기, 화면 공유, 방 나가기 기능 지원|<img src="https://user-images.githubusercontent.com/79836148/176622258-ce645368-e9b6-4e09-989e-36bf340fb4da.gif" width="60%" height="60%" /> |
+| 화면 공유 기능| contorl의 내 화면을 공유기능으로 화면을 공유 |<img src="https://user-images.githubusercontent.com/79836148/176710541-8b7ba0f4-f287-4344-a1a7-9bcc78a9a9a9.gif" width="60%" height="60%" />  |
+
 
 
 # 🛠️ 주요 특징
+
 
 #### Local user 화면, Remote user 화면, Share 화면과 봇, Local 사용자 그리고 remote사용자 메세지에 따른 다른 *UI 적용 간편화*를 고려한    
 #### Message Content & Video Player 컴포넌트 코드
@@ -129,8 +131,8 @@ export const getCurrentUser = () => {
 
 # 📝 추가 개선사항
 
+ - [ ] 기존 반응형 UI 개선
+ - [ ] 유저 avatar 추가
  - [ ] TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
  - [ ] 방에 참여한 유저들 이름 tag를 video에 붙이기
- - [ ] message 말고 다른 종류의 파일주고 받는기능 
- - [ ] 유저 avatar 추가
 
