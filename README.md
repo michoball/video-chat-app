@@ -49,7 +49,7 @@ Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용�
 
 
 
-# 🛠️ 주요 특징
+# 🛠️ 특징
 
 
 #### Local user 화면, Remote user 화면, Share 화면과 봇, Local 사용자 그리고 remote사용자 메세지에 따른 다른 *UI 적용 간편화*를 고려한    
