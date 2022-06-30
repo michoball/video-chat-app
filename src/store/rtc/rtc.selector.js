@@ -21,6 +21,10 @@ export const selectRtcBig = createSelector([selectRtcUsers], (rtcUsers) => {
   return rtcUsers.find((rtcUser) => rtcUser.size === "big");
 });
 
-export const selectRtcNotBig = createSelector([selectRtcUsers], (rtcUsers) => {
-  return rtcUsers.filter((rtcUser) => rtcUser.size !== "big");
+export const selectRtcBase = createSelector([selectRtcUsers], (rtcUsers) => {
+  return rtcUsers.filter((rtcUser) => rtcUser.size === "base");
+});
+
+export const selectRtcSmall = createSelector([selectRtcUsers], (rtcUsers) => {
+  return rtcUsers.filter((rtcUser) => rtcUser.size === "small");
 });

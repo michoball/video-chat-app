@@ -15,7 +15,7 @@ export const RoomInfoContainer = styled.section`
 
   transition: width 0.3s ease-in-out;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1000px) {
     width: 150px;
     margin-top: 50px;
   }

@@ -32,6 +32,7 @@ function Lobby() {
       dispatch(clearUserRoom());
       dispatch(getUserRoomStart(currentUser));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   const toggleRoomFormHandelr = () => {

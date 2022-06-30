@@ -3,8 +3,8 @@ import { AgoraVideoPlayer } from "agora-rtc-react";
 
 export const BaseVideoContainer = styled.div`
   position: relative;
-  width: 450px;
-  height: 275px;
+  width: 400px;
+  height: 250px;
   min-height: 200px;
   margin: 10px;
   border: 3px solid ${(props) => props.theme.lineColor};
@@ -28,7 +28,7 @@ export const BaseVideoContainer = styled.div`
     border-radius: 10%;
   }
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1000px) {
     width: 250px;
     height: 200px;
     min-height: 150px;
@@ -39,17 +39,19 @@ export const BaseVideoContainer = styled.div`
 export const ShareVideoContainer = styled(BaseVideoContainer)`
   width: 700px;
   height: 550px;
+  min-height: 400px;
 
   @media screen and (max-width: 1200px) {
     width: 600px;
     height: 400px;
+    min-height: 350px;
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1000px) {
     width: 500px;
     height: 400px;
+    min-height: 350px;
   }
 `;
-
 export const UserNameTag = styled.div`
   position: absolute;
   bottom: 10px;
@@ -71,16 +73,16 @@ export const LocalVideoContainer = styled(BaseVideoContainer)`
   height: 200px;
   min-height: 200px;
   border-radius: 50%;
-  ${UserNameTag} {
+  /* ${UserNameTag} {
     position: absolute;
     bottom: 10px;
     right: 50%;
     transform: translateX(50%);
-  }
+  } */
 
   transition: width 0.5s ease-in-out, border-radius 0.5s ease-in-out;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1000px) {
     width: 150px;
     height: 150px;
     min-height: 150px;
@@ -91,27 +93,27 @@ export const LocalVideoContainer = styled(BaseVideoContainer)`
 export const SmallVideoContainer = styled(BaseVideoContainer)`
   margin: auto 10px;
 
-  width: 175px;
-  height: 150px;
-  min-height: 150px;
+  width: 150px;
+  height: 120px;
+  min-height: 120px;
   border-radius: 30%;
-  ${UserNameTag} {
+  /* ${UserNameTag} {
     position: absolute;
     bottom: 10px;
     right: 50%;
     transform: translateX(50%);
-  }
+  } */
 
   @media screen and (max-width: 1200px) {
     margin: 10px auto;
-    width: 150px;
-    height: 125px;
-    min-height: 100px;
-  }
-  @media screen and (max-width: 800px) {
     width: 125px;
-    height: 100px;
-    min-height: 75px;
+    height: 110px;
+    min-height: 110px;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100px;
+    height: 95px;
+    min-height: 95px;
   }
 `;
 

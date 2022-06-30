@@ -1,7 +1,8 @@
 import {
   VideosContainer,
-  RemoteUserVideoContianer,
+  BaseUserVideoContianer,
   LocalUserVideoContianer,
+  SmallUserVideoContianer,
   ShareOrBigVideoContianer,
 } from "./Videos.styles";
 import ShareScreen from "../../components/shareScreen/ShareScreen";
@@ -10,17 +11,19 @@ import { useSelector } from "react-redux";
 import {
   selectRtcLocalUser,
   selectRtcShare,
-  selectRtcUsers,
   selectRtcBig,
+  selectRtcBase,
+  selectRtcSmall,
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
 import { selectRoomInfo } from "../../store/room/room.selector";
 
 function Videos() {
-  const rtcUsers = useSelector(selectRtcUsers);
   const localUser = useSelector(selectRtcLocalUser);
   const share = useSelector(selectRtcShare);
-  const bigSizeVideo = useSelector(selectRtcBig);
+  const bigSizeRtc = useSelector(selectRtcBig);
+  const baseSizeRtc = useSelector(selectRtcBase);
+  const smallSizeRtc = useSelector(selectRtcSmall);
 
   const roomInfo = useSelector(selectRoomInfo);
 
@@ -39,35 +42,52 @@ function Videos() {
 
       <ShareOrBigVideoContianer>
         {share && <ShareScreen localTracks={localUser.tracks[0]} />}
-        {bigSizeVideo && (
+        {bigSizeRtc && (
           <VideoPlayer
             videoType={VIDEO_TYPE_CLASS.share}
-            rtcUser={bigSizeVideo}
-            id={bigSizeVideo.uid}
-            track={bigSizeVideo._videoTrack}
-            key={bigSizeVideo.uid}
+            rtcUser={bigSizeRtc}
+            id={bigSizeRtc.uid}
+            track={bigSizeRtc._videoTrack}
+            key={bigSizeRtc.uid}
           />
         )}
-        <RemoteUserVideoContianer>
-          {rtcUsers.length > 0 &&
-            rtcUsers.map((rtcUser) => {
-              if (rtcUser.size !== "big") {
-                return (
-                  <VideoPlayer
-                    videoType={
-                      rtcUser.size === "base"
-                        ? VIDEO_TYPE_CLASS.base
-                        : VIDEO_TYPE_CLASS.small
-                    }
-                    rtcUser={rtcUser}
-                    id={rtcUser.uid}
-                    track={rtcUser._videoTrack}
-                    key={rtcUser.uid}
-                  />
-                );
-              } else return null;
+        <BaseUserVideoContianer>
+          {baseSizeRtc.length > 0 &&
+            baseSizeRtc.map((rtcUser) => {
+              return (
+                <VideoPlayer
+                  videoType={VIDEO_TYPE_CLASS.base}
+                  rtcUser={rtcUser}
+                  id={rtcUser.uid}
+                  track={rtcUser._videoTrack}
+                  key={rtcUser.uid}
+                />
+              );
             })}
-        </RemoteUserVideoContianer>
+
+          <VideoPlayer
+            videoType={VIDEO_TYPE_CLASS.base}
+            rtcUser={{ hasVideo: null }}
+            id="1535342114134"
+            track={null}
+            key="1535342164134"
+          />
+        </BaseUserVideoContianer>
+
+        <SmallUserVideoContianer>
+          {smallSizeRtc.length > 0 &&
+            smallSizeRtc.map((rtcUser) => {
+              return (
+                <VideoPlayer
+                  videoType={VIDEO_TYPE_CLASS.small}
+                  rtcUser={rtcUser}
+                  id={rtcUser.uid}
+                  track={rtcUser._videoTrack}
+                  key={rtcUser.uid}
+                />
+              );
+            })}
+        </SmallUserVideoContianer>
       </ShareOrBigVideoContianer>
     </VideosContainer>
   );
