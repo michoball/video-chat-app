@@ -57,7 +57,6 @@ export function* createRoom({ payload: { roomName, user } }) {
   try {
     const newRoom = yield call(createRoomDocuments, roomName, user);
     yield put(joinRoomStart(newRoom.id, user));
-    yield put(roomIsLoading(false));
   } catch (error) {
     yield put(createRoomFailed(error));
     yield put(roomIsLoading(false));
@@ -66,6 +65,7 @@ export function* createRoom({ payload: { roomName, user } }) {
 
 // 기존 rooms collection에 있는 방에 입장
 export function* joinRoom({ payload: { roomId, currentUser } }) {
+  yield put(roomIsLoading(true));
   try {
     const roomData = yield call(
       joinRoomAndAddInfoDocuments,

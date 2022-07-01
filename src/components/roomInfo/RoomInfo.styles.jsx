@@ -33,11 +33,18 @@ export const RoomNameHeader = styled.header`
 `;
 
 export const RoomUserList = styled.div`
+  display: flex;
   height: 160px;
   background-color: #1b1b1b;
-  padding: 15px 0;
+  justify-content: center;
+  padding: 15px 10px;
+  font-size: 16px;
   ul {
-    list-style: none;
+    list-style-type: none;
+    padding: 0;
+  }
+  @media screen and (max-width: 1000px) {
+    font-size: 14px;
   }
 `;
 
