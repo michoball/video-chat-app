@@ -1,9 +1,9 @@
 import { createAction } from "../../utill/reducer/reducer.config";
 import { RTC_ACTION_TYPE } from "./rtc.type";
 
-const removeUserFromList = (rtcUserList, userToRemove) => {
-  return rtcUserList.filter((rtcUser) => rtcUser.uid !== userToRemove.uid);
-};
+// const removeUserFromList = (rtcUserList, userToRemove) => {
+//   return rtcUserList.filter((rtcUser) => rtcUser.uid !== userToRemove.uid);
+// };
 
 const toggleUserSize = (rtcUserList, changeUser) => {
   const checkRtcUser = rtcUserList.find(
@@ -54,13 +54,12 @@ export const toggleShare = (rtcUsers, bool) => {
 // --------------------------------------------------------------------//
 
 export const addRtcUser = (userToAdd) => {
-  const newUserList = { ...userToAdd, size: "base" };
-  return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, newUserList);
+  return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, userToAdd);
 };
 
-export const removeRtcUser = (rtcUserList, userToRemove) => {
-  const newUserList = removeUserFromList(rtcUserList, userToRemove);
-  return createAction(RTC_ACTION_TYPE.SET_RTC_USER, newUserList);
+export const removeRtcUser = (userToRemove) => {
+  // const newUserList = removeUserFromList(rtcUserList, userToRemove);
+  return createAction(RTC_ACTION_TYPE.REMOVE_RTC_USER, userToRemove);
 };
 
 export const clearRtcUser = () => createAction(RTC_ACTION_TYPE.CLEAR_RTC_USER);

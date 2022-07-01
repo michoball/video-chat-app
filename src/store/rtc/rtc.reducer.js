@@ -14,22 +14,35 @@ const rtcReducer = (state = RTC_INIT_STATE, action) => {
       const existingUser = state.rtcUsers.find(
         (rtcUser) => rtcUser.uid === payload.uid
       );
+      const BigUser = state.rtcUsers.find((rtcUser) => rtcUser.size === "big");
+
       if (existingUser) {
-        const newRtcUsers = state.rtcUsers.map((rtcUser) =>
+        const setRtcUsers = state.rtcUsers.map((rtcUser) =>
           rtcUser.uid === payload.uid
             ? { ...payload, size: rtcUser.size }
             : rtcUser
         );
         return {
           ...state,
-          rtcUsers: newRtcUsers,
+          rtcUsers: setRtcUsers,
         };
       }
+
       return {
         ...state,
-        rtcUsers: state.rtcUsers.concat(payload),
+        rtcUsers: BigUser
+          ? state.rtcUsers.concat({ ...payload, size: "small" })
+          : state.rtcUsers.concat({ ...payload, size: "base" }),
       };
 
+    case RTC_ACTION_TYPE.REMOVE_RTC_USER:
+      const romvedRtcUser = state.rtcUsers.filter(
+        (rtcUser) => rtcUser.uid !== payload.uid
+      );
+      return {
+        ...state,
+        rtcUsers: romvedRtcUser,
+      };
     case RTC_ACTION_TYPE.SET_RTC_USER:
       return {
         ...state,

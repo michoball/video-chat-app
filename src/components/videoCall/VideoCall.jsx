@@ -7,17 +7,13 @@ import Spinner from "../../UI/spinner/spinner";
 
 import { addRtcUser, removeRtcUser } from "../../store/rtc/rtc.action";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectRtcLocalUser,
-  selectRtcUsers,
-} from "../../store/rtc/rtc.selector";
+import { selectRtcLocalUser } from "../../store/rtc/rtc.selector";
 
 function VideoCall() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [start, setStart] = useState(false);
   const localUser = useSelector(selectRtcLocalUser);
-  const rtcUsers = useSelector(selectRtcUsers);
   const client = useClient();
 
   useEffect(() => {
@@ -27,7 +23,7 @@ function VideoCall() {
         await client.subscribe(user, mediaType);
 
         if (mediaType === "video") {
-          console.log("new published User : ", user, "rtcUser :", rtcUsers);
+          console.log("new published User : ", user);
 
           dispatch(addRtcUser(user));
         }
@@ -45,7 +41,7 @@ function VideoCall() {
 
       client.on("user-left", (user) => {
         console.log("leaving", user);
-        dispatch(removeRtcUser(rtcUsers, user));
+        dispatch(removeRtcUser(user));
       });
 
       setStart(true);
@@ -57,7 +53,7 @@ function VideoCall() {
       init(localUser);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localUser, client, rtcUsers]);
+  }, [localUser, client]);
 
   if (isLoading) {
     return <Spinner />;

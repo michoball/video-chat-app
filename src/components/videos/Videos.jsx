@@ -27,6 +27,9 @@ function Videos() {
 
   const roomInfo = useSelector(selectRoomInfo);
 
+  console.log(" big :", bigSizeRtc);
+  console.log(" base :", baseSizeRtc);
+  console.log(" small :", smallSizeRtc);
   // selector 로 들어온 user video size와 local 인지 remote User인지에 따라서 container 구분
   return (
     <VideosContainer id="videos">
@@ -64,14 +67,6 @@ function Videos() {
                 />
               );
             })}
-
-          <VideoPlayer
-            videoType={VIDEO_TYPE_CLASS.base}
-            rtcUser={{ hasVideo: null }}
-            id="1535342114134"
-            track={null}
-            key="1535342164134"
-          />
         </BaseUserVideoContianer>
 
         <SmallUserVideoContianer>
@@ -87,6 +82,20 @@ function Videos() {
                 />
               );
             })}
+          {/* <VideoPlayer
+            videoType={VIDEO_TYPE_CLASS.small}
+            rtcUser={{ hasVideo: null }}
+            id="15135342114134"
+            track={null}
+            key="15353412164134"
+          />
+          <VideoPlayer
+            videoType={VIDEO_TYPE_CLASS.small}
+            rtcUser={{ hasVideo: null }}
+            id="15353452114134"
+            track={null}
+            key="15355342164134"
+          /> */}
         </SmallUserVideoContianer>
       </ShareOrBigVideoContianer>
     </VideosContainer>
@@ -94,3 +103,5 @@ function Videos() {
 }
 
 export default Videos;
+
+// 테스트 유저

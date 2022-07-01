@@ -20,12 +20,12 @@ const Room = lazy(() => import("./pages/room/Room"));
 const Lobby = lazy(() => import("./pages/lobby/Lobby"));
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(checkUserSession());
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(checkUserSession());
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <Suspense fallback={<Spinner />}>
