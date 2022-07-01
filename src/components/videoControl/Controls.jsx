@@ -36,14 +36,14 @@ const Controls = () => {
 
   const mute = async (type) => {
     if (type === "audio") {
-      await localUser.tracks[1].setEnabled(!trackState.audio);
+      await localUser.tracks[1].setMuted(trackState.audio);
       setTrackState((ps) => {
         return { ...ps, audio: !ps.audio };
       });
     } else if (type === "video") {
       setIsLoading(true);
       try {
-        await localUser.tracks[0].setEnabled(!trackState.video);
+        await localUser.tracks[0].setMuted(trackState.video);
 
         setTrackState((ps) => {
           return { ...ps, video: !ps.video };

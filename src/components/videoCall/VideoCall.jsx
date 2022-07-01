@@ -50,10 +50,9 @@ function VideoCall() {
 
     if (localUser) {
       console.log("VideoCall point", localUser);
-      init(localUser);
+      init();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localUser, client]);
+  }, [localUser, client, dispatch]);
 
   if (isLoading) {
     return <Spinner />;
