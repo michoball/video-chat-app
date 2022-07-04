@@ -133,7 +133,7 @@ export const getCurrentUser = () => {
   StackoverFlow와 Agora FAQ에 보면 7명 밑의 인원을 추천하는 것으로 나와 있어 화상통화 인원을 늘리는 것은 힘들어보인다.     
    > 관련글 stackoverFlow [클릭](https://stackoverflow.com/questions/58000316/maximum-number-of-participants-on-an-agora-video-call-unity3d) Agora VideoCall FAQ [클릭](https://docs.agora.io/en/Video/faq/capacity)
 - Agora 자체적인 이슈 이외에 room에 유저가 들어올 때마다 Agora rtc가 너무 많이 user publish & unpublish Event를 듣고 있는 것을 확인,  
-  video call 안의 useEffect 훅 떄문에 많은 publish& unpublish event가 발생한다고 판단하여 이를 줄이기위해 불필요한 dependency를 제거했지만 여전히 불필요한 reRendering이 조금 발생. 
+  video call 안의 useEffect 훅 떄문에 많은 publish& unpublish event가 발생한다고 판단하여 이를 줄이기위해 불필요한 dependency를 제거했지만 여전히 많은 event 발생. 
   
   
 # 📝 Todo 리스트 
