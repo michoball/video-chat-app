@@ -48,6 +48,70 @@ Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용�
 | 화면 공유 기능| contorl의 내 화면을 공유기능으로 화면을 공유 |<img src="https://user-images.githubusercontent.com/79836148/176710541-8b7ba0f4-f287-4344-a1a7-9bcc78a9a9a9.gif" width="60%" height="60%" />  |
 
 
+# SRC 폴더 구조 
+
+```
+src
+ |__asset
+ |     | videoChatIcon-96x96.png
+ |
+ |__ components
+ |             | message      -- 메세지 내용물
+ |             | messageCall  -- agora Rtm event 다루는 곳 
+ |             | privateRoute  --  유저 로그인 상태 다루는 곳 
+ |             | roomForm     --  lobby 에서의 room join & create기능
+ |             | roomInfo     --  room 안 방의 정보 표시부분 
+ |             | roomList     -- lobby에 내 방 리스트 표시
+ |             | setting      -- room 메인 색상 바꾸는 기능
+ |             | shareScreen  -- 화면 공유기능
+ |             | signIn       -- 로그인 기능
+ |             | signUo       -- 회원가입 기능
+ |             | videoCall    -- agora Rtc event 다루는 곳
+ |             | videoControl -- 비디오 컨트롤러 기능
+ |             | videoPlayer  -- 각 비디오 UI 
+ |             | videos       -- 전체 비디오 UI 셋팅
+ | 
+ |__ context
+ |         | color.context.js  -- 메인 색상 context
+ |         | rtcContext.js     
+ |         | rtmContext.js
+ |         | userContext.js
+ |
+ |__ pages            --  react-router 부분
+ |       | authentication
+ |       | home
+ |       | lobby
+ |       | nav 
+ |       | room
+ | 
+ |__ store           -- redux & redux-saga 부분
+ |       | room
+ |       | rtc
+ |       | rtm
+ |       | user
+ |       | rootReducer.js    -- 리듀서 통합
+ |       | rootSaga.js       -- 사가 통합
+ |       | store.js          -- redux store 셋팅 (with redux-toolkit)
+ |
+ |__ UI              -- 재사용 UI component 모음
+ |    | button
+ |    | formContainer
+ |    | formInput
+ |    | spinner
+ |    | Icons.jsx         -- mui 아이콘
+ |    | Theme.config.js   -- styled-components ThemeProvider 부분
+ | 
+ |__ utill
+ |      | firebase   -- firebase 초기 config 셋팅 & auth & fireStore 부분
+ |      | reducer    -- 액션 생성자
+ |      | Agora.config.js  -- agora rtc client 기본 셋팅
+ | 
+ |__ App.js
+ |__ global.styles.js
+ |__ index.js
+```
+
+
 
 # 🛠️ 특징
 
@@ -132,8 +196,7 @@ export const getCurrentUser = () => {
 - Agora rtc SDK 의 동시 화상 통화 지원인원이 최대 25명으로 나와 있지만 실제 5명이서 통화를 한 결과 속도가 현저히 떨어지는 것을 느꼈다
   StackoverFlow와 Agora FAQ에 보면 7명 밑의 인원을 추천하는 것으로 나와 있어 화상통화 인원을 늘리는 것은 힘들어보인다.     
    > 관련글 stackoverFlow [클릭](https://stackoverflow.com/questions/58000316/maximum-number-of-participants-on-an-agora-video-call-unity3d) Agora VideoCall FAQ [클릭](https://docs.agora.io/en/Video/faq/capacity)
-- Agora 자체적인 이슈 이외에 room에 유저가 들어올 때마다 Agora rtc가 너무 많이 user publish & unpublish Event를 듣고 있는 것을 확인,  
-  video call 안의 useEffect 훅 떄문에 많은 publish& unpublish event가 발생한다고 판단하여 이를 줄이기위해 불필요한 dependency를 제거했지만 여전히 많은 event 발생. 
+- Agora 자체적인 이슈 이외에 room에 유저가 들어올 때마다 Agora rtc가 너무 많이 user publish & unpublish Event를 듣고 있어서 수정 중에 있다. 
   
   
 # 📝 Todo 리스트 
