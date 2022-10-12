@@ -72,10 +72,13 @@ export function* joinRoom({ payload: { roomId, currentUser } }) {
       roomId,
       currentUser
     );
+    console.log(roomData);
     if (roomData) {
       yield call(updateUserRoom, roomData, currentUser);
     }
+    yield put(roomIsLoading(false));
   } catch (error) {
+    console.log(error);
     yield put(joinRoomFailed(error));
     yield put(roomIsLoading(false));
   }

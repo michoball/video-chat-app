@@ -44,7 +44,7 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
 
   if (!roomSnapshot.exists()) {
     alert("Try another room Id");
-    return null;
+    return;
   }
 
   try {
@@ -55,7 +55,7 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
       };
     } else if (roomSnapshot.data().userList.length >= 5) {
       alert("The room you entered is full :/");
-      return null;
+      return;
     } else {
       await setDoc(
         roomDocRef,
