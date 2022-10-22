@@ -37,9 +37,8 @@ export function* getSnapShotFromUserAuth(userAuth, addInfo) {
 
 // 유저 세션 체크
 export function* isAuthenticated() {
-  yield put(setIsLoading(true));
-
   try {
+    yield put(setIsLoading(true));
     const userAuth = yield call(getCurrentUser);
     if (!userAuth) {
       yield put(setIsLoading(false));
@@ -54,9 +53,8 @@ export function* isAuthenticated() {
 
 // 구글 로그인
 export function* signInWithGoogle() {
-  yield put(setIsLoading(true));
-
   try {
+    yield put(setIsLoading(true));
     const { user } = yield call(GoogleSignUpWithPopUp);
     yield call(getSnapShotFromUserAuth, user);
   } catch (error) {
@@ -73,9 +71,8 @@ export function* signInWithGoogle() {
 
 // 이메일 비번 로그인
 export function* signInWithEmail({ payload: { email, password } }) {
-  yield put(setIsLoading(true));
-
   try {
+    yield put(setIsLoading(true));
     const { user } = yield call(
       signInAuthWithEmailAndPassword,
       email,
@@ -96,9 +93,8 @@ export function* signInWithEmail({ payload: { email, password } }) {
 
 // 회원가입
 export function* signUp({ payload: { email, password, displayName } }) {
-  yield put(setIsLoading(true));
-
   try {
+    yield put(setIsLoading(true));
     const { user } = yield call(
       createUserAuthWithEmailAndPassword,
       email,
