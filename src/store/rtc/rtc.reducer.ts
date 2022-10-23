@@ -1,12 +1,19 @@
-import { RTC_ACTION_TYPE } from "./rtc.type";
+import { AnyAction } from "@reduxjs/toolkit";
+import { LocalUser, RemoteUser, RTC_ACTION_TYPE } from "./rtc.type";
 
-const RTC_INIT_STATE = {
+export type RTCUsersState = {
+  readonly rtcUsers: RemoteUser[];
+  readonly localUser: LocalUser | null;
+  readonly share: Boolean;
+};
+
+const RTC_INIT_STATE: RTCUsersState = {
   rtcUsers: [],
-  localUser: {},
+  localUser: null,
   share: false,
 };
 
-const rtcReducer = (state = RTC_INIT_STATE, action) => {
+const rtcReducer = (state = RTC_INIT_STATE, action: AnyAction) => {
   const { type, payload } = action;
 
   switch (type) {
