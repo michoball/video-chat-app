@@ -55,7 +55,7 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
         ...roomSnapshot.data(),
       };
     } else if (roomSnapshot.data().userList.length >= 5) {
-      alert("The room you entered is full :/");
+      alert(`The room ${roomSnapshot.data().roomName} is full :/`);
       return;
     } else {
       await setDoc(
@@ -155,25 +155,27 @@ export const UpdateUserRoomName = async (roomId, newRoomName) => {
 
 // user 가 있는 방 가져오기
 export const getUserRoomArray = async (user) => {
-  const roomRef = collection(db, "rooms");
-  const roomQuery = query(roomRef, orderBy("timestamp"));
-  const userRoomSnapshot = await getDocs(roomQuery);
+  // 유저 컬렉션 안 유저의 방 컬렉션에서 방 목록 가져오기
+  // 이렇게 해야 각자 방이름을 따로 만들어서 저장할 수 있음
   let myRoomSnapshot = [];
 
-  const roomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
-    roomDoc.data().userList.find((users) => users.id.includes(user.id))
-  );
+  const userRef = doc(db, "users", user.id);
+  const roomDocRef = collection(userRef, "myRooms");
+  const roomQuery = query(roomDocRef, orderBy("timestamp"));
+  const roomQuerySnapshot = await getDocs(roomQuery);
 
-  roomSnapshot.forEach((userRoom) =>
+  roomQuerySnapshot.docs.forEach((userRoom) =>
     myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
   );
 
-  // const userRef = doc(db, "users", user.id);
-  // const roomDocRef = collection(userRef, "myRooms");
-  // const roomQuery = query(roomDocRef, orderBy("timestamp"));
-  // const roomQuerySnapshot = await getDocs(roomQuery);
-
-  // roomQuerySnapshot.docs.forEach((userRoom) =>
+  // rooms 컬렉션에서 방 가져오기
+  // const roomRef = collection(db, "rooms");
+  // const roomQuery = query(roomRef, orderBy("timestamp"));
+  // const userRoomSnapshot = await getDocs(roomQuery);
+  // const roomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
+  //   roomDoc.data().userList.find((users) => users.id.includes(user.id))
+  // );
+  // roomSnapshot.forEach((userRoom) =>
   //   myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
   // );
 
