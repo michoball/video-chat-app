@@ -44,6 +44,7 @@ function Room() {
     if (currentUser && roomId) {
       dispatch(joinRoomStart(roomId, currentUser));
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, roomId]);
 
@@ -58,7 +59,8 @@ function Room() {
           config.token,
           null
         );
-        //비디오 & 오디오 방안 사람들과 공유
+        //비디오 & 오디오 방안 사람들과 공유.
+
         if (tracks) await client.publish([tracks[0], tracks[1]]);
 
         // 메세지 유저정보 만들기

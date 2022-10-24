@@ -150,27 +150,28 @@ export const UpdateUserRoomName = async (roomId, newRoomName) => {
 
 // user 가 있는 방 가져오기
 export const getUserRoomArray = async (user) => {
-  const roomRef = collection(db, "rooms");
-  const roomQuery = query(roomRef, orderBy("timestamp"));
-  const userRoomSnapshot = await getDocs(roomQuery);
   let myRoomSnapshot = [];
 
-  const roomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
-    roomDoc.data().userList.find((users) => users.id.includes(user.id))
-  );
+  // const roomRef = collection(db, "rooms");
+  // const roomQuery = query(roomRef, orderBy("timestamp"));
+  // const userRoomSnapshot = await getDocs(roomQuery);
 
-  roomSnapshot.forEach((userRoom) =>
-    myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
-  );
+  // const roomSnapshot = userRoomSnapshot.docs.filter((roomDoc) =>
+  //   roomDoc.data().userList.find((users) => users.id.includes(user.id))
+  // );
 
-  // const userRef = doc(db, "users", user.id);
-  // const roomDocRef = collection(userRef, "myRooms");
-  // const roomQuery = query(roomDocRef, orderBy("timestamp"));
-  // const roomQuerySnapshot = await getDocs(roomQuery);
-
-  // roomQuerySnapshot.docs.forEach((userRoom) =>
+  // roomSnapshot.forEach((userRoom) =>
   //   myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
   // );
+
+  const userRef = doc(db, "users", user.id);
+  const roomDocRef = collection(userRef, "myRooms");
+  const roomQuery = query(roomDocRef, orderBy("timestamp"));
+  const roomQuerySnapshot = await getDocs(roomQuery);
+
+  roomQuerySnapshot.docs.forEach((userRoom) =>
+    myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
+  );
 
   return myRoomSnapshot;
 };
