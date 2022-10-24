@@ -28,6 +28,7 @@ export type AddInfo = {
 };
 
 export type UserData = {
+  id: string;
   timestamp: Date;
   displayName: string;
   email: string;

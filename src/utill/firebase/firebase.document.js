@@ -13,7 +13,8 @@ import {
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
-import { auth } from "./firebase.auth";
+import { auth, UserData } from "./firebase.auth";
+import { User } from "firebase/auth";
 
 //방 새로이 만들기
 export const createRoomDocuments = async (roomName, user) => {
@@ -136,6 +137,10 @@ export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
 
 //방이름 편집하기
 export const UpdateUserRoomName = async (roomId, newRoomName) => {
+  if (!auth.currentUser) {
+    console.log("No current User");
+    return;
+  }
   const userRef = doc(db, "users", auth.currentUser.uid);
   const userRoomRef = doc(userRef, "myRooms", roomId);
 
