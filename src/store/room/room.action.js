@@ -46,8 +46,8 @@ export const createRoomFailed = (error) =>
 
 // --------------------------------------------------------------------//
 
-export const roomIsLoading = (bool) =>
-  createAction(ROOM_ACTION_TYPE.ROOM_ISLOADING, bool);
+// export const roomIsLoading = (bool) =>
+//   createAction(ROOM_ACTION_TYPE.ROOM_ISLOADING, bool);
 
 export const clearUserRoom = () =>
   createAction(ROOM_ACTION_TYPE.CLEAR_USER_ROOM);

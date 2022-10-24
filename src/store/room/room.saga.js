@@ -14,7 +14,6 @@ import {
   joinRoomFailed,
   getUserRoomSuccess,
   getUserRoomFailed,
-  roomIsLoading,
   deleteRoomSuccess,
   joinRoomStart,
   updateUserRoomNameFailed,
@@ -30,42 +29,33 @@ export function* updateUserRoom(room, currentUser) {
       currentUser
     );
     yield put(joinRoomSuccess(myRoom));
-    yield put(roomIsLoading(false));
   } catch (error) {
     yield put(joinRoomFailed(error));
-    yield put(roomIsLoading(false));
   }
 }
 
 // user의 myRooms collection에 있는 방들 가져오기
 export function* getRoomList({ payload: user }) {
-  yield put(roomIsLoading(true));
   try {
     const roomList = yield call(getUserRoomArray, user);
     yield put(getUserRoomSuccess(roomList));
-    yield put(roomIsLoading(false));
   } catch (error) {
     yield put(getUserRoomFailed(error));
-    yield put(roomIsLoading(false));
   }
 }
 
 // 방 생성하기
 export function* createRoom({ payload: { roomName, user } }) {
-  yield put(roomIsLoading(true));
-
   try {
     const newRoom = yield call(createRoomDocuments, roomName, user);
     yield put(joinRoomStart(newRoom.id, user));
   } catch (error) {
     yield put(createRoomFailed(error));
-    yield put(roomIsLoading(false));
   }
 }
 
 // 기존 rooms collection에 있는 방에 입장
 export function* joinRoom({ payload: { roomId, currentUser } }) {
-  yield put(roomIsLoading(true));
   try {
     const roomData = yield call(
       joinRoomAndAddInfoDocuments,
@@ -76,27 +66,21 @@ export function* joinRoom({ payload: { roomId, currentUser } }) {
     if (roomData) {
       yield call(updateUserRoom, roomData, currentUser);
     }
-    yield put(roomIsLoading(false));
   } catch (error) {
     console.log(error);
     yield put(joinRoomFailed(error));
-    yield put(roomIsLoading(false));
   }
 }
 
 // 방 삭제, firebase myRooms collection에서도 삭제
 export function* deleteRoom({ payload: { roomId, currentUser } }) {
-  yield put(roomIsLoading(true));
-
   try {
     const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
     if (deletedRoomId) {
       yield put(deleteRoomSuccess(deletedRoomId));
-      yield put(roomIsLoading(false));
     }
   } catch (error) {
     yield put(deleteRoomFailed(error));
-    yield put(roomIsLoading(false));
   }
 }
 

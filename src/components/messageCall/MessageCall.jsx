@@ -18,6 +18,7 @@ import {
   selectRtmChannel,
   selectRtmMessages,
   selectRtmClient,
+  selectRtmUsers,
 } from "../../store/rtm/rtm.selector";
 
 import { addMessages, clearAll, addRtmUser } from "../../store/rtm/rtm.action";
@@ -27,6 +28,7 @@ function MessageCall() {
   const channel = useSelector(selectRtmChannel);
   const rtmClient = useSelector(selectRtmClient);
   const messages = useSelector(selectRtmMessages);
+  const rtmUsers = useSelector(selectRtmUsers);
   const currentUser = useSelector(selectCurrentUser);
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);
@@ -66,22 +68,30 @@ function MessageCall() {
   useEffect(() => {
     const init = async (channel) => {
       channel.on("MemberJoined", async (MemberId) => {
-        const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
-          "name",
-        ]);
-
-        const botMessageData = makeBotMessage("join", name);
-        dispatch(addMessages(botMessageData));
-        dispatch(addRtmUser(MemberId, name));
-
-        console.log("NEW Member Joined~!!", MemberId, name);
+        try {
+          const { name } = await rtmClient.getUserAttributesByKeys(MemberId, [
+            "name",
+          ]);
+          if (name) {
+            const botMessageData = makeBotMessage("join", name);
+            dispatch(addMessages(botMessageData));
+            dispatch(addRtmUser(MemberId, name));
+          }
+          console.log("NEW Member Joined~!!", MemberId, name);
+        } catch (error) {
+          console.log("Rtm Member join error", error);
+        }
       });
 
       channel.on("MemberLeft", async (MemberId) => {
-        const botMessageData = makeBotMessage("left");
-        dispatch(addMessages(botMessageData));
-
-        console.log("leaving", MemberId);
+        try {
+          const leaveUser = rtmUsers?.filter((user) => user.id === MemberId);
+          const botMessageData = makeBotMessage("left");
+          dispatch(addMessages(botMessageData));
+          console.log("leaving", MemberId, leaveUser);
+        } catch (error) {
+          console.log("Rtm MemberLeft error", error);
+        }
       });
 
       channel.on("ChannelMessage", async (messageData, MemberId) => {
