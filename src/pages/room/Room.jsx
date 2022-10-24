@@ -44,6 +44,7 @@ function Room() {
     if (currentUser && roomId) {
       dispatch(joinRoomStart(roomId, currentUser));
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, roomId]);
 

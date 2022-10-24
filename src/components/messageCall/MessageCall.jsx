@@ -75,7 +75,7 @@ function MessageCall() {
           if (name) {
             const botMessageData = makeBotMessage("join", name);
             dispatch(addMessages(botMessageData));
-            dispatch(addRtmUser(MemberId, name));
+            // dispatch(addRtmUser(MemberId, name));
           }
           console.log("NEW Member Joined~!!", MemberId, name);
         } catch (error) {
@@ -85,10 +85,10 @@ function MessageCall() {
 
       channel.on("MemberLeft", async (MemberId) => {
         try {
-          const leaveUser = rtmUsers?.filter((user) => user.id === MemberId);
+          // const leaveUser = rtmUsers?.filter((user) => user.id === MemberId);
           const botMessageData = makeBotMessage("left");
           dispatch(addMessages(botMessageData));
-          console.log("leaving", MemberId, leaveUser);
+          console.log("leaving", MemberId);
         } catch (error) {
           console.log("Rtm MemberLeft error", error);
         }
