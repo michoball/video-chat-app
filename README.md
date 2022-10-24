@@ -196,8 +196,12 @@ export const getCurrentUser = () => {
 - Agora rtc SDK 의 동시 화상 통화 지원인원이 최대 25명으로 나와 있지만 실제 5명이서 통화를 한 결과 속도가 현저히 떨어지는 것을 느꼈다
   StackoverFlow와 Agora FAQ에 보면 7명 밑의 인원을 추천하는 것으로 나와 있어 화상통화 인원을 늘리는 것은 힘들어보인다.     
    > 관련글 stackoverFlow [클릭](https://stackoverflow.com/questions/58000316/maximum-number-of-participants-on-an-agora-video-call-unity3d) Agora VideoCall FAQ [클릭](https://docs.agora.io/en/Video/faq/capacity)
-- Agora 자체적인 이슈 이외에 room에 유저가 들어올 때마다 Agora rtc가 너무 많이 user publish & unpublish Event를 듣고 있어서 수정 중에 있다. 
-  
+- Agora 자체적인 이슈 이외에 room에 유저가 들어올 때마다 Agora rtc가 너무 많이 user publish & unpublish Event를 듣고 있어서 수정 중에 있다.  
+- Join Room Error <br/>
+  존재하지 않는 방 id를 입력하면 방이 존재하지 않는다는 멘트가 나오고 원래 로비의 상태로 되돌아가야 하지만 로딩 화면에서 넘어가지 않는 오류를 확인해서 수정완료했습니다. (22.10.12)
+ - Custom Room Error <br/>
+  lobby에서 개별로 방이름을 설정하는 기능이 있는데 여기서 방이름을 바꿔도 lobby에 있는 목록에 적용되지 않는 오류를 확인했다.<br/>
+  이름 수정은 user 컬렉션안의 myRooms 컬렉션에 적용되는데 가져오는 데이터는 rooms 컬렉션에서 가져와서 생긴오류였고 수정완료했습니다. (22.10.24)
   
 # 📝 Todo 리스트 
 
