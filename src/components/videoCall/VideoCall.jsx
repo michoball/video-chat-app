@@ -15,28 +15,36 @@ function VideoCall() {
   const [start, setStart] = useState(false);
   const localUser = useSelector(selectRtcLocalUser);
   const client = useClient();
-  console.log("video-Call");
+
   useEffect(() => {
     const init = async () => {
       // remote user가 들어오고 나가고 할 때 event handler
       client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
+        try {
+          await client.subscribe(user, mediaType);
 
-        if (mediaType === "video") {
-          console.log("new published User : ", user);
+          if (mediaType === "video") {
+            console.log("new published User : ", user);
 
-          dispatch(addRtcUser(user));
+            dispatch(addRtcUser(user));
+          }
+          if (mediaType === "audio") {
+            user.audioTrack?.play();
+          }
+
+          console.log("subscribe success", user, "client", client);
+        } catch (error) {
+          console.log("rtc subscribe fail", error);
         }
-        if (mediaType === "audio") {
-          user.audioTrack?.play();
-        }
-
-        console.log("subscribe success", user, "client", client);
       });
 
       client.on("user-unpublished", async (user, mediaType) => {
-        await client.unsubscribe(user, mediaType);
-        console.log("unpublished", user, mediaType);
+        try {
+          await client.unsubscribe(user, mediaType);
+          console.log("unpublished", user, mediaType);
+        } catch (error) {
+          console.log("rtc unpublished error", error);
+        }
       });
 
       client.on("user-left", (user) => {

@@ -1,9 +1,17 @@
+import { RtmChannel, RtmClient } from "agora-rtm-sdk";
 import { RTM_ACTION_TYPE } from "./rtm.type";
 
 // 임의로 만드는 message Uid
 const messageUid = () => {
   return Math.floor(Math.random() * 100000 + Math.random() * 10000).toString();
 };
+
+// export type RTMUsersState = {
+// messages: object[];
+// rtmClient: RtmClient
+// channel: RtmChannel
+
+// }
 
 const RTM_INIT_STATE = {
   messages: [],
@@ -23,15 +31,15 @@ const rtmReducer = (state = RTM_INIT_STATE, action) => {
         messages: state.messages.concat({ ...payload, id: messageuid }),
       };
     case RTM_ACTION_TYPE.SET_RTM_USER:
-      if (!state.rtmUsers) {
-        return {
-          ...state,
-          rtmUsers: [payload],
-        };
-      }
+      // if (!state.rtmUsers) {
+      //   return {
+      //     ...state,
+      //     rtmUsers: [payload],
+      //   };
+      // }
       return {
         ...state,
-        rtmUsers: [...state.rtmUsers, payload],
+        rtmUsers: payload,
       };
     case RTM_ACTION_TYPE.SET_CHANNEL:
       return {

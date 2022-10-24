@@ -11,11 +11,6 @@ const roomReducer = (state = ROOM_INIT_STATE, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    // case ROOM_ACTION_TYPE.ROOM_ISLOADING:
-    //   return {
-    //     ...state,
-    //     roomLoading: payload,
-    //   };
     case ROOM_ACTION_TYPE.GET_ROOM_SUCCESS:
       return {
         ...state,

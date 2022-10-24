@@ -5,7 +5,14 @@ const removeUser = (userList, userToRemoveId) => {
   if (!userList) {
     return [];
   }
-  return userList.filter((rtcUser) => rtcUser.uid !== userToRemoveId);
+  return userList.filter((rtmUser) => rtmUser.uid !== userToRemoveId);
+};
+
+const addUser = (userList, userInfo) => {
+  if (userList.length < 1) {
+    return userInfo;
+  }
+  return [...userList, userInfo];
 };
 
 // --------------------------------------------------------------------//
@@ -16,8 +23,9 @@ export const addMessages = (messageData) => {
 
 // --------------------------------------------------------------------//
 
-export const addRtmUser = (userId, name) => {
-  return createAction(RTM_ACTION_TYPE.SET_RTM_USER, { id: userId, name });
+export const addRtmUser = (rtmUsers, userId, name) => {
+  const newUserList = addUser(rtmUsers, { id: userId, name });
+  return createAction(RTM_ACTION_TYPE.SET_RTM_USER, newUserList);
 };
 
 export const removeRtmUser = (rtmUsers, userId) => {
