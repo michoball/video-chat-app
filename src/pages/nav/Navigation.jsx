@@ -51,35 +51,27 @@ function Navigation() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <Fragment>
-        <NavContainer>
-          <Link to="/">
-            <h1>Chat Room</h1>
-          </Link>
-          <NavSpinner />
-        </NavContainer>
-        <Outlet />
-      </Fragment>
-    );
-  }
-
   return (
     <Fragment>
       <NavContainer>
         <Link to="/">
           <h1>Chat Room</h1>
         </Link>
-        {currentUser ? (
-          <LogOutContainer>
-            <span>{currentUser.displayName}</span>
-            <NavLink as="span" onClick={signOutHandler}>
-              Log Out
-            </NavLink>
-          </LogOutContainer>
+        {isLoading ? (
+          <NavSpinner />
         ) : (
-          <NavLink to="/auth">Log In First</NavLink>
+          <>
+            {currentUser ? (
+              <LogOutContainer>
+                <span>{currentUser.displayName}</span>
+                <NavLink as="span" onClick={signOutHandler}>
+                  Log Out
+                </NavLink>
+              </LogOutContainer>
+            ) : (
+              <NavLink to="/auth">Log In First</NavLink>
+            )}
+          </>
         )}
       </NavContainer>
       <Outlet />
