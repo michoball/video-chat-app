@@ -1,12 +1,6 @@
 import { createAction } from "../../utill/reducer/reducer.config";
 import { USER_ACTION_TYPE } from "./user.type";
 
-// 로딩
-export const setIsLoading = (bool) =>
-  createAction(USER_ACTION_TYPE.SET_ISLOADING, bool);
-
-// --------------------------------------------------------------------//
-
 // 토글 sign in & up form
 export const toggleSignForm = () =>
   createAction(USER_ACTION_TYPE.TOGGLE_SIGN_FORM);

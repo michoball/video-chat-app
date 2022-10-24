@@ -10,7 +10,6 @@ import {
   signOutUser,
 } from "../../utill/firebase/firebase.auth";
 import {
-  setIsLoading,
   signInFailed,
   signInSuccess,
   signOutFailed,
@@ -28,33 +27,27 @@ export function* getSnapShotFromUserAuth(userAuth, addInfo) {
       addInfo
     );
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
-    yield put(setIsLoading(false));
   } catch (error) {
     yield put(signInFailed(error));
-    yield put(setIsLoading(false));
   }
 }
 
 // 유저 세션 체크
 export function* isAuthenticated() {
   try {
-    yield put(setIsLoading(true));
     const userAuth = yield call(getCurrentUser);
     if (!userAuth) {
-      yield put(setIsLoading(false));
       return;
     }
     yield call(getSnapShotFromUserAuth, userAuth);
   } catch (error) {
     yield put(signInFailed(error));
-    yield put(setIsLoading(false));
   }
 }
 
 // 구글 로그인
 export function* signInWithGoogle() {
   try {
-    yield put(setIsLoading(true));
     const { user } = yield call(GoogleSignUpWithPopUp);
     yield call(getSnapShotFromUserAuth, user);
   } catch (error) {
@@ -65,14 +58,12 @@ export function* signInWithGoogle() {
       alert("Check your Google Account");
     }
     yield put(signInFailed(error));
-    yield put(setIsLoading(false));
   }
 }
 
 // 이메일 비번 로그인
 export function* signInWithEmail({ payload: { email, password } }) {
   try {
-    yield put(setIsLoading(true));
     const { user } = yield call(
       signInAuthWithEmailAndPassword,
       email,
@@ -87,14 +78,12 @@ export function* signInWithEmail({ payload: { email, password } }) {
       alert("Check your Email or Password");
     }
     yield put(signInFailed(error));
-    yield put(setIsLoading(false));
   }
 }
 
 // 회원가입
 export function* signUp({ payload: { email, password, displayName } }) {
   try {
-    yield put(setIsLoading(true));
     const { user } = yield call(
       createUserAuthWithEmailAndPassword,
       email,
@@ -106,7 +95,6 @@ export function* signUp({ payload: { email, password, displayName } }) {
       alert("Input Email is already in used");
     }
     yield put(signUpFailed(error));
-    yield put(setIsLoading(false));
   }
 }
 
