@@ -17,6 +17,7 @@ import {
   deleteRoomSuccess,
   joinRoomStart,
   updateUserRoomNameFailed,
+  getUserRoomStart,
 } from "./room.action";
 import { ROOM_ACTION_TYPE } from "./room.type";
 
@@ -25,7 +26,7 @@ export function* updateUserRoom(room, currentUser) {
   try {
     const myRoom = yield call(
       updateMyRoomToUsersDocuments,
-      room.id,
+      room.roomId,
       currentUser
     );
     yield put(joinRoomSuccess(myRoom));
@@ -64,7 +65,7 @@ export function* joinRoom({ payload: { roomId, currentUser } }) {
     );
     console.log(roomData);
     if (roomData) {
-      yield call(updateUserRoom, roomData, currentUser);
+      yield call(updateUserRoom, { roomData, roomId: roomId }, currentUser);
     }
   } catch (error) {
     console.log(error);
@@ -78,6 +79,7 @@ export function* deleteRoom({ payload: { roomId, currentUser } }) {
     const deletedRoomId = yield call(deleteUserRoom, roomId, currentUser);
     if (deletedRoomId) {
       yield put(deleteRoomSuccess(deletedRoomId));
+      yield put(getUserRoomStart(currentUser));
     }
   } catch (error) {
     yield put(deleteRoomFailed(error));

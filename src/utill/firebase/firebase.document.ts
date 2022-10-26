@@ -10,14 +10,26 @@ import {
   serverTimestamp,
   deleteDoc,
   orderBy,
+  DocumentReference,
+  DocumentData,
+  QueryDocumentSnapshot,
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
 import { auth, UserData } from "./firebase.auth";
-import { User } from "firebase/auth";
+
+export type RoomData = {
+  // id: string;
+  roomName: string;
+  timestamp: Date;
+  userList: UserData[];
+};
 
 //방 새로이 만들기
-export const createRoomDocuments = async (roomName, user) => {
+export const createRoomDocuments = async (
+  roomName: string,
+  user: UserData
+): Promise<DocumentReference<DocumentData> | void> => {
   const roomDocRef = collection(db, "rooms");
   const { email, displayName, id } = user;
 
@@ -29,16 +41,19 @@ export const createRoomDocuments = async (roomName, user) => {
       timestamp,
       userList: [{ email, displayName, id }],
     });
-    console.log(newRoom);
+    console.log(newRoom.id);
 
-    return newRoom;
+    return newRoom as DocumentReference<DocumentData>;
   } catch (error) {
     console.log("error occur from adding room ", error);
   }
 };
 
 // 방 id 입력해서 들어가기
-export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
+export const joinRoomAndAddInfoDocuments = async (
+  roomId: string,
+  user: UserData
+): Promise<QueryDocumentSnapshot<RoomData> | void> => {
   const { email, displayName, id } = user;
   const roomDocRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomDocRef);
@@ -49,11 +64,14 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
   }
 
   try {
-    if (roomSnapshot.data().userList.find((roomUser) => roomUser.id === id)) {
+    if (
+      roomSnapshot
+        .data()
+        .userList.find((roomUser: UserData) => roomUser.id === id)
+    ) {
       return {
-        id: roomId,
         ...roomSnapshot.data(),
-      };
+      } as QueryDocumentSnapshot<RoomData>;
     } else if (roomSnapshot.data().userList.length >= 5) {
       alert(`The room ${roomSnapshot.data().roomName} is full :/`);
       return;
@@ -66,13 +84,14 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
             {
               email,
               displayName,
-              id,
             },
           ],
         },
         { merge: true }
       );
-      return { id: roomId, ...roomSnapshot.data() };
+      return {
+        ...roomSnapshot.data(),
+      } as QueryDocumentSnapshot<RoomData>;
     }
   } catch (error) {
     console.log("error occur from adding room ", error);
@@ -80,13 +99,17 @@ export const joinRoomAndAddInfoDocuments = async (roomId, user) => {
 };
 
 // user를 방에서 삭제하기
-export const deleteUserRoom = async (roomId, user) => {
+export const deleteUserRoom = async (
+  roomId: string,
+  user: UserData
+): Promise<string | void> => {
   const roomDocRef = doc(db, "rooms", roomId);
   const userRoomSnapshot = await getDoc(roomDocRef);
+  if (!userRoomSnapshot.exists()) return;
 
   const newUserList = userRoomSnapshot
     .data()
-    .userList.filter((roomUser) => roomUser.id !== user.id);
+    .userList.filter((roomUser: UserData) => roomUser.id !== user.id);
 
   if (newUserList.length === 0) {
     await deleteDoc(roomDocRef);
@@ -108,15 +131,18 @@ export const deleteUserRoom = async (roomId, user) => {
 };
 
 // 방 정보 유저의 myRooms collection에 update하기
-export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
+export const updateMyRoomToUsersDocuments = async (
+  roomId: string,
+  currentUser: UserData
+): Promise<RoomData | void> => {
   const roomRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomRef);
-
+  if (!roomSnapshot.exists()) {
+    throw Error("room doesn't exist");
+  }
   const userRef = doc(db, "users", currentUser.id);
   const myRoomRef = doc(userRef, "myRooms", roomId);
   const myRoomSnapshot = await getDoc(myRoomRef);
-
-  console.log(myRoomSnapshot, roomSnapshot);
 
   try {
     const newRoomData = {
@@ -136,7 +162,10 @@ export const updateMyRoomToUsersDocuments = async (roomId, currentUser) => {
 };
 
 //방이름 편집하기
-export const UpdateUserRoomName = async (roomId, newRoomName) => {
+export const UpdateUserRoomName = async (
+  roomId: string,
+  newRoomName: string
+): Promise<void> => {
   if (!auth.currentUser) {
     console.log("No current User");
     return;
@@ -154,10 +183,12 @@ export const UpdateUserRoomName = async (roomId, newRoomName) => {
 };
 
 // user 가 있는 방 가져오기
-export const getUserRoomArray = async (user) => {
+export const getUserRoomArray = async (
+  user: UserData
+): Promise<QueryDocumentSnapshot<RoomData>[]> => {
   // 유저 컬렉션 안 유저의 방 컬렉션에서 방 목록 가져오기
   // 이렇게 해야 각자 방이름을 따로 만들어서 저장할 수 있음
-  let myRoomSnapshot = [];
+  let myRoomSnapshot = [] as QueryDocumentSnapshot<RoomData>[];
 
   const userRef = doc(db, "users", user.id);
   const roomDocRef = collection(userRef, "myRooms");
@@ -165,7 +196,7 @@ export const getUserRoomArray = async (user) => {
   const roomQuerySnapshot = await getDocs(roomQuery);
 
   roomQuerySnapshot.docs.forEach((userRoom) =>
-    myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
+    myRoomSnapshot.push(userRoom.data() as QueryDocumentSnapshot<RoomData>)
   );
 
   // rooms 컬렉션에서 방 가져오기
