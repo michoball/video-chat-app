@@ -20,9 +20,9 @@
 # 🤖 기술스택
 
 
- <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"><img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=MUI&logoColor=white"><br/>
- <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"><img src="https://img.shields.io/badge/Redux_Saga-999999?style=for-the-badge&logo=Redux-Saga&logoColor=white"><br/> 
- <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white">
+ <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=MUI&logoColor=white"><br/>
+ <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/Redux_Saga-999999?style=for-the-badge&logo=Redux-Saga&logoColor=white"><br/> 
+ <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white"> <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white">
 
 
 
@@ -31,7 +31,8 @@
  둘러보기 [Agora](https://www.agora.io/en/)
 
 해외 유명 소셜 미디어 ClubHose 에서 실시간 음성채팅을 위해 사용된 서비스    
-Agora에서 제공하는 Live video call 과 Real Time messaging sdk 를 이용하여 화상 채팅과 메시지 채팅기능 생성  
+  Agora에서는 WebRtc 기반 어플리케이션을 좀 더 간편하게 개발 할 수 있도록 자사의 sdk를 제공한다. 
+실시간 영상 통화 앱 구현을 고민하던 중 서버와의 통신으로 유저간 양방향 통신을 하는 방식이 아닌 WebRtc 기술에 대해서 흥미가 생겼고 이 기술을 공부하던 중 알게 된 Agora의 rtc sdk를 사용하게 되었다.
 
 
 
