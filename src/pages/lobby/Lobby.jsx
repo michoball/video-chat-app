@@ -52,9 +52,7 @@ function Lobby() {
           ) : (
             userRoomList.length > 0 &&
             userRoomList.map((userRoom) => {
-              return (
-                <RoomList key={userRoom.id} id={userRoom.id} room={userRoom} />
-              );
+              return <RoomList key={userRoom.roomId} room={userRoom} />;
             })
           )}
         </RoomListContainer>

@@ -28,7 +28,7 @@ function MessageCall() {
   const channel = useSelector(selectRtmChannel);
   const rtmClient = useSelector(selectRtmClient);
   const messages = useSelector(selectRtmMessages);
-  const rtmUsers = useSelector(selectRtmUsers);
+  // const rtmUsers = useSelector(selectRtmUsers);
   const currentUser = useSelector(selectCurrentUser);
   const messageRef = useRef("");
   const endfMessagesRef = useRef(null);

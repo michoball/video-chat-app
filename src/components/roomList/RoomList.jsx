@@ -20,14 +20,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import {
   deleteRoomStart,
+  getUserRoomStart,
   updateUserRoomNameStart,
 } from "../../store/room/room.action";
 import { useState } from "react";
 
-function RoomList({ id, room }) {
+function RoomList({ room }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userList, roomName } = room;
+  const { userList, roomName, roomId } = room;
 
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState(roomName);
@@ -35,7 +36,7 @@ function RoomList({ id, room }) {
   const currentUser = useSelector(selectCurrentUser);
 
   const deleteRoomHandler = () => {
-    dispatch(deleteRoomStart(id, currentUser));
+    dispatch(deleteRoomStart(roomId, currentUser));
   };
 
   const editRoomHandler = () => {
@@ -51,7 +52,7 @@ function RoomList({ id, room }) {
     e.preventDefault();
     try {
       setLoading(true);
-      dispatch(updateUserRoomNameStart(id, newName));
+      dispatch(updateUserRoomNameStart(roomId, newName));
       setLoading(false);
       alert("Room name is changed !");
     } catch (error) {
@@ -65,7 +66,7 @@ function RoomList({ id, room }) {
     <RoomContainer>
       <ClickSpot
         onClick={() => {
-          navigate(`/room/${id}`);
+          navigate(`/room/${roomId}`);
         }}
       />
 
