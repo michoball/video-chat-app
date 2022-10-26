@@ -14,7 +14,7 @@ import Ci from "../../asset/videoChatIcon-96x96.png";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectRtcLocalUser } from "../../store/rtc/rtc.selector";
 import { clearRtcUser } from "../../store/rtc/rtc.action";
-import { clearAll } from "../../store/rtm/rtm.action";
+import { clearRtm } from "../../store/rtm/rtm.action";
 
 import {
   selectRtmChannel,
@@ -43,7 +43,7 @@ function Home() {
       if ((rtmClient && channel) !== null) {
         await channel.leave();
         await rtmClient.logout();
-        dispatch(clearAll());
+        dispatch(clearRtm());
       }
     };
     checkLocalUserSession();

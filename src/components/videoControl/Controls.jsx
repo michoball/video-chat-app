@@ -20,7 +20,7 @@ import {
   selectRtmChannel,
   selectRtmClient,
 } from "../../store/rtm/rtm.selector";
-import { clearAll } from "../../store/rtm/rtm.action";
+import { clearRtm } from "../../store/rtm/rtm.action";
 
 const Controls = () => {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const Controls = () => {
     await rtmClient.logout();
     navigate("/lobby");
 
-    dispatch(clearAll());
+    dispatch(clearRtm());
     dispatch(clearRtcUser());
   };
 

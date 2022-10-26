@@ -21,7 +21,7 @@ import {
   selectRtmUsers,
 } from "../../store/rtm/rtm.selector";
 
-import { addMessages, clearAll, addRtmUser } from "../../store/rtm/rtm.action";
+import { addMessages, clearRtm, addRtmUser } from "../../store/rtm/rtm.action";
 
 function MessageCall() {
   const dispatch = useDispatch();
@@ -156,7 +156,7 @@ function MessageCall() {
     await channel.leave();
     await rtmClient.logout();
 
-    dispatch(clearAll());
+    dispatch(clearRtm());
   };
 
   return (
