@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 import { selectIsSignUpForm } from "../../store/user/user.selector";
 
 function Authentication() {
-  const IsSignUpForm = useSelector(selectIsSignUpForm);
+  const isSignUpForm = useSelector(selectIsSignUpForm);
 
   return (
-    <AuthContainer>{IsSignUpForm ? <SignUp /> : <SignIn />}</AuthContainer>
+    <AuthContainer>{isSignUpForm ? <SignUp /> : <SignIn />}</AuthContainer>
   );
 }
 
