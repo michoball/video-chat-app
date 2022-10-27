@@ -90,9 +90,6 @@ export const signInAuthWithEmailAndPassword = async (
 // 유저 로그아웃
 export const signOutUser = async () => await signOut(auth);
 
-// export const onAuthStateChangedListener = (callback) =>
-//   onAuthStateChanged(auth, callback);
-
 // 유저 상태변화 관찰( 로그인, 아웃시)
 export const getCurrentUser = (): Promise<User | null> => {
   return new Promise((resolve, reject) => {
