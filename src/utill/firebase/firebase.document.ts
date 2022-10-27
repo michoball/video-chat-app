@@ -19,7 +19,7 @@ import { db } from "./firebase.config";
 import { auth, UserData } from "./firebase.auth";
 
 export type RoomData = {
-  // id: string;
+  roomId: string;
   roomName: string;
   timestamp: Date;
   userList: UserData[];
@@ -149,7 +149,7 @@ export const updateMyRoomToUsersDocuments = async (
       roomName: myRoomSnapshot.exists()
         ? myRoomSnapshot.data().roomName
         : roomSnapshot.data().roomName,
-      roomId: roomId,
+    roomId,
       timestamp: roomSnapshot.data().timestamp,
       userList: roomSnapshot.data().userList,
     };
