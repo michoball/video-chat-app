@@ -26,7 +26,7 @@ export function* updateUserRoom(room, currentUser) {
   try {
     const myRoom = yield call(
       updateMyRoomToUsersDocuments,
-      room.roomId,
+      room.id,
       currentUser
     );
     yield put(joinRoomSuccess(myRoom));
@@ -64,7 +64,7 @@ export function* joinRoom({ payload: { roomId, currentUser } }) {
       currentUser
     );
     if (roomData) {
-      yield call(updateUserRoom, { roomData, roomId: roomId }, currentUser);
+      yield call(updateUserRoom, { roomData, id: roomId }, currentUser);
     }
   } catch (error) {
     yield put(joinRoomFailed(error));
