@@ -19,8 +19,3 @@ export enum ROOM_ACTION_TYPE {
   CREATE_ROOM_SUCCESS = "room/CREATE_ROOM_SUCCESS",
   CREATE_ROOM_FAILED = "room/CREATE_ROOM_FAILED",
 }
-
-// export type userRoom = {
-//   id: string
-//   roomName: string
-// }
