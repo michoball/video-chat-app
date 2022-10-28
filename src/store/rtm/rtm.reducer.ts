@@ -1,6 +1,6 @@
 import { AnyAction } from "@reduxjs/toolkit";
 import { RtmChannel, RtmClient } from "agora-rtm-sdk";
-import { Messages, RTM_ACTION_TYPE } from "./rtm.type";
+import { Messages } from "./rtm.type";
 import { addMessages, setChannel, setRtmClient, clearRtm } from "./rtm.action";
 
 // 임의로 만드는 message Uid

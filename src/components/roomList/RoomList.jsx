@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import {
   deleteRoomStart,
-  getUserRoomStart,
   updateUserRoomNameStart,
 } from "../../store/room/room.action";
 import { useState } from "react";
