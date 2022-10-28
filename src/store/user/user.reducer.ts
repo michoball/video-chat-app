@@ -1,4 +1,3 @@
-import { USER_ACTION_TYPE } from "./user.type";
 import {
   emailSignInStart,
   googleSignInStart,
