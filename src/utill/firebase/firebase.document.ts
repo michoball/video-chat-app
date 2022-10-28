@@ -12,7 +12,6 @@ import {
   orderBy,
   DocumentReference,
   DocumentData,
-  QueryDocumentSnapshot,
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
@@ -28,7 +27,7 @@ export type RoomData = {
 //방 새로이 만들기
 export const createRoomDocuments = async (
   roomName: string,
-  user: UserData
+  user: UserData & { id: string }
 ): Promise<DocumentReference<DocumentData> | void> => {
   const roomDocRef = collection(db, "rooms");
   const { email, displayName, id } = user;
@@ -52,8 +51,8 @@ export const createRoomDocuments = async (
 // 방 id 입력해서 들어가기
 export const joinRoomAndAddInfoDocuments = async (
   roomId: string,
-  user: UserData
-): Promise<QueryDocumentSnapshot<RoomData> | void> => {
+  user: UserData & { id: string }
+): Promise<RoomData | void> => {
   const { email, displayName, id } = user;
   const roomDocRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomDocRef);
@@ -67,11 +66,14 @@ export const joinRoomAndAddInfoDocuments = async (
     if (
       roomSnapshot
         .data()
-        .userList.find((roomUser: UserData) => roomUser.id === id)
+        .userList.find(
+          (roomUser: UserData & { id: string }) => roomUser.id === id
+        )
     ) {
       return {
+        roomId: roomSnapshot.id,
         ...roomSnapshot.data(),
-      } as QueryDocumentSnapshot<RoomData>;
+      } as RoomData;
     } else if (roomSnapshot.data().userList.length >= 5) {
       alert(`The room ${roomSnapshot.data().roomName} is full :/`);
       return;
@@ -84,14 +86,16 @@ export const joinRoomAndAddInfoDocuments = async (
             {
               email,
               displayName,
+              id,
             },
           ],
         },
         { merge: true }
       );
       return {
+        roomId: roomSnapshot.id,
         ...roomSnapshot.data(),
-      } as QueryDocumentSnapshot<RoomData>;
+      } as RoomData;
     }
   } catch (error) {
     console.log("error occur from adding room ", error);
@@ -101,7 +105,7 @@ export const joinRoomAndAddInfoDocuments = async (
 // user를 방에서 삭제하기
 export const deleteUserRoom = async (
   roomId: string,
-  user: UserData
+  user: UserData & { id: string }
 ): Promise<string | void> => {
   const roomDocRef = doc(db, "rooms", roomId);
   const userRoomSnapshot = await getDoc(roomDocRef);
@@ -109,7 +113,9 @@ export const deleteUserRoom = async (
 
   const newUserList = userRoomSnapshot
     .data()
-    .userList.filter((roomUser: UserData) => roomUser.id !== user.id);
+    .userList.filter(
+      (roomUser: UserData & { id: string }) => roomUser.id !== user.id
+    );
 
   if (newUserList.length === 0) {
     await deleteDoc(roomDocRef);
@@ -133,7 +139,7 @@ export const deleteUserRoom = async (
 // 방 정보 유저의 myRooms collection에 update하기
 export const updateMyRoomToUsersDocuments = async (
   roomId: string,
-  currentUser: UserData
+  currentUser: UserData & { id: string }
 ): Promise<RoomData | void> => {
   const roomRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomRef);
@@ -149,7 +155,7 @@ export const updateMyRoomToUsersDocuments = async (
       roomName: myRoomSnapshot.exists()
         ? myRoomSnapshot.data().roomName
         : roomSnapshot.data().roomName,
-    roomId,
+      roomId,
       timestamp: roomSnapshot.data().timestamp,
       userList: roomSnapshot.data().userList,
     };
@@ -184,11 +190,11 @@ export const UpdateUserRoomName = async (
 
 // user 가 있는 방 가져오기
 export const getUserRoomArray = async (
-  user: UserData
-): Promise<QueryDocumentSnapshot<RoomData>[]> => {
+  user: UserData & { id: string }
+): Promise<RoomData[]> => {
   // 유저 컬렉션 안 유저의 방 컬렉션에서 방 목록 가져오기
   // 이렇게 해야 각자 방이름을 따로 만들어서 저장할 수 있음
-  let myRoomSnapshot = [] as QueryDocumentSnapshot<RoomData>[];
+  let myRoomSnapshot = [] as any[];
 
   const userRef = doc(db, "users", user.id);
   const roomDocRef = collection(userRef, "myRooms");
@@ -196,7 +202,7 @@ export const getUserRoomArray = async (
   const roomQuerySnapshot = await getDocs(roomQuery);
 
   roomQuerySnapshot.docs.forEach((userRoom) =>
-    myRoomSnapshot.push(userRoom.data() as QueryDocumentSnapshot<RoomData>)
+    myRoomSnapshot.push(userRoom.data())
   );
 
   // rooms 컬렉션에서 방 가져오기
@@ -210,5 +216,5 @@ export const getUserRoomArray = async (
   //   myRoomSnapshot.push({ id: userRoom.id, ...userRoom.data() })
   // );
 
-  return myRoomSnapshot;
+  return myRoomSnapshot as RoomData[];
 };
