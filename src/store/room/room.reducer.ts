@@ -14,7 +14,6 @@ import {
   joinRoomStart,
   joinRoomSuccess,
 } from "./room.action";
-import { ROOM_ACTION_TYPE } from "./room.type";
 
 export type RoomState = {
   readonly userRoomList: RoomData[];

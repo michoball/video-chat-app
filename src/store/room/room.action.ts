@@ -10,7 +10,7 @@ import { ROOM_ACTION_TYPE } from "./room.type";
 
 export type GetUserRoomStart = ActionWithPayload<
   ROOM_ACTION_TYPE.GET_ROOM_START,
-  UserData
+  UserData & { id: string }
 >;
 
 export type GetUserRoomFailed = ActionWithPayload<
@@ -24,7 +24,7 @@ export type GetUserRoomSuccess = ActionWithPayload<
 >;
 
 export const getUserRoomStart = withMatcher(
-  (user: UserData): GetUserRoomStart =>
+  (user: UserData & { id: string }): GetUserRoomStart =>
     createAction(ROOM_ACTION_TYPE.GET_ROOM_START, user)
 );
 
@@ -41,7 +41,7 @@ export const getUserRoomSuccess = withMatcher(
 // --------------------------------------------------------------------//
 export type JoinUserRoomStart = ActionWithPayload<
   ROOM_ACTION_TYPE.JOIN_ROOM_START,
-  { roomId: string; currentUser: UserData }
+  { roomId: string; currentUser: UserData & { id: string } }
 >;
 
 export type JoinUserRoomFailed = ActionWithPayload<
@@ -55,7 +55,7 @@ export type JoinUserRoomSuccess = ActionWithPayload<
 >;
 
 export const joinRoomStart = withMatcher(
-  (roomId: string, currentUser: UserData): JoinUserRoomStart =>
+  (roomId: string, currentUser: UserData & { id: string }): JoinUserRoomStart =>
     createAction(ROOM_ACTION_TYPE.JOIN_ROOM_START, { roomId, currentUser })
 );
 
@@ -73,7 +73,7 @@ export const joinRoomFailed = withMatcher(
 
 export type DeleteUserRoomStart = ActionWithPayload<
   ROOM_ACTION_TYPE.DELETE_ROOM_START,
-  { roomId: string; currentUser: UserData }
+  { roomId: string; currentUser: UserData & { id: string } }
 >;
 
 export type DeleteUserRoomFailed = ActionWithPayload<
@@ -87,7 +87,10 @@ export type DeleteUserRoomSuccess = ActionWithPayload<
 >;
 
 export const deleteRoomStart = withMatcher(
-  (roomId: string, currentUser: UserData): DeleteUserRoomStart =>
+  (
+    roomId: string,
+    currentUser: UserData & { id: string }
+  ): DeleteUserRoomStart =>
     createAction(ROOM_ACTION_TYPE.DELETE_ROOM_START, {
       roomId,
       currentUser,
@@ -108,7 +111,7 @@ export const deleteRoomFailed = withMatcher(
 
 export type CreateUserRoomStart = ActionWithPayload<
   ROOM_ACTION_TYPE.CREATE_ROOM_START,
-  { roomName: string; user: UserData }
+  { roomName: string; user: UserData & { id: string } }
 >;
 
 export type CreateUserRoomFailed = ActionWithPayload<
@@ -117,7 +120,7 @@ export type CreateUserRoomFailed = ActionWithPayload<
 >;
 
 export const createRoomStart = withMatcher(
-  (roomName: string, user: UserData): CreateUserRoomStart =>
+  (roomName: string, user: UserData & { id: string }): CreateUserRoomStart =>
     createAction(ROOM_ACTION_TYPE.CREATE_ROOM_START, { roomName, user })
 );
 
