@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectRtcShare, selectRtcUsers } from "../../store/rtc/rtc.selector";
 import { toggleBig } from "../../store/rtc/rtc.action";
-
+import { RemoteUser, LocalUser } from "../../store/rtc/rtc.type";
 import {
   Video,
   BaseVideoContainer,
@@ -9,16 +9,26 @@ import {
   ShareVideoContainer,
   LocalVideoContainer,
 } from "./VideoPlayer.styles";
+
+import {
+  ICameraVideoTrack,
+  IRemoteVideoTrack,
+  ILocalVideoTrack,
+} from "agora-rtc-sdk-ng";
 import { CamIcon } from "../../UI/Icons";
+import { FC } from "react";
 
-export const VIDEO_TYPE_CLASS = {
-  base: "base",
-  local: "local",
-  share: "share",
-  small: "small",
-};
+export enum VIDEO_TYPE_CLASS {
+  base = "base",
+  local = "local",
+  share = "share",
+  small = "small",
+}
 
-const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
+const getVideoType = (
+  VideoType = VIDEO_TYPE_CLASS.base,
+  share: boolean
+): typeof BaseVideoContainer =>
   ({
     [VIDEO_TYPE_CLASS.base]: share ? SmallVideoContainer : BaseVideoContainer,
     [VIDEO_TYPE_CLASS.local]: LocalVideoContainer,
@@ -26,16 +36,20 @@ const getVideoType = (VideoType = VIDEO_TYPE_CLASS.base, share) =>
     [VIDEO_TYPE_CLASS.small]: SmallVideoContainer,
   }[VideoType]);
 
-function VideoPlayer({ rtcUser, track, videoType }) {
+export type VideoPlayerProps = {
+  rtcUser: RemoteUser & LocalUser;
+  track: ICameraVideoTrack | IRemoteVideoTrack | ILocalVideoTrack;
+  videoType?: VIDEO_TYPE_CLASS;
+};
+
+const VideoPlayer: FC<VideoPlayerProps> = ({ rtcUser, track, videoType }) => {
   const dispatch = useDispatch();
   const rtcUsers = useSelector(selectRtcUsers);
   const share = useSelector(selectRtcShare);
 
   const CustomVideoContainer = getVideoType(videoType, share);
 
-  const toggleSizeHandler = () => {
-    dispatch(toggleBig(rtcUsers, rtcUser));
-  };
+  const toggleSizeHandler = () => dispatch(toggleBig(rtcUsers, rtcUser));
 
   return (
     <CustomVideoContainer
@@ -45,9 +59,13 @@ function VideoPlayer({ rtcUser, track, videoType }) {
           : undefined
       }
     >
-      {track || rtcUser.hasVideo ? <Video videoTrack={track} /> : <CamIcon />}
+      {track || rtcUser.user.hasVideo ? (
+        <Video videoTrack={track} />
+      ) : (
+        <CamIcon />
+      )}
     </CustomVideoContainer>
   );
-}
+};
 
 export default VideoPlayer;

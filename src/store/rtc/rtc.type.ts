@@ -16,8 +16,8 @@ export enum RTC_ACTION_TYPE {
 }
 
 export type LocalUser = {
-  user: IAgoraRTCClient | null;
-  tracks: [IMicrophoneAudioTrack, ICameraVideoTrack] | null;
+  user: IAgoraRTCClient;
+  tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
 };
 
 export type RemoteUser = {

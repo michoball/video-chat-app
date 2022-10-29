@@ -64,11 +64,11 @@ export const toggleBig = withMatcher(
 
 export type ToggleShare = ActionWithPayload<
   RTC_ACTION_TYPE.TOGGLE_RTC_SHARE,
-  { bool: Boolean; newRtcUsers: RemoteUser[] }
+  { bool: boolean; newRtcUsers: RemoteUser[] }
 >;
 
 export const toggleShare = withMatcher(
-  (rtcUsers: RemoteUser[], bool: Boolean): ToggleShare => {
+  (rtcUsers: RemoteUser[], bool: boolean): ToggleShare => {
     const newRtcUsers = bool
       ? rtcUsers?.map((rtcUser) => ({ ...rtcUser, size: "small" }))
       : rtcUsers?.map((rtcUser) => ({ ...rtcUser, size: "base" }));

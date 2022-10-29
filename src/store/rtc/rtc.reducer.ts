@@ -11,13 +11,13 @@ import {
 
 export type RTCUsersState = {
   readonly rtcUsers: RemoteUser[];
-  readonly localUser: LocalUser;
-  readonly share: Boolean;
+  readonly localUser: LocalUser | null;
+  readonly share: boolean;
 };
 
 const RTC_INIT_STATE: RTCUsersState = {
   rtcUsers: [],
-  localUser: { user: null, tracks: null },
+  localUser: null,
   share: false,
 };
 
@@ -76,7 +76,7 @@ const rtcReducer = (
     return {
       ...state,
       rtcUsers: [],
-      localUser: { user: null, tracks: null },
+      localUser: null,
     };
   }
   if (toggleShare.match(action)) {
