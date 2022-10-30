@@ -1,9 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 
 import { GlobalStyles } from "./global.styles";
 import { AppThemeProvider } from "./UI/Theme.config";
 import Spinner from "./UI/spinner/spinner";
+import { useDispatch } from "react-redux";
+import { checkUserSession } from "./store/user/user.action";
 
 const Home = lazy(() => import("./pages/home/Home"));
 const Authentication = lazy(() =>
@@ -17,6 +19,11 @@ const Room = lazy(() => import("./pages/room/Room"));
 const Lobby = lazy(() => import("./pages/lobby/Lobby"));
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+  }, [dispatch]);
   return (
     <Suspense fallback={<Spinner />}>
       <AppThemeProvider>
