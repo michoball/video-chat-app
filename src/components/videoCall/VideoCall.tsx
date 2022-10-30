@@ -1,7 +1,7 @@
 import { useEffect, useState, Fragment } from "react";
 import { useClient } from "../../utill/Agora.config";
-import Controls from "../../components/videoControl/Controls";
-import Videos from "../../components/videos/Videos";
+import Controls from "../videoControl/Controls";
+import Videos from "../videos/Videos";
 
 import Spinner from "../../UI/spinner/spinner";
 
@@ -58,8 +58,9 @@ function VideoCall() {
 
     if (localUser) {
       console.log("VideoCall point", localUser);
-      init();
     }
+    // localUser가 들어오기 전에 이미 존재하는 유저를 구독해야 하기 때문에
+    init();
   }, [localUser, client, dispatch]);
 
   if (isLoading) {
@@ -67,8 +68,8 @@ function VideoCall() {
   }
   return (
     <Fragment>
-      {localUser.tracks && <Controls />}
-      {start && localUser.tracks && <Videos />}
+      {localUser && localUser.tracks && <Controls />}
+      {start && localUser && localUser.tracks && <Videos />}
     </Fragment>
   );
 }

@@ -5,7 +5,7 @@ import {
   SmallUserVideoContianer,
   ShareOrBigVideoContianer,
 } from "./Videos.styles";
-import ShareScreen from "../../components/shareScreen/ShareScreen";
+import ShareScreen from "../shareScreen/ShareScreen";
 import VideoPlayer, { VIDEO_TYPE_CLASS } from "../videoPlayer/VideoPlayer";
 import { useSelector } from "react-redux";
 import {
@@ -17,6 +17,7 @@ import {
 } from "../../store/rtc/rtc.selector";
 import RoomInfo from "../roomInfo/RoomInfo";
 import { selectRoomInfo } from "../../store/room/room.selector";
+import { ILocalVideoTrack, IRemoteVideoTrack } from "agora-rtc-sdk-ng";
 
 function Videos() {
   const localUser = useSelector(selectRtcLocalUser);
@@ -31,23 +32,28 @@ function Videos() {
   return (
     <VideosContainer id="videos">
       <LocalUserVideoContianer>
-        <VideoPlayer
-          videoType={VIDEO_TYPE_CLASS.local}
-          rtcUser={localUser}
-          id={localUser.uid}
-          track={localUser.tracks[0]}
-        />
+        {localUser !== null && (
+          <VideoPlayer
+            videoType={VIDEO_TYPE_CLASS.local}
+            rtcUser={localUser.user}
+            // id 값은 유저 구분과 이름 태그를 달기 위한 값 -> 현재는 필요 없어서 주석처리
+            // id={localUser.user.uid}
+            track={localUser.tracks[0] as ILocalVideoTrack}
+          />
+        )}
         {roomInfo && <RoomInfo roomInfo={roomInfo} />}
       </LocalUserVideoContianer>
 
       <ShareOrBigVideoContianer>
-        {share && <ShareScreen localTracks={localUser.tracks[0]} />}
+        {share && localUser && (
+          <ShareScreen localTracks={localUser.tracks[0]} />
+        )}
         {bigSizeRtc && (
           <VideoPlayer
             videoType={VIDEO_TYPE_CLASS.share}
-            rtcUser={bigSizeRtc}
-            id={bigSizeRtc.uid}
-            track={bigSizeRtc._videoTrack}
+            rtcUser={bigSizeRtc.user}
+            // id={bigSizeRtc[0].uid}
+            track={bigSizeRtc.user.videoTrack as IRemoteVideoTrack}
             key={bigSizeRtc.uid}
           />
         )}
@@ -57,9 +63,9 @@ function Videos() {
               return (
                 <VideoPlayer
                   videoType={VIDEO_TYPE_CLASS.base}
-                  rtcUser={rtcUser}
-                  id={rtcUser.uid}
-                  track={rtcUser._videoTrack}
+                  rtcUser={rtcUser.user}
+                  // id={rtcUser.uid}
+                  track={rtcUser.user.videoTrack as IRemoteVideoTrack}
                   key={rtcUser.uid}
                 />
               );
@@ -72,9 +78,9 @@ function Videos() {
               return (
                 <VideoPlayer
                   videoType={VIDEO_TYPE_CLASS.small}
-                  rtcUser={rtcUser}
-                  id={rtcUser.uid}
-                  track={rtcUser._videoTrack}
+                  rtcUser={rtcUser.user}
+                  // id={rtcUser.uid}
+                  track={rtcUser.user.videoTrack as IRemoteVideoTrack}
                   key={rtcUser.uid}
                 />
               );

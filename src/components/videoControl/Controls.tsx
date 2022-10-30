@@ -34,7 +34,9 @@ const Controls = () => {
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const [isLoading, setIsLoading] = useState(false);
 
-  const mute = async (type) => {
+  const mute = async (type: string) => {
+    if (!localUser) return;
+
     if (type === "audio") {
       await localUser.tracks[1].setMuted(trackState.audio);
       setTrackState((ps) => {
@@ -56,11 +58,14 @@ const Controls = () => {
   };
 
   const leaveChannel = async () => {
+    if (!localUser) return;
+
     localUser.tracks[0].close();
     localUser.tracks[1].close();
     await localUser.user.leave();
     localUser.user.removeAllListeners();
 
+    if (!channel || !rtmClient) return;
     await channel.leave();
     await rtmClient.logout();
     navigate("/lobby");

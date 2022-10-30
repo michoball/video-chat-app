@@ -14,6 +14,9 @@ import {
   ICameraVideoTrack,
   IRemoteVideoTrack,
   ILocalVideoTrack,
+  IAgoraRTCRemoteUser,
+  IAgoraRTCClient,
+  UID,
 } from "agora-rtc-sdk-ng";
 import { CamIcon } from "../../UI/Icons";
 import { FC } from "react";
@@ -37,19 +40,29 @@ const getVideoType = (
   }[VideoType]);
 
 export type VideoPlayerProps = {
-  rtcUser: RemoteUser & LocalUser;
+  rtcUser?: IAgoraRTCRemoteUser | IAgoraRTCClient;
   track: ICameraVideoTrack | IRemoteVideoTrack | ILocalVideoTrack;
   videoType?: VIDEO_TYPE_CLASS;
+  id?: UID;
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({ rtcUser, track, videoType }) => {
+const VideoPlayer: FC<VideoPlayerProps> = ({
+  rtcUser,
+  track,
+  videoType,
+  id,
+}) => {
   const dispatch = useDispatch();
   const rtcUsers = useSelector(selectRtcUsers);
   const share = useSelector(selectRtcShare);
 
   const CustomVideoContainer = getVideoType(videoType, share);
 
-  const toggleSizeHandler = () => dispatch(toggleBig(rtcUsers, rtcUser));
+  const toggleSizeHandler = () => {
+    if (rtcUser) {
+      dispatch(toggleBig(rtcUsers, rtcUser));
+    }
+  };
 
   return (
     <CustomVideoContainer
@@ -59,11 +72,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ rtcUser, track, videoType }) => {
           : undefined
       }
     >
-      {track || rtcUser.user.hasVideo ? (
-        <Video videoTrack={track} />
-      ) : (
-        <CamIcon />
-      )}
+      {rtcUser && track ? <Video videoTrack={track} /> : <CamIcon />}
     </CustomVideoContainer>
   );
 };
