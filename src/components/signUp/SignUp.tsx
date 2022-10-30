@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -42,7 +42,7 @@ const SignUp = () => {
     }
   }, [currentUser, navigate]);
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setFormField({
       ...formField,
       [e.target.id]: e.target.value,
@@ -53,14 +53,17 @@ const SignUp = () => {
     setFormField(defaultFormField);
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       alert("Check your password");
     }
-    dispatch(signUpStart(email, password, { displayName }));
-    resetFormField();
+    try {
+      dispatch(signUpStart(email, password, displayName));
+      resetFormField();
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const toggleSignUpFormHandler = () => {

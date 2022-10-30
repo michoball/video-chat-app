@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import {
   NavContainer,
@@ -21,6 +21,7 @@ import { clearRtm } from "../../store/rtm/rtm.action";
 import { signOutStart } from "../../store/user/user.action";
 
 function Navigation() {
+  const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,6 +30,12 @@ function Navigation() {
   const localUser = useSelector(selectRtcLocalUser);
   const rtmClient = useSelector(selectRtmClient);
   const channel = useSelector(selectRtmChannel);
+
+  useEffect(() => {
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, [currentUser]);
 
   // Room 안에서 로그아웃 시 redux에서 모든 세션종료및 유저 정보 삭제
   const signOutHandler = async () => {
@@ -61,9 +68,9 @@ function Navigation() {
           <NavSpinner />
         ) : (
           <>
-            {currentUser ? (
+            {user ? (
               <LogOutContainer>
-                <span>{currentUser.displayName}</span>
+                <span>{user.displayName}</span>
                 <NavLink as="span" onClick={signOutHandler}>
                   Log Out
                 </NavLink>
