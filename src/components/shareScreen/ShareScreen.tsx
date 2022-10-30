@@ -23,9 +23,7 @@ const ShareScreen: FC<ShareScreenProps> = ({ localTracks }) => {
   const rtcUsers = useSelector(selectRtcUsers);
   const share = useSelector(selectRtcShare);
 
-  const [screenTrack, setScreenTrack] = useState<
-    [ILocalVideoTrack, ILocalAudioTrack] | null
-  >(null);
+  const [screenTrack, setScreenTrack] = useState<ILocalVideoTrack | null>(null);
 
   // 화면공유 트랙 만들어서 screenTrack state에 넣기
   useEffect(() => {
@@ -39,7 +37,7 @@ const ShareScreen: FC<ShareScreenProps> = ({ localTracks }) => {
               width: 1280,
             },
           },
-          "enable"
+          "disable"
         );
         if (screenShareVideoTrack) {
           setScreenTrack(screenShareVideoTrack);
@@ -56,13 +54,13 @@ const ShareScreen: FC<ShareScreenProps> = ({ localTracks }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 화면 공유시 내화면 공유화면으로 전환 & 공유종료 시 다시 내화면 공유
+  // 화면 공유시 내화면을 공유화면으로 전환 & 공유종료 시 다시 내화면 공유
   useEffect(() => {
     const init = async () => {
       if (screenTrack) {
         await client.publish(screenTrack);
 
-        screenTrack[0].on("track-ended", async () => {
+        screenTrack.on("track-ended", async () => {
           await client
             .unpublish(screenTrack)
             .then(async () => await client.publish(localTracks));
@@ -85,7 +83,8 @@ const ShareScreen: FC<ShareScreenProps> = ({ localTracks }) => {
       {screenTrack ? (
         <VideoPlayer
           videoType={VIDEO_TYPE_CLASS.share}
-          track={screenTrack[0]}
+          rtcUser={client}
+          track={screenTrack}
         />
       ) : (
         <CamIcon />
