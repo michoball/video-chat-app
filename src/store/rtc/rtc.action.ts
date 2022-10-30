@@ -5,10 +5,11 @@ import {
   withMatcher,
 } from "../../utill/reducer/reducer.config";
 import { LocalUser, RemoteUser, RTC_ACTION_TYPE } from "./rtc.type";
+import { IAgoraRTCClient, IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
 
 const toggleUserSize = (
   rtcUserList: RemoteUser[],
-  changeUser: RemoteUser
+  changeUser: IAgoraRTCRemoteUser | IAgoraRTCClient
 ): RemoteUser[] => {
   const checkRtcUser = rtcUserList?.find(
     (rtcUser) => rtcUser.uid === changeUser.uid
@@ -56,7 +57,10 @@ export type ToggleBig = ActionWithPayload<
 >;
 
 export const toggleBig = withMatcher(
-  (rtcUsers: RemoteUser[], user: RemoteUser): ToggleBig => {
+  (
+    rtcUsers: RemoteUser[],
+    user: IAgoraRTCRemoteUser | IAgoraRTCClient
+  ): ToggleBig => {
     const newUserList = toggleUserSize(rtcUsers, user);
     return createAction(RTC_ACTION_TYPE.TOGGLE_RTC_USER, newUserList);
   }
@@ -83,19 +87,21 @@ export const toggleShare = withMatcher(
 
 export type AddRtcUser = ActionWithPayload<
   RTC_ACTION_TYPE.ADD_RTC_USER,
-  RemoteUser
+  IAgoraRTCRemoteUser
 >;
 export type RemoveRtcUser = ActionWithPayload<
   RTC_ACTION_TYPE.REMOVE_RTC_USER,
-  RemoteUser
+  IAgoraRTCRemoteUser
 >;
 
-export const addRtcUser = withMatcher((userToAdd: RemoteUser): AddRtcUser => {
-  return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, userToAdd);
-});
+export const addRtcUser = withMatcher(
+  (userToAdd: IAgoraRTCRemoteUser): AddRtcUser => {
+    return createAction(RTC_ACTION_TYPE.ADD_RTC_USER, userToAdd);
+  }
+);
 
 export const removeRtcUser = withMatcher(
-  (userToRemove: RemoteUser): RemoveRtcUser => {
+  (userToRemove: IAgoraRTCRemoteUser): RemoveRtcUser => {
     // const newUserList = removeUserFromList(rtcUserList, userToRemove);
     return createAction(RTC_ACTION_TYPE.REMOVE_RTC_USER, userToRemove);
   }

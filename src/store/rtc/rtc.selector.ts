@@ -1,6 +1,7 @@
 import { createSelector } from "reselect";
 import { RootState } from "../store";
 import { RTCUsersState } from "./rtc.reducer";
+import { RemoteUser } from "./rtc.type";
 
 const selectRtcReducer = (state: RootState): RTCUsersState => state.rtc;
 

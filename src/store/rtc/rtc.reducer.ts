@@ -34,7 +34,11 @@ const rtcReducer = (
     if (existingUser) {
       const setRtcUsers = state.rtcUsers.map((rtcUser) =>
         rtcUser.uid === action.payload.uid
-          ? { ...action.payload, size: rtcUser.size }
+          ? {
+              uid: action.payload.uid,
+              user: action.payload,
+              size: rtcUser.size,
+            }
           : rtcUser
       );
       return {
@@ -46,8 +50,16 @@ const rtcReducer = (
     return {
       ...state,
       rtcUsers: BigUser
-        ? state.rtcUsers.concat({ ...action.payload, size: "small" })
-        : state.rtcUsers.concat({ ...action.payload, size: "base" }),
+        ? state.rtcUsers.concat({
+            uid: action.payload.uid,
+            user: action.payload,
+            size: "small",
+          })
+        : state.rtcUsers.concat({
+            uid: action.payload.uid,
+            user: action.payload,
+            size: "base",
+          }),
     };
   }
 
