@@ -34,7 +34,7 @@ function Navigation() {
   const signOutHandler = async () => {
     let signOutConfirm = window.confirm("Do you really want to log out?");
     if (signOutConfirm) {
-      if (localUser.user) {
+      if (localUser && localUser.user) {
         localUser.tracks[0].close();
         localUser.tracks[1].close();
         await localUser.user.leave();

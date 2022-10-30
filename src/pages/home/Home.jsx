@@ -33,7 +33,7 @@ function Home() {
   // rtc와 rtm에 유저가 남아있을시 유저 세션 종료 및 정보 삭제
   useEffect(() => {
     const checkLocalUserSession = async () => {
-      if (localUser.user) {
+      if (localUser && localUser.user) {
         localUser.tracks[0].close();
         localUser.tracks[1].close();
         await localUser.user.leave();
