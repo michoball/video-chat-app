@@ -20,6 +20,7 @@ import {
   selectRtmChannel,
   selectRtmClient,
 } from "../../store/rtm/rtm.selector";
+import { checkUserSession } from "../../store/user/user.action";
 
 function Home() {
   const dispatch = useDispatch();
@@ -47,6 +48,12 @@ function Home() {
       }
     };
     checkLocalUserSession();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
