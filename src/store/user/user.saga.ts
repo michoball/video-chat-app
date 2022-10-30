@@ -21,6 +21,7 @@ import {
   SignUpSuccess,
   signUpSuccess,
 } from "./user.action";
+import { FirebaseError } from "firebase/app";
 
 // 유저 정보 firebase users collection에 저장
 export function* getSnapShotFromUserAuth(userAuth: User, addInfo?: AddInfo) {
@@ -88,9 +89,10 @@ export function* signInWithEmail({
     if (
       error instanceof Error &&
       (error.message === AuthErrorCodes.EMAIL_EXISTS ||
-        error.message === AuthErrorCodes.INVALID_PASSWORD)
+        error.message === AuthErrorCodes.INVALID_PASSWORD ||
+        error.message)
     ) {
-      alert("Check your Email or Password");
+      alert(`Check your Email or Password ${error}`);
     }
     yield* put(signInFailed(error as Error));
   }
@@ -112,8 +114,9 @@ export function* signUp({
     }
   } catch (error) {
     if (
-      error instanceof Error &&
-      error.message === AuthErrorCodes.EMAIL_EXISTS
+      error instanceof FirebaseError &&
+      (error.code === AuthErrorCodes.EMAIL_EXISTS ||
+        error.message === "EMAIL_EXISTS")
     ) {
       alert("Input Email is already in used");
     }
