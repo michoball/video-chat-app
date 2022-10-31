@@ -25,7 +25,7 @@ import { addMessages, clearRtm } from "../../store/rtm/rtm.action";
 import { RtmChannel, RtmClient } from "agora-rtm-sdk";
 
 // 임의로 만드는 message Uid
-const messageUid = () => {
+const messageUidGenerator = () => {
   return Math.floor(Math.random() * 100000 + Math.random() * 10000).toString();
 };
 
@@ -55,7 +55,7 @@ function MessageCall() {
 
   // 봇 메세지 만드는 기능 ( join 과 left )
   const makeBotMessage = (userState: string, name = "") => {
-    const messageid = messageUid();
+    const messageid = messageUidGenerator();
     if (userState === "join") {
       return {
         id: messageid,
@@ -138,7 +138,7 @@ function MessageCall() {
       return;
     }
     try {
-      const messageid = messageUid();
+      const messageid = messageUidGenerator();
       if (!currentUser || !channel) return;
       const sendMessageData = {
         id: messageid,
