@@ -1,3 +1,5 @@
+import { MESSAGE_TYPE } from "../../components/message/MessageContent";
+
 export enum RTM_ACTION_TYPE {
   SET_RTM_CLIENT = "SET_RTM_CLIENT",
   ADD_NEW_MESSAGE = "ADD_NEW_MESSAGE",
@@ -9,7 +11,7 @@ export enum RTM_ACTION_TYPE {
 export type Messages = {
   id: string;
   message: string;
-  from: string;
+  from: MESSAGE_TYPE;
   type: string;
   displayName: string;
 };
