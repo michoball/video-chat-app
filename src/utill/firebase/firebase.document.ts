@@ -15,19 +15,20 @@ import {
 } from "firebase/firestore";
 
 import { db } from "./firebase.config";
-import { auth, UserData } from "./firebase.auth";
+import { auth } from "./firebase.auth";
+import { UserDataNId } from "../../store/user/user.type";
 
 export type RoomData = {
   roomId: string;
   roomName: string;
   timestamp: Date;
-  userList: UserData[];
+  userList: UserDataNId[];
 };
 
 //방 새로이 만들기
 export const createRoomDocuments = async (
   roomName: string,
-  user: UserData & { id: string }
+  user: UserDataNId
 ): Promise<DocumentReference<DocumentData> | void> => {
   const roomDocRef = collection(db, "rooms");
   const { email, displayName, id } = user;
@@ -51,7 +52,7 @@ export const createRoomDocuments = async (
 // 방 id 입력해서 들어가기
 export const joinRoomAndAddInfoDocuments = async (
   roomId: string,
-  user: UserData & { id: string }
+  user: UserDataNId
 ): Promise<RoomData | void> => {
   const { email, displayName, id } = user;
   const roomDocRef = doc(db, "rooms", roomId);
@@ -66,9 +67,7 @@ export const joinRoomAndAddInfoDocuments = async (
     if (
       roomSnapshot
         .data()
-        .userList.find(
-          (roomUser: UserData & { id: string }) => roomUser.id === id
-        )
+        .userList.find((roomUser: UserDataNId) => roomUser.id === id)
     ) {
       return {
         roomId: roomSnapshot.id,
@@ -105,7 +104,7 @@ export const joinRoomAndAddInfoDocuments = async (
 // user를 방에서 삭제하기
 export const deleteUserRoom = async (
   roomId: string,
-  user: UserData & { id: string }
+  user: UserDataNId
 ): Promise<string | void> => {
   const roomDocRef = doc(db, "rooms", roomId);
   const userRoomSnapshot = await getDoc(roomDocRef);
@@ -113,9 +112,7 @@ export const deleteUserRoom = async (
 
   const newUserList = userRoomSnapshot
     .data()
-    .userList.filter(
-      (roomUser: UserData & { id: string }) => roomUser.id !== user.id
-    );
+    .userList.filter((roomUser: UserDataNId) => roomUser.id !== user.id);
 
   if (newUserList.length === 0) {
     await deleteDoc(roomDocRef);
@@ -139,7 +136,7 @@ export const deleteUserRoom = async (
 // 방 정보 유저의 myRooms collection에 update하기
 export const updateMyRoomToUsersDocuments = async (
   roomId: string,
-  currentUser: UserData & { id: string }
+  currentUser: UserDataNId
 ): Promise<RoomData | void> => {
   const roomRef = doc(db, "rooms", roomId);
   const roomSnapshot = await getDoc(roomRef);
@@ -190,7 +187,7 @@ export const UpdateUserRoomName = async (
 
 // user 가 있는 방 가져오기
 export const getUserRoomArray = async (
-  user: UserData & { id: string }
+  user: UserDataNId
 ): Promise<RoomData[]> => {
   // 유저 컬렉션 안 유저의 방 컬렉션에서 방 목록 가져오기
   // 이렇게 해야 각자 방이름을 따로 만들어서 저장할 수 있음

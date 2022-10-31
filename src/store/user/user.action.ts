@@ -1,12 +1,12 @@
 import { User } from "firebase/auth";
-import { AddInfo, UserData } from "../../utill/firebase/firebase.auth";
+import { AddInfo } from "../../utill/firebase/firebase.auth";
 import {
   Action,
   ActionWithPayload,
   createAction,
   withMatcher,
 } from "../../utill/reducer/reducer.config";
-import { USER_ACTION_TYPE } from "./user.type";
+import { UserDataNId, USER_ACTION_TYPE } from "./user.type";
 
 export type ToggleSignForm = Action<USER_ACTION_TYPE.TOGGLE_SIGN_FORM>;
 
@@ -35,7 +35,7 @@ export type EmailSignInStart = ActionWithPayload<
 
 export type SignInSuccess = ActionWithPayload<
   USER_ACTION_TYPE.SIGN_IN_SUCCESS,
-  UserData
+  UserDataNId
 >;
 
 export type SignInFailed = ActionWithPayload<
@@ -54,7 +54,7 @@ export const emailSignInStart = withMatcher(
 );
 
 export const signInSuccess = withMatcher(
-  (user: UserData & { id: string }): SignInSuccess =>
+  (user: UserDataNId): SignInSuccess =>
     createAction(USER_ACTION_TYPE.SIGN_IN_SUCCESS, user)
 );
 

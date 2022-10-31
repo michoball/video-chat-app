@@ -1,3 +1,5 @@
+import { UserData } from "../../utill/firebase/firebase.auth";
+
 export enum USER_ACTION_TYPE {
   SET_USER_ROOMINFO = "user/SET_USER_ROOMINFO ",
   TOGGLE_SIGN_FORM = "user/TOGGLE_SIGN_FORM",
@@ -18,3 +20,7 @@ export enum USER_ACTION_TYPE {
 
   SET_ISLOADING = "user/SET_ISLOADING",
 }
+
+export type UserDataNId = UserData & {
+  id: string;
+};

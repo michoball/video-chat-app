@@ -9,11 +9,11 @@ import {
   signUpStart,
   toggleSignForm,
 } from "./user.action";
-import { UserData } from "../../utill/firebase/firebase.auth";
 import { AnyAction } from "@reduxjs/toolkit";
+import { UserDataNId } from "./user.type";
 
 export type UserState = {
-  readonly currentUser: UserData | null;
+  readonly currentUser: UserDataNId | null;
   readonly isLoading: boolean;
   readonly error: Error | null;
   readonly isSignUpForm: boolean;
