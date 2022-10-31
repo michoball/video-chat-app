@@ -1,6 +1,5 @@
 import AgoraRTC, {
   ICameraVideoTrack,
-  ILocalAudioTrack,
   ILocalVideoTrack,
 } from "agora-rtc-sdk-ng";
 import { FC, useEffect, useState } from "react";
