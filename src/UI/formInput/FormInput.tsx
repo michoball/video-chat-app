@@ -1,7 +1,9 @@
 import React, { InputHTMLAttributes } from "react";
 import { Input, FormInputContainer, FromInputLabel } from "./FormInput.styles";
 
-type FromInputProps = { label: string } & InputHTMLAttributes<HTMLInputElement>;
+type FromInputProps = {
+  label?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 const FormInput = React.forwardRef<HTMLInputElement, FromInputProps>(
   (props, ref) => {
