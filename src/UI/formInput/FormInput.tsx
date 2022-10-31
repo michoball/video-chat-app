@@ -1,11 +1,11 @@
 import React, { InputHTMLAttributes } from "react";
 import { Input, FormInputContainer, FromInputLabel } from "./FormInput.styles";
 
-type FromInputProps = {
+type FormInputProps = {
   label?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const FormInput = React.forwardRef<HTMLInputElement, FromInputProps>(
+const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
   (props, ref) => {
     const { label, ...otherProps } = props;
     return (
