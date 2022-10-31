@@ -3,11 +3,6 @@ import { RtmChannel, RtmClient } from "agora-rtm-sdk";
 import { Messages } from "./rtm.type";
 import { addMessages, setChannel, setRtmClient, clearRtm } from "./rtm.action";
 
-// 임의로 만드는 message Uid
-const messageUid = () => {
-  return Math.floor(Math.random() * 100000 + Math.random() * 10000).toString();
-};
-
 export type RTMUsersState = {
   messages: Messages[];
   rtmClient: RtmClient | null;
@@ -27,10 +22,9 @@ const rtmReducer = (
   action = {} as AnyAction
 ): RTMUsersState => {
   if (addMessages.match(action)) {
-    const messageuid = messageUid();
     return {
       ...state,
-      messages: state.messages.concat({ ...action.payload, id: messageuid }),
+      messages: state.messages.concat({ ...action.payload }),
     };
   }
   if (setChannel.match(action)) {
