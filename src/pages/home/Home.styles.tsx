@@ -35,7 +35,11 @@ export const IconContainer = styled.div`
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 `;
 
-export const BackgroundImage = styled.div`
+type BackgroundImageProps = {
+  imageUrl?: string;
+};
+
+export const BackgroundImage = styled.div<BackgroundImageProps>`
   position: absolute;
   top: 50%;
   left: 50%;

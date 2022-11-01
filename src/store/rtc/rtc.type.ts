@@ -4,6 +4,7 @@ import {
   ICameraVideoTrack,
   IAgoraRTCRemoteUser,
   UID,
+  ILocalTrack,
 } from "agora-rtc-sdk-ng";
 
 export enum RTC_ACTION_TYPE {

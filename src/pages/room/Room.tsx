@@ -5,7 +5,7 @@ import {
   useClient,
   MicrophoneAndCameraTracks,
 } from "../../utill/Agora.config";
-import { createInstance } from "agora-rtm-sdk";
+import AgoraRTM from "agora-rtm-sdk";
 
 import {
   VideoCallContainer,
@@ -23,6 +23,12 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 import { setLocalUser, clearRtcUser } from "../../store/rtc/rtc.action";
 import { setChannel, setRtmClient } from "../../store/rtm/rtm.action";
 import { joinRoomStart } from "../../store/room/room.action";
+import { UserDataNId } from "../../store/user/user.type";
+import {
+  IAgoraRTCClient,
+  ICameraVideoTrack,
+  IMicrophoneAudioTrack,
+} from "agora-rtc-sdk-ng";
 
 function Room() {
   const dispatch = useDispatch();
@@ -30,8 +36,8 @@ function Room() {
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
   const [messageShow, setMessageShow] = useState(true);
-
-  const messageRef = useRef();
+  // 사용이유 불분명
+  // const messageRef = useRef();
 
   const client = useClient();
 
@@ -49,7 +55,7 @@ function Room() {
   }, [currentUser, roomId]);
 
   useEffect(() => {
-    const init = async (roomName) => {
+    const init = async (roomName: string, currentUser: UserDataNId) => {
       try {
         setIsLoading(true);
         // client roomName 방에 입장
@@ -63,9 +69,9 @@ function Room() {
         if (tracks) await client.publish([tracks[0], tracks[1]]);
 
         // 메세지 유저정보 만들기
-        const RTMclient = createInstance(config.appId);
+        const RTMclient = AgoraRTM.createInstance(config.appId);
         // 혼자서 실험하려면 uid를 firebase currentUser uid로 하면 안됨 uid중복이라 안됨
-        await RTMclient.login({ uid: String(clientUid), token: null });
+        await RTMclient.login({ uid: String(clientUid) });
         // 내 displayName 넣기
         await RTMclient.addOrUpdateLocalUserAttributes({
           name: currentUser.displayName,
@@ -75,10 +81,13 @@ function Room() {
         // 방에 입장
         await rtmChannel.join();
 
-        if (clientUid && rtmChannel) {
-          const localUser = {
+        if (clientUid && rtmChannel && tracks) {
+          const localUser: {
+            user: IAgoraRTCClient;
+            tracks: [ICameraVideoTrack, IMicrophoneAudioTrack];
+          } = {
             user: client,
-            tracks: client.localTracks,
+            tracks: [tracks[1], tracks[0]],
           };
 
           dispatch(setLocalUser(localUser));
@@ -93,7 +102,9 @@ function Room() {
     };
     if (ready && tracks && client && currentUser) {
       console.log("Room starting point", roomId, client);
-      init(roomId);
+      if (roomId) {
+        init(roomId, currentUser);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId, client, ready, tracks, currentUser]);
@@ -104,10 +115,12 @@ function Room() {
 
   // 방 입장후 뒤로가기 시
   window.onpopstate = async () => {
-    tracks[0].close();
-    tracks[1].close();
-    await client.leave();
-    client.removeAllListeners();
+    if (tracks) {
+      tracks[0].close();
+      tracks[1].close();
+      await client.leave();
+      client.removeAllListeners();
+    }
     dispatch(clearRtcUser());
   };
 
@@ -121,7 +134,7 @@ function Room() {
         <>
           <MessageCallContainer
             className={messageShow ? "show" : "hide"}
-            ref={messageRef}
+            // ref={messageRef}
           >
             <ToggleCollapse
               onClick={(e) => {

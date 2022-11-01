@@ -41,7 +41,7 @@ function Navigation() {
         localUser.user.removeAllListeners();
         dispatch(clearRtcUser());
       }
-      if ((rtmClient && channel) !== null) {
+      if (rtmClient && channel) {
         await channel.leave();
         await rtmClient.logout();
         dispatch(clearRtm());

@@ -47,7 +47,7 @@ export type SetLocalUser = ActionWithPayload<
 >;
 
 export const setLocalUser = withMatcher((user: LocalUser): SetLocalUser => {
-  return createAction(RTC_ACTION_TYPE.SET_LOCAL_USER, { ...user });
+  return createAction(RTC_ACTION_TYPE.SET_LOCAL_USER, user);
 });
 
 // --------------------------------------------------------------------//
