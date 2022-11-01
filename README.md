@@ -209,6 +209,6 @@ export const getCurrentUser = () => {
  - [x] 기존 반응형 비디오 UI 개선
  - [x] lobby에서 join버튼 ux 수정 & 유저의 room list 최신버전으로 fetch 할 수 있도록 개선 
  - [ ] 유저 avatar 추가
- - [ ] TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
+ - [x] TypeScript로 변환해서 정적으로 타입을 명시하고 여러 변수와 함수의 목적을 분명히하기
  - [ ] 방에 참여한 유저들 이름 tag를 video에 붙이기
 
