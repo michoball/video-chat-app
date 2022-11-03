@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
   let userStorage = localStorage.getItem("user");
+
   if (userStorage) {
     const currentUser = JSON.parse(userStorage);
 

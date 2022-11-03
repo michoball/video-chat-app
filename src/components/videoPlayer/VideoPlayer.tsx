@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectRtcShare, selectRtcUsers } from "../../store/rtc/rtc.selector";
 import { toggleBig } from "../../store/rtc/rtc.action";
-import { RemoteUser, LocalUser } from "../../store/rtc/rtc.type";
 import {
   Video,
   BaseVideoContainer,
@@ -27,7 +26,7 @@ export enum VIDEO_TYPE_CLASS {
   share = "share",
   small = "small",
 }
-
+// video type에 따른 다른 컴포넌트 넘기기
 const getVideoType = (
   VideoType = VIDEO_TYPE_CLASS.base,
   share: boolean
@@ -46,12 +45,7 @@ export type VideoPlayerProps = {
   id?: UID;
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({
-  rtcUser,
-  track,
-  videoType,
-  id,
-}) => {
+const VideoPlayer: FC<VideoPlayerProps> = ({ rtcUser, track, videoType }) => {
   const dispatch = useDispatch();
   const rtcUsers = useSelector(selectRtcUsers);
   const share = useSelector(selectRtcShare);

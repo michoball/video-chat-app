@@ -8,12 +8,12 @@ import { useDispatch } from "react-redux";
 import { checkUserSession } from "./store/user/user.action";
 
 const Home = lazy(() => import("./pages/home/Home"));
-const Authentication = lazy(() =>
-  import("./pages/authentication/Authentication")
+const Authentication = lazy(
+  () => import("./pages/authentication/Authentication")
 );
 const Navigation = lazy(() => import("./pages/nav/Navigation"));
-const PrivateRoute = lazy(() =>
-  import("./components/privateRoute/PrivateRoute")
+const PrivateRoute = lazy(
+  () => import("./components/privateRoute/PrivateRoute")
 );
 const Room = lazy(() => import("./pages/room/Room"));
 const Lobby = lazy(() => import("./pages/lobby/Lobby"));
