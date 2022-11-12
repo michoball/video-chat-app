@@ -194,9 +194,9 @@ export const getCurrentUser = () => {
  ```
 # 이슈 
 
-- Agora rtc SDK 의 동시 화상 통화 지원인원이 최대 25명으로 나와 있지만 실제 5명이서 통화를 한 결과 속도가 현저히 떨어지는 것을 느꼈다
-  StackoverFlow와 Agora FAQ에 보면 7명 밑의 인원을 추천하는 것으로 나와 있어 화상통화 인원을 늘리는 것은 힘들어보인다.     
-   > 관련글 stackoverFlow [클릭](https://stackoverflow.com/questions/58000316/maximum-number-of-participants-on-an-agora-video-call-unity3d) Agora VideoCall FAQ [클릭](https://docs.agora.io/en/Video/faq/capacity)
+- Agora rtc SDK 의 동시 화상 통화 지원인원이 최대 17명으로 나와 있지만 실제 5명이서 통화를 한 결과 속도가 현저히 떨어지는 것을 느꼈다
+  StackoverFlow와 Agora FAQ에 보면 rtc v3 이하에서는 7명 밑의 인원을 추천하는 것으로 나와 있어 화상통화 인원을 늘리는 것은 힘들어보인다.     
+   > 관련글 stackoverFlow [클릭](https://stackoverflow.com/questions/58000316/maximum-number-of-participants-on-an-agora-video-call-unity3d) Agora VideoCall FAQ [클릭](https://docs.agora.io/en/help/general-product-inquiry/capacity)
 
 - Agora 자체적인 이슈 이외에 room에 유저가 들어올 때마다 Agora rtc가 너무 많이 user publish & unpublish Event를 듣고 있어서 수정 중에 있다.  
 
