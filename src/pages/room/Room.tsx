@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   config,
@@ -36,8 +36,6 @@ function Room() {
   const [isLoading, setIsLoading] = useState(false);
   const [start, setStart] = useState(false);
   const [messageShow, setMessageShow] = useState(true);
-  // 사용이유 불분명
-  // const messageRef = useRef();
 
   const client = useClient();
 
@@ -50,9 +48,7 @@ function Room() {
     if (currentUser && roomId) {
       dispatch(joinRoomStart(roomId, currentUser));
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, roomId]);
+  }, [currentUser, roomId, dispatch]);
 
   useEffect(() => {
     const init = async (roomName: string, currentUser: UserDataNId) => {
@@ -110,20 +106,24 @@ function Room() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId, client, ready, tracks, currentUser]);
 
+  // 방 입장후 뒤로가기 시
+  window.onpopstate = async () => {
+    try {
+      if (tracks) {
+        tracks[0].close();
+        tracks[1].close();
+        await client.leave();
+        client.removeAllListeners();
+      }
+      dispatch(clearRtcUser());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (isLoading) {
     return <Spinner />;
   }
-
-  // 방 입장후 뒤로가기 시
-  window.onpopstate = async () => {
-    if (tracks) {
-      tracks[0].close();
-      tracks[1].close();
-      await client.leave();
-      client.removeAllListeners();
-    }
-    dispatch(clearRtcUser());
-  };
 
   return (
     <RoomContainer>
@@ -133,10 +133,7 @@ function Room() {
 
       {start && (
         <>
-          <MessageCallContainer
-            className={messageShow ? "show" : "hide"}
-            // ref={messageRef}
-          >
+          <MessageCallContainer className={messageShow ? "show" : "hide"}>
             <ToggleCollapse
               onClick={(e) => {
                 setMessageShow(false);

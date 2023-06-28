@@ -34,7 +34,6 @@ function MessageCall() {
   const channel = useSelector(selectRtmChannel);
   const rtmClient = useSelector(selectRtmClient);
   const messages = useSelector(selectRtmMessages);
-  // const rtmUsers = useSelector(selectRtmUsers);
   const currentUser = useSelector(selectCurrentUser);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const endfMessagesRef = useRef<HTMLDivElement>(null);
@@ -86,7 +85,6 @@ function MessageCall() {
           if (name) {
             const botMessageData = makeBotMessage("join", name);
             if (botMessageData) dispatch(addMessages(botMessageData));
-            // dispatch(addRtmUser(MemberId, name));
           }
           console.log("NEW Member Joined~!!", MemberId, name);
         } catch (error) {
@@ -96,7 +94,6 @@ function MessageCall() {
 
       channel.on("MemberLeft", async (MemberId) => {
         try {
-          // const leaveUser = rtmUsers?.filter((user) => user.id === MemberId);
           const botMessageData = makeBotMessage("left");
           if (botMessageData) dispatch(addMessages(botMessageData));
           console.log("leaving", MemberId);
@@ -134,9 +131,9 @@ function MessageCall() {
     if (
       !messageRef.current ||
       (messageRef.current && messageRef.current.value === "")
-    ) {
+    )
       return;
-    }
+
     try {
       const messageid = messageUidGenerator();
       if (!currentUser || !channel) return;
@@ -171,11 +168,15 @@ function MessageCall() {
   };
 
   window.onpopstate = async () => {
-    if (channel && rtmClient) {
-      await channel.leave();
-      await rtmClient.logout();
+    try {
+      if (channel && rtmClient) {
+        await channel.leave();
+        await rtmClient.logout();
+      }
+      dispatch(clearRtm());
+    } catch (error) {
+      console.log(error);
     }
-    dispatch(clearRtm());
   };
 
   return (
@@ -191,11 +192,7 @@ function MessageCall() {
       </MessageConainer>
 
       <FormContainer>
-        <MessageFormInput
-          id="input"
-          ref={messageRef}
-          onKeyPress={changeHandler}
-        />
+        <MessageFormInput id="input" ref={messageRef} onKeyUp={changeHandler} />
 
         <SendButton type="button" onClick={messageSendHandler}>
           <SendingIcon />

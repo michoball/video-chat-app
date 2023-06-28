@@ -45,9 +45,8 @@ const RoomForm: FC<CreateRoomFormProps> = ({ onToggleForm }) => {
   const roomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (roomName === "") {
-      return;
-    }
+    if (roomName === "") return;
+
     try {
       roomName.trim();
       if (currentUser) dispatch(createRoomStart(roomName.trim(), currentUser));

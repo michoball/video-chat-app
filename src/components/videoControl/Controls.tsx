@@ -38,40 +38,46 @@ const Controls = () => {
     if (!localUser) return;
 
     if (type === "audio") {
-      await localUser.tracks[1].setMuted(trackState.audio);
-      setTrackState((ps) => {
-        return { ...ps, audio: !ps.audio };
-      });
+      try {
+        await localUser.tracks[1].setMuted(trackState.audio);
+        setTrackState((ps) => {
+          return { ...ps, audio: !ps.audio };
+        });
+      } catch (error) {
+        console.log("audio mute error", error);
+      }
     } else if (type === "video") {
       setIsLoading(true);
       try {
         await localUser.tracks[0].setMuted(trackState.video);
-
         setTrackState((ps) => {
           return { ...ps, video: !ps.video };
         });
-        setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log("video mute error", error);
       }
+      setIsLoading(false);
     }
   };
 
   const leaveChannel = async () => {
     if (!localUser) return;
+    try {
+      localUser.tracks[0].close();
+      localUser.tracks[1].close();
+      await localUser.user.leave();
+      localUser.user.removeAllListeners();
 
-    localUser.tracks[0].close();
-    localUser.tracks[1].close();
-    await localUser.user.leave();
-    localUser.user.removeAllListeners();
+      if (!channel || !rtmClient) return;
+      await channel.leave();
+      await rtmClient.logout();
+      navigate("/lobby");
 
-    if (!channel || !rtmClient) return;
-    await channel.leave();
-    await rtmClient.logout();
-    navigate("/lobby");
-
-    dispatch(clearRtm());
-    dispatch(clearRtcUser());
+      dispatch(clearRtm());
+      dispatch(clearRtcUser());
+    } catch (error) {
+      console.log("error ocurred while leaving channel", error);
+    }
   };
 
   const shareHandler = () => {

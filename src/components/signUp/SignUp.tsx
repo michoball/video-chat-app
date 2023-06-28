@@ -53,7 +53,7 @@ const SignUp = () => {
     setFormField(defaultFormField);
   };
 
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Check your password");

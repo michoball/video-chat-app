@@ -57,15 +57,19 @@ const ShareScreen: FC<ShareScreenProps> = ({ localTracks }) => {
   useEffect(() => {
     const init = async () => {
       if (screenTrack) {
-        await client.publish(screenTrack);
+        try {
+          await client.publish(screenTrack);
 
-        screenTrack.on("track-ended", async () => {
-          await client
-            .unpublish(screenTrack)
-            .then(async () => await client.publish(localTracks));
+          screenTrack.on("track-ended", async () => {
+            await client
+              .unpublish(screenTrack)
+              .then(async () => await client.publish(localTracks));
 
-          dispatch(toggleShare(rtcUsers, false));
-        });
+            dispatch(toggleShare(rtcUsers, false));
+          });
+        } catch (error) {
+          console.log("screen switching error", error);
+        }
       }
     };
 

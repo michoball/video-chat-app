@@ -59,15 +59,14 @@ const RoomList: FC<RoomListProps> = ({ room }) => {
     e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      setLoading(true);
       dispatch(updateUserRoomNameStart(roomId, newName));
-      setLoading(false);
       alert("Room name is changed !");
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+      console.log("change room name error", error);
     }
+    setLoading(false);
     editRoomHandler();
   };
 

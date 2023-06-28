@@ -34,17 +34,21 @@ function Home() {
   // rtc와 rtm에 유저가 남아있을시 유저 세션 종료 및 정보 삭제
   useEffect(() => {
     const checkLocalUserSession = async () => {
-      if (localUser && localUser.user) {
-        localUser.tracks[0].close();
-        localUser.tracks[1].close();
-        await localUser.user.leave();
-        localUser.user.removeAllListeners();
-        dispatch(clearRtcUser());
-      }
-      if (rtmClient && channel) {
-        await channel.leave();
-        await rtmClient.logout();
-        dispatch(clearRtm());
+      try {
+        if (localUser && localUser.user) {
+          localUser.tracks[0].close();
+          localUser.tracks[1].close();
+          await localUser.user.leave();
+          localUser.user.removeAllListeners();
+          dispatch(clearRtcUser());
+        }
+        if (rtmClient && channel) {
+          await channel.leave();
+          await rtmClient.logout();
+          dispatch(clearRtm());
+        }
+      } catch (error) {
+        console.log("user session check failed", error);
       }
     };
     checkLocalUserSession();
@@ -53,9 +57,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(checkUserSession());
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <HomeContainer>

@@ -32,22 +32,25 @@ function Navigation() {
 
   // Room 안에서 로그아웃 시 redux에서 모든 세션종료및 유저 정보 삭제
   const signOutHandler = async () => {
-    let signOutConfirm = window.confirm("Do you really want to log out?");
-    if (signOutConfirm) {
-      if (localUser && localUser.user) {
-        localUser.tracks[0].close();
-        localUser.tracks[1].close();
-        await localUser.user.leave();
-        localUser.user.removeAllListeners();
-        dispatch(clearRtcUser());
+    if (window.confirm("Do you really want to log out?")) {
+      try {
+        if (localUser && localUser.user) {
+          localUser.tracks[0].close();
+          localUser.tracks[1].close();
+          await localUser.user.leave();
+          localUser.user.removeAllListeners();
+          dispatch(clearRtcUser());
+        }
+        if (rtmClient && channel) {
+          await channel.leave();
+          await rtmClient.logout();
+          dispatch(clearRtm());
+        }
+        dispatch(signOutStart());
+        navigate("/");
+      } catch (error) {
+        console.log("error ocurred! logout from room", error);
       }
-      if (rtmClient && channel) {
-        await channel.leave();
-        await rtmClient.logout();
-        dispatch(clearRtm());
-      }
-      dispatch(signOutStart());
-      navigate("/");
     }
   };
 

@@ -39,20 +39,18 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({ onToggleForm }) => {
   const roomIdHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setRoomId(e.target.value);
   };
-  const clearRoomId = () => setRoomId("");
 
   const roomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (roomId === "") {
-      return;
-    }
+    if (roomId === "") return;
+
     try {
       if (currentUser) dispatch(joinRoomStart(roomId.trim(), currentUser));
     } catch (error) {
-      console.log(error);
+      console.log("join room error ", error);
     }
-    clearRoomId();
+    setRoomId("");
   };
 
   const toggleBackdropHandler = () => {

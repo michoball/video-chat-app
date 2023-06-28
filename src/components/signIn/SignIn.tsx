@@ -54,14 +54,14 @@ const SignIn = () => {
     setFormField(defaultFormField);
   };
 
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(emailSignInStart(email, password));
     resetFormField();
   };
 
-  const googleLogInHandler = async () => {
+  const googleLogInHandler = () => {
     dispatch(googleSignInStart());
   };
 
