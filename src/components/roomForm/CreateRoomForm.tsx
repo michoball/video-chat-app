@@ -52,8 +52,9 @@ const RoomForm: FC<CreateRoomFormProps> = ({ onToggleForm }) => {
       if (currentUser) dispatch(createRoomStart(roomName.trim(), currentUser));
     } catch (error) {
       console.log(error);
+    } finally {
+      clearRoomName();
     }
-    clearRoomName();
   };
 
   const toggleBackdropHandler = () => {

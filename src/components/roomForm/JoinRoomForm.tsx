@@ -49,8 +49,9 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({ onToggleForm }) => {
       if (currentUser) dispatch(joinRoomStart(roomId.trim(), currentUser));
     } catch (error) {
       console.log("join room error ", error);
+    } finally {
+      setRoomId("");
     }
-    setRoomId("");
   };
 
   const toggleBackdropHandler = () => {

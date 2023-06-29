@@ -55,8 +55,9 @@ const Controls = () => {
         });
       } catch (error) {
         console.log("video mute error", error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
   };
 

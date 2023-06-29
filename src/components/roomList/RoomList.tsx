@@ -65,9 +65,10 @@ const RoomList: FC<RoomListProps> = ({ room }) => {
       alert("Room name is changed !");
     } catch (error) {
       console.log("change room name error", error);
+    } finally {
+      setLoading(false);
+      editRoomHandler();
     }
-    setLoading(false);
-    editRoomHandler();
   };
 
   return (

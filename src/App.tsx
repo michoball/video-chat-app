@@ -24,6 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(checkUserSession());
   }, [dispatch]);
+
   return (
     <Suspense fallback={<Spinner />}>
       <AppThemeProvider>

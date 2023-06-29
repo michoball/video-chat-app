@@ -167,15 +167,11 @@ function MessageCall() {
     }
   };
 
-  window.onpopstate = async () => {
-    try {
-      if (channel && rtmClient) {
-        await channel.leave();
-        await rtmClient.logout();
-      }
-      dispatch(clearRtm());
-    } catch (error) {
-      console.log(error);
+  window.onpopstate = () => {
+    if (channel && rtmClient) {
+      Promise.all([channel.leave(), rtmClient.logout()])
+        .then(() => dispatch(clearRtm()))
+        .catch((error) => console.log(error));
     }
   };
 
